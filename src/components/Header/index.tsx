@@ -1,52 +1,52 @@
 import React from 'react';
-import { Link, AppBar, Toolbar, Box } from '@mui/material';
-import { useTheme, styled } from '@mui/material/styles';
+import { Link, AppBar, Toolbar, Container } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import Logo from '../../assets/images/sopra_steria.png';
 
 const Bar = styled(AppBar)(( ) => ({
-    position:'relative',
-    color:"default"
+    position:'static',
+}))
+
+const StyledLink = styled(Link)(() => ({
+    color:'inherit',
 }))
 
 /*
 * Barre de navigation (en cours)
 */
 function Header() {
-    const theme = useTheme();
-
     return (
-        <Box sx={{flexGrow:1}}>
-            <Bar>
+        <Bar>
+            <Container>
                 <Toolbar>
-                    <Box>
-                        <Link href='/'>
-                            <Box
+                    <Container>
+                        <StyledLink href='/'>
+                            <Container
                                 component="img"
                                 sx={{
                                     height: 22,
                                     maxHeight: 22,
-                                    mr: 2
                                 }}
                                 alt="Sopra Steria"
                                 src={Logo}
                             />
-                        </Link>
-                    </Box>
+                        </StyledLink>
+                    </Container>
 
-                    <Box 
+                    <Container 
                         className='header-navigation'>
-                        <Link href='/challenges' color='inherit'>Exercices</Link>
-                        <Link href='/leaderboard' color='inherit'>Classement</Link>
-                        <Link href='/teams' color='inherit'>Equipes</Link>
-                    </Box>
-                    <Box className='header-side'>
-                        <Link href='/profile' color='inherit'>Profile</Link>
-                    </Box>
+                        <StyledLink href='/challenges'>Exercices</StyledLink>
+                        <StyledLink href='/leaderboard'>Classement</StyledLink>
+                        <StyledLink href='/teams'>Equipes</StyledLink>
+                    </Container>
+                    <Container className='header-side'>
+                        <StyledLink href='/profile'>Profile</StyledLink>
+                    </Container>
                 </Toolbar>
-                
-            </Bar>
-        </Box>
-        
+            </Container>
+            
+            
+        </Bar>
     )
 }
 
