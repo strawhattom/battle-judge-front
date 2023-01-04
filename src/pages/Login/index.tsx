@@ -12,12 +12,12 @@ function Login() {
 
     return (
         <div className="d-flex align-items-center h-100">
-            <div className="col-8 d-none d-md-block" style={{ marginRight: '-25%' }}>
+            <div className="col-8 d-none d-md-block" style={{ marginRight: '-20%' }}>
                 <img
                     src={LeftImage}
                     alt="Image"
                     className="img-fluid"
-                    style={{ width: '50%' }}
+                    style={{ width: '70%' }}
                 />
             </div>
             <div className="col-4 mx-auto" style={{ marginBottom: '15%' }}>
