@@ -9,6 +9,7 @@ const Bar = styled(AppBar)(( ) => ({
 
 const StyledLink = styled(Link)(() => ({
     color:'inherit',
+    margin:20
 }))
 
 /*
@@ -16,7 +17,10 @@ const StyledLink = styled(Link)(() => ({
 */
 function Header() {
     return (
-        <Bar>
+        <Bar sx={{
+            boxShadow:0,
+            width:1080
+        }}>
             <Container>
                 <Toolbar>
                     <Container>
@@ -24,8 +28,9 @@ function Header() {
                             <Container
                                 component="img"
                                 sx={{
-                                    height: 22,
+                                    height: 'auto',
                                     maxHeight: 22,
+                                    width:'auto',
                                 }}
                                 alt="Sopra Steria"
                                 src={Logo}
