@@ -1,20 +1,22 @@
-@import "header.css";
+@import 'header.css';
 
 .header-container {
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color:var(--grey);
-    height:60px;
-    width:100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--grey);
+  height: 60px;
+  width: 100%;
 }
 
-.header-navigation ul, .header-side ul {
-    background: none;
+.header-navigation ul,
+.header-side ul {
+  background: none;
 }
 
-.header-navigation ul li, .header-side ul li {
-    display: inline;
-    list-style: none;
-    margin: 16px 16px;
+.header-navigation ul li,
+.header-side ul li {
+  display: inline;
+  list-style: none;
+  margin: 16px 16px;
 }
