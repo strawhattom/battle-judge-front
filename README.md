@@ -8,7 +8,6 @@
 
 
 ```
-npm install --global prettier
 npm install
 ```
 
