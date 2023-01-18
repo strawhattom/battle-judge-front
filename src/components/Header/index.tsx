@@ -11,7 +11,6 @@ const StyledLink = styled(Link)(() => ({
   color: 'inherit',
   margin: 20
 }));
-
 /*
  * Barre de navigation (en cours)
  */
