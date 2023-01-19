@@ -10,7 +10,12 @@ import reportWebVitals from './reportWebVitals';
 import AppRouter from './routes/router';
 import AppTheme from './themes';
 
-const root = ReactDOM.createRoot(
+import { render } from "react-dom";
+
+// @ts-ignore
+import Login from "./pages/Login/App";
+
+/*const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
@@ -18,12 +23,17 @@ const router = createBrowserRouter(AppRouter);
 
 root.render(
   <React.StrictMode>
-    { /* Créer des thèmes customs */}
+    { /* Créer des thèmes customs *//*}
     <ThemeProvider theme={AppTheme}> 
       <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>
-);
+);*/
+
+
+
+const rootElement = document.getElementById("root");
+render(<Login />, rootElement);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
