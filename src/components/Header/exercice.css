@@ -1,0 +1,17 @@
+.exercice {
+    border: 1px solid black;
+    padding: 10px;
+    margin-bottom: 10px;
+    flex-basis: 25%;
+    margin-right: 16px;
+}
+
+.exercice {
+    padding: 8px;
+    border-radius: 4px;
+    background-color: #ECECEC;
+}
+
+.exercice.completed {
+    background-color: orange;
+}

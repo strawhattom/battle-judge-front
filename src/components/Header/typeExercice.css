@@ -1,0 +1,14 @@
+.type-exercice h2 {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.exercices {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 15px;
+    margin-bottom: 30px;
+}
+
