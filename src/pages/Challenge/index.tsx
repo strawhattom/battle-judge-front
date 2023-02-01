@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TypeExercice from '../../components\\Header/typeExercice';
 
-function ExercicePage() {
+function Challenge() {
     const [exercices, setExercices] = useState([
         {
             name: "Facile",
@@ -29,6 +29,7 @@ function ExercicePage() {
         }
     ]);
 
+
     return (
         <div className="exercice-page">
             <h1>yo le gang</h1>
@@ -43,4 +44,4 @@ function ExercicePage() {
     );
 }
 
-export default ExercicePage;
+export default Challenge;

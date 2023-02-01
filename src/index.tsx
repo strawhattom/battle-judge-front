@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
@@ -18,8 +15,8 @@ const router = createBrowserRouter(AppRouter);
 
 root.render(
   <React.StrictMode>
-    { /* Créer des thèmes customs */}
-    <ThemeProvider theme={AppTheme}> 
+    {/* Créer des thèmes customs */}
+    <ThemeProvider theme={AppTheme}>
       <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>
