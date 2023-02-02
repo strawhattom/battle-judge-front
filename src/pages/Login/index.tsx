@@ -6,10 +6,9 @@ import LeftImage from '../../assets/images/ImageLoginLeft.jpg';
 import Logo from '../../assets/images/sopra_steria.png';
 
 function Login() {
-    useEffect(() => {
-        document.title = 'Connexion - Battle Judge';
-    }, []);
-
+  useEffect(() => {
+    document.title = 'Connexion - Battle Judge';
+  }, []);
     return (
         <div className="d-flex align-items-center h-100">
             <div className="col-8 d-none d-md-block" style={{ marginRight: '-20%' }}>

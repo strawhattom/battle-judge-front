@@ -1,10 +1,9 @@
 import { createTheme } from '@mui/material/styles';
 
-
 /*
-* Le type Theme vient avec des propriétés de bases, on utilise la syntaxe en dessous
-* pour ajouter des propriétés (status...)
-*/
+ * Le type Theme vient avec des propriétés de bases, on utilise la syntaxe en dessous
+ * pour ajouter des propriétés (status...)
+ */
 declare module '@mui/material/styles' {
   interface Theme {
     status?: {
@@ -34,7 +33,7 @@ declare module '@mui/material/styles' {
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#ECECEC',
+      main: '#ECECEC'
     },
     secondary: {
       main: '#000000'
@@ -49,6 +48,6 @@ const theme = createTheme({
     red: '#D92D2D',
     grey: '#ECECEC'
   }
-})
+});
 
 export default theme;
