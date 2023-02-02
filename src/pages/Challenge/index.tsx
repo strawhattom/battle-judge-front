@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ChallengeLayout from '../../components/ChallengeLayout';
 
-function Challenge() {
+const Challenge: React.FC = () => {
     const [challenges, setChallenges] = useState([
         {
             name: "Facile",
