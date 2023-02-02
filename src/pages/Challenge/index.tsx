@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import TypeExercice from '../../components\\Header/typeExercice';
+import ChallengeLayout from '../../components/ChallengeLayout';
 
 function Challenge() {
-    const [exercices, setExercices] = useState([
+    const [challenges, setChallenges] = useState([
         {
             name: "Facile",
-            exercices: [
+            challenges: [
                 {name: "Exercice 1", points: 10, isCompleted: false},
                 {name: "Exercice 2", points: 15, isCompleted: true}
             ]
         },
         {
             name: "Moyen",
-            exercices: [
+            challenges: [
                 {name: "Exercice 3", points: 20, isCompleted: true},
                 {name: "Exercice 4", points: 25, isCompleted: false},
                 {name: "Exercice 5", points: 35, isCompleted: false},
@@ -21,7 +21,7 @@ function Challenge() {
         },
         {
             name: "Difficile",
-            exercices: [
+            challenges: [
                 {name: "Exercice 7", points: 55, isCompleted: true},
                 {name: "Exercice 8", points: 65, isCompleted: true},
                 {name: "Exercice 9", points: 80, isCompleted: false},
@@ -33,11 +33,11 @@ function Challenge() {
     return (
         <div className="exercice-page">
             <h1>yo le gang</h1>
-            {exercices.map((typeExercice, index) => 
-                <TypeExercice 
+            {challenges.map((challenge, index) => 
+                <ChallengeLayout 
                     key={index} 
-                    name={typeExercice.name} 
-                    exercices={typeExercice.exercices} 
+                    name={challenge.name} 
+                    challenges={challenge.challenges} 
                 />
             )}
         </div>

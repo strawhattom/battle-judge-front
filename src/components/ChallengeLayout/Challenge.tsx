@@ -1,14 +1,14 @@
 import React from 'react';
-import './exercice.css';
+import './challengeLayout.css';
 
 
-interface ExerciceProps {
+interface ChallengeLayoutProps {
     name: string;
     points: number;
     isCompleted: boolean;
 }
 
-function Exercice(props: ExerciceProps) {
+function Challenge(props: ChallengeLayoutProps) {
     return (
         <div className={`exercice ${props.isCompleted ? 'completed' : ''}`}>
             <p>{props.name}</p>
@@ -17,4 +17,4 @@ function Exercice(props: ExerciceProps) {
     );
 }
 
-export default Exercice;
+export default Challenge;
