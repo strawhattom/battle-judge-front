@@ -1,14 +1,16 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 
-export default function Root() {
+const Root: React.FC = () => {
   return (
     <>
-      <Header />
+      <Navbar />
       <div className="content">
         <Outlet />
       </div>
     </>
   );
-}
+};
+
+export default Root;

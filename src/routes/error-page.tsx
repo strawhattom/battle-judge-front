@@ -2,10 +2,10 @@ import React from 'react';
 import { isRouteErrorResponse, useRouteError, Link } from 'react-router-dom';
 import '../assets/css/error.css';
 
-export default function ErrorPage() {
+const ErrorPage: React.FC = () => {
   const error = useRouteError();
 
-  if (isRouteErrorResponse(error)) {
+  if (isRouteErrorResponse(error))
     /* À faire à la fin, quand on devra gérer les erreurs côtés clients
     if (error.status === 401) {
       // ...
@@ -19,6 +19,7 @@ export default function ErrorPage() {
       <div id="error-page">
         <h1>Oops! {error.status}</h1>
         <p>{error.statusText}</p>
+        {/* eslint-disable-next-line @typescript-eslint/strict-boolean-expressions */}
         {error.data?.message && (
           <p>
             <i>{error.data.message}</i>
@@ -29,7 +30,7 @@ export default function ErrorPage() {
         </p>
       </div>
     );
-  } else if (error instanceof Error) {
+  else if (error instanceof Error)
     return (
       <div id="error-page">
         <h1>Oops! Unexpected Error</h1>
@@ -42,7 +43,7 @@ export default function ErrorPage() {
         </p>
       </div>
     );
-  } else {
-    return <></>;
-  }
-}
+  else return <></>;
+};
+
+export default ErrorPage;

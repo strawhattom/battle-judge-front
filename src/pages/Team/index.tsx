@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-function Team() {
+const Team: React.FC = () => {
   useEffect(() => {
     document.title = 'Equipes - Battle Judge';
   }, []);
 
   return (
     <>
-      <h1>Page des équipes</h1>
+      <h1>Equipes</h1>
     </>
   );
-}
+};
 
 export default Team;

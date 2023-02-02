@@ -1,3 +1,4 @@
+import React from 'react';
 import Root from './root';
 import ErrorPage from './error-page';
 import Challenge from '../pages/Challenge';

@@ -1,3 +1,3 @@
 module.exports = {
-  '*.{js,tsx,jsx,css}': 'prettier --write'
+  '*.{ts,js,tsx,jsx,css}': 'prettier --write'
 };

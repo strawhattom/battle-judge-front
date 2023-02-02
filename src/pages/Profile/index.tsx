@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-function Profile() {
+const Profile: React.FC = () => {
   useEffect(() => {
     document.title = 'Profil - Battle Judge';
   }, []);
 
   return (
     <>
-      <h1> Page de profile </h1>
+      <h1>Profile</h1>
     </>
   );
-}
+};
 
 export default Profile;

@@ -1,15 +1,15 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-function Register() {
+const Register: React.FC = () => {
   useEffect(() => {
     document.title = 'Inscription - Battle Judge';
   }, []);
 
   return (
     <>
-      <h1>Page d'inscription</h1>
+      <h1>Inscription</h1>
     </>
   );
-}
+};
 
 export default Register;

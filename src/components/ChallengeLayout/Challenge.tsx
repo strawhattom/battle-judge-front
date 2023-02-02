@@ -1,20 +1,14 @@
 import React from 'react';
-import './challengeLayout.css';
+import './challenge.css';
+import type { ChallengeLayoutProps } from '../../types/ChallengeLayoutProps';
 
-
-interface ChallengeLayoutProps {
-    name: string;
-    points: number;
-    isCompleted: boolean;
-}
-
-function Challenge(props: ChallengeLayoutProps) {
-    return (
-        <div className={`exercice ${props.isCompleted ? 'completed' : ''}`}>
-            <p>{props.name}</p>
-            <p>Points: {props.points}</p>
-        </div>
-    );
-}
+const Challenge: React.FC<ChallengeLayoutProps> = (props) => {
+  return (
+    <div className={`exercise ${props.isCompleted ? 'completed' : ''}`}>
+      <h6>{props.name}</h6>
+      <p>{props.points}</p>
+    </div>
+  );
+};
 
 export default Challenge;

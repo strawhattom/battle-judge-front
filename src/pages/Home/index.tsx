@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-function Home() {
+const Home: React.FC = () => {
   // Changement du titre de la page (onglet)
   // lancé qu'une seule fois grâce au tableau* de dépendence vide (deuxième paramètre de la fonction)
   useEffect(() => {
@@ -9,9 +9,9 @@ function Home() {
 
   return (
     <>
-      <h1> Page d'accueil </h1>
+      <h1>Accueil </h1>
     </>
   );
-}
+};
 
 export default Home;

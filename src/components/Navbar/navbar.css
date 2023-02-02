@@ -1,0 +1,26 @@
+.navbar {
+  display: flex;
+  padding: 0 1%;
+  height: 64px;
+  position: static;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ececec;
+}
+
+.navbar-logo img {
+  width: auto;
+  height: 21px;
+}
+
+a {
+  display: inline-block;
+  margin: 50px;
+  color: var(--black);
+  size: 14px;
+}
+
+.active {
+  font-weight: bold;
+  color: var(--orange);
+}

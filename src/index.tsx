@@ -1,26 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
-import AppRouter from './routes/router';
-import AppTheme from './themes';
+import App from './App';
+import './index.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const router = createBrowserRouter(AppRouter);
-
-root.render(
-  <React.StrictMode>
-    {/* Créer des thèmes customs */}
-    <ThemeProvider theme={AppTheme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  </React.StrictMode>
-);
+root.render(<App />);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

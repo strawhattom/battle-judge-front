@@ -1,14 +1,14 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-function Leaderboard() {
+const Leaderboard: React.FC = () => {
   useEffect(() => {
     document.title = 'Classement - Battle Judge';
   }, []);
   return (
     <>
-      <h1> Page du classement </h1>
+      <h1>Classement</h1>
     </>
   );
-}
+};
 
 export default Leaderboard;
