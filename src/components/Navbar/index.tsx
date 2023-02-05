@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Logo from '../../assets/images/sopra_steria.png';
-import '../../assets/css/palette.css';
+import Logo from '@/assets/images/sopra_steria.png';
+import '@/assets/css/palette.css';
 import './navbar.css';
-import type { NavbarProps } from '../../types/NavbarProps';
+import type { NavbarProps } from '@/types/NavbarProps';
 
 const Navbar: React.FC<NavbarProps> = (props) => {
   const [activeTab, setActiveTab] = useState('');

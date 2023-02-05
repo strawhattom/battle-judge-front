@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import ChallengeLayout from '../../components/ChallengeLayout';
-import type { ChallengeProps } from '../../types/ChallengeProps';
+import ChallengeLayout from '@/components/ChallengeLayout';
+import type { ChallengeProps } from '@/types/ChallengeProps';
 
 const tempChallenges: ChallengeProps[] = [
   {
