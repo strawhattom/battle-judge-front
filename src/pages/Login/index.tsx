@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import LeftImage from '../../assets/images/ImageLoginLeft.jpg';
-import Logo from '../../assets/images/sopra_steria.png';
+import LeftImage from '@/assets/images/ImageLoginLeft.jpg';
+import Logo from '@/assets/images/sopra_steria.png';
 
 const Login: React.FC = () => {
   useEffect(() => {

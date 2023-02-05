@@ -1,6 +1,6 @@
 import React from 'react';
 import './challenge.css';
-import type { ChallengeLayoutProps } from '../../types/ChallengeLayoutProps';
+import type { ChallengeLayoutProps } from '@/types/ChallengeLayoutProps';
 
 const Challenge: React.FC<ChallengeLayoutProps> = (props) => {
   return (
