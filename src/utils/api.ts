@@ -1,9 +1,8 @@
-const base = process.env.ORIGIN ?? `http://localhost:3000`;
+const base = `http://localhost:3000`;
 
 interface APIProps {
   method: string;
   path: string;
-  token?: string;
   data?: object;
 }
 
@@ -14,18 +13,19 @@ interface RequestInitHeader extends RequestInit {
   };
 }
 
-async function send({ method, path, data, token }: APIProps) {
+async function send({ method, path, data }: APIProps) {
   const opts: RequestInitHeader = { method, headers: {} };
   if (data) {
     opts.headers['Content-Type'] = 'application/json';
     opts.body = JSON.stringify(data);
   }
 
+  const token = localStorage.getItem('jwt');
+
   if (token) {
     opts.headers['Authorization'] = `Bearer ${token}`;
   }
   try {
-    console.log(`${base}/${path}`);
     const res = await fetch(`${base}/${path}`, opts);
     if (res.status === 200 || res.status === 201) {
       const result = await res.text();
@@ -40,22 +40,22 @@ async function send({ method, path, data, token }: APIProps) {
   }
 }
 
-export function get(path: string, token?: string) {
-  return send({ method: 'GET', path, token });
+export function get(path: string) {
+  return send({ method: 'GET', path });
 }
 
-export function del(path: string, token: string) {
-  return send({ method: 'DELETE', path, token });
+export function del(path: string) {
+  return send({ method: 'DELETE', path });
 }
 
-export function post(path: string, data: object, token?: string) {
-  return send({ method: 'POST', path, data, token });
+export function post(path: string, data: object) {
+  return send({ method: 'POST', path, data });
 }
 
-export function patch(path: string, data: object, token: string) {
-  return send({ method: 'PATCH', path, data, token });
+export function patch(path: string, data: object) {
+  return send({ method: 'PATCH', path, data });
 }
 
-export function put(path: string, data: object, token: string) {
-  return send({ method: 'PUT', path, data, token });
+export function put(path: string, data: object) {
+  return send({ method: 'PUT', path, data });
 }

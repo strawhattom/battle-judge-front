@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import AuthContext from '@/contexts/AuthContext';
+import Login from '@/components/Login';
 
 const Home: React.FC = () => {
-  // Changement du titre de la page (onglet)
-  // lancé qu'une seule fois grâce au tableau* de dépendence vide (deuxième paramètre de la fonction)
+  const { token } = useContext(AuthContext);
+
   useEffect(() => {
     document.title = 'Accueil - Battle Judge';
-  }, []); // <-- * ce tableau là
+  }, []);
 
-  return (
-    <>
-      <h1>Accueil </h1>
-    </>
+  return !token ? (
+    <Login />
+  ) : (
+    <div className="Home">
+      <h1>Bienvenue sur la plateforme Battle Judge</h1>
+    </div>
   );
 };
 

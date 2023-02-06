@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '@/assets/images/sopra_steria.png';
 import '@/assets/css/palette.css';
 import './navbar.css';
 import type { NavbarProps } from '@/types/NavbarProps';
+import AuthContext from '@/contexts/AuthContext';
 
 const Navbar: React.FC<NavbarProps> = (props) => {
   const [activeTab, setActiveTab] = useState('');
+  const { token } = useContext(AuthContext);
   const location = useLocation();
 
   useEffect(() => {
@@ -38,31 +40,12 @@ const Navbar: React.FC<NavbarProps> = (props) => {
         </Link>
       </div>
       <div className="navbar-right">
-        {props?.user !== undefined ? (
-          <>
-            <Link
-              className={activeTab === '/profile' ? 'active' : ''}
-              to="/profile"
-            >
-              Profile
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link
-              className={activeTab === '/login' ? 'active' : ''}
-              to="/login"
-            >
-              Login
-            </Link>
-            <Link
-              className={activeTab === '/register' ? 'active' : ''}
-              to="/register"
-            >
-              Register
-            </Link>
-          </>
-        )}
+        <Link
+          className={activeTab === '/profile' ? 'active' : ''}
+          to="/profile"
+        >
+          Profile
+        </Link>
       </div>
     </div>
   );

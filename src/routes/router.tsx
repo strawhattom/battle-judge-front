@@ -3,14 +3,15 @@ import Root from './root';
 import ErrorPage from './error-page';
 import Challenge from '@/pages/Challenge';
 import Leaderboard from '@/pages/Leaderboard';
-import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import Team from '@/pages/Team';
 import Profile from '@/pages/Profile';
 import Home from '@/pages/Home';
+import AdminChallenge from '@/pages/AdminChallenge';
+import AdminPage from '@/pages/Admin';
 
 /*
- * Notre routeur qui va afficher le bon composant au bon endpoint (utilisé dans index.tsx dans la racine /)
+ * Notre routeur qui va afficher le bon composant au bon endpoint (utilisé dans App.tsx dans la racine /)
  */
 const AppRouter = [
   {
@@ -31,10 +32,6 @@ const AppRouter = [
         element: <Leaderboard />
       },
       {
-        path: 'login',
-        element: <Login />
-      },
-      {
         path: 'register',
         element: <Register />
       },
@@ -45,6 +42,14 @@ const AppRouter = [
       {
         path: 'profile',
         element: <Profile />
+      },
+      {
+        path: 'admin',
+        element: <AdminPage />
+      },
+      {
+        path: 'admin/challenges',
+        element: <AdminChallenge />
       }
     ]
   }

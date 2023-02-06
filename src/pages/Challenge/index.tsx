@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { redirect } from 'react-router-dom';
 import ChallengeLayout from '@/components/ChallengeLayout';
 import type { ChallengeProps } from '@/types/ChallengeProps';
+import { loadChallenges } from './challenge';
 
 const tempChallenges: ChallengeProps[] = [
   {
