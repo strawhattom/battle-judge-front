@@ -4,10 +4,10 @@ import Logo from '@/assets/images/sopra_steria.png';
 import './login.css';
 import { loginHandler, getMe } from '@/utils/services/auth.service';
 import { Link } from 'react-router-dom';
-import AuthContext from '@/contexts/AuthContext';
+import { useAuth } from '@/utils/hooks/useAuth';
 
 const Login: React.FC = () => {
-  const { setUser } = React.useContext(AuthContext);
+  const { login } = useAuth();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false); //
@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     try {
       await loginHandler(username, password);
       const user = await getMe();
-      setUser(user);
+      login(user);
     } catch (error) {
       if (error instanceof Error) setMessage(error.message);
     }
