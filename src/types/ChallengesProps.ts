@@ -13,3 +13,8 @@ export type ChallengeProps = {
 };
 
 export type ChallengesProps = Array<ChallengeProps> | [];
+
+export type ChallengesStateObject = {
+  active: ChallengesProps;
+  inactive: ChallengesProps;
+};

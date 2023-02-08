@@ -1,13 +1,13 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import ImageLogin from '@/assets/images/ImageLoginLeft.jpg';
 import Logo from '@/assets/images/sopra_steria.png';
 import './login.css';
-import { loginHandler } from '@/utils/services/auth.service';
-import AuthContext from '@/contexts/AuthContext';
+import { loginHandler, getMe } from '@/utils/services/auth.service';
 import { Link } from 'react-router-dom';
+import AuthContext from '@/contexts/AuthContext';
 
 const Login: React.FC = () => {
-  const { setToken } = useContext(AuthContext);
+  const { setUser } = React.useContext(AuthContext);
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false); //
@@ -17,8 +17,9 @@ const Login: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await loginHandler(username, password);
-      setToken(response.token);
+      await loginHandler(username, password);
+      const user = await getMe();
+      setUser(user);
     } catch (error) {
       if (error instanceof Error) setMessage(error.message);
     }

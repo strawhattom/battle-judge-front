@@ -1,17 +1,18 @@
 import React from 'react';
+import { type UserProps } from '@/types/UserProps';
 
-type AuthContextProps = {
-  token: string | null;
-  setToken: React.Dispatch<React.SetStateAction<null>>;
+interface IAuthContext {
+  user: UserProps;
+  login: (user: UserProps) => void;
+  logout: () => void;
+}
+
+const authContextDefault = {
+  user: null,
+  login: () => null,
+  logout: () => null
 };
 
-const iAuthContextState = {
-  token: null,
-  setToken: () => {
-    return;
-  }
-};
-
-const AuthContext = React.createContext<AuthContextProps>(iAuthContextState);
+const AuthContext = React.createContext<IAuthContext>(authContextDefault);
 
 export default AuthContext;

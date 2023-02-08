@@ -16,9 +16,10 @@ const InlineChallengeLayout: React.FC<InlineChallengeLayoutProps> = ({
         <p>{points}</p>
       </div>
       <div className="inline-buttons">
-        <button className={`inline-button ${active ? 'active' : ''}`}>
+        <button className={`inline-button ${active ? 'inactive' : 'active'}`}>
           {active ? 'Désactiver' : 'Activer'}
         </button>
+        <button className={`inline-button`}>{'Modifier'}</button>
       </div>
     </div>
   );

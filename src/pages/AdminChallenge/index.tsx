@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import type { InlineChallengeLayoutProps } from '@/types/InlineChallengeLayoutProps';
-import type { ChallengesProps } from '@/types/ChallengesProps';
+import type { ChallengesStateObject } from '@/types/ChallengesProps';
 import InlineChallengeLayout from '@/components/InlineChallengeLayout';
-import { loadChallenges } from './challenge';
+import { loadChallenges } from '@/utils/services/challenge.service';
 
-const ChallengeState: ChallengesProps = [];
+const ChallengeState: ChallengesStateObject = {
+  active: [],
+  inactive: []
+};
 
 const AdminChallengePage: React.FC = () => {
-  const [challenges, setChallenges] = useState<ChallengesProps>(ChallengeState);
+  const [challenges, setChallenges] =
+    useState<ChallengesStateObject>(ChallengeState);
   const token = localStorage.getItem('jwt');
 
   useEffect(() => {
@@ -28,16 +31,34 @@ const AdminChallengePage: React.FC = () => {
     <Navigate to="/" />
   ) : (
     <>
-      <h1>Admin challenge</h1>
-      {challenges.map(({ title, category, points, active }, index) => (
-        <InlineChallengeLayout
-          key={index}
-          title={title}
-          category={category}
-          points={points}
-          active={active}
-        />
-      ))}
+      <h1>Battle</h1>
+      <h2>Active challenges</h2>
+      {challenges.active.map(
+        ({ id, title, category, points, active }, index) => (
+          <InlineChallengeLayout
+            id={id}
+            key={index}
+            title={title}
+            category={category}
+            points={points}
+            active={active}
+          />
+        )
+      )}
+
+      <h2>Inactive challenges</h2>
+      {challenges.inactive.map(
+        ({ id, title, category, points, active }, index) => (
+          <InlineChallengeLayout
+            id={id}
+            key={index}
+            title={title}
+            category={category}
+            points={points}
+            active={active}
+          />
+        )
+      )}
     </>
   );
 };
