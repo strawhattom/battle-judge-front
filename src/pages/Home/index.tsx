@@ -1,21 +1,14 @@
 import React, { useEffect } from 'react';
 import Login from '@/components/Login';
-import AuthContext from '@/contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
-import { getMe } from '@/utils/services/auth.service';
-
 const Home: React.FC = () => {
-  const { user, setUser } = React.useContext(AuthContext);
+  const { user } = useAuth();
   const token = localStorage.getItem('jwt');
 
   useEffect(() => {
-    const setUser = async () => {
-      const self = await getMe();
-      if (self) setUser(self);
-    };
     document.title = 'Accueil - Battle Judge';
     if (!token) return;
-    if (!user) setUser();
   }, []);
 
   return !token ? (

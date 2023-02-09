@@ -7,8 +7,11 @@ import Register from '@/pages/Register';
 import Team from '@/pages/Team';
 import Profile from '@/pages/Profile';
 import Home from '@/pages/Home';
-import AdminChallenge from '@/pages/AdminChallenge';
+
+// Admin
 import AdminPage from '@/pages/Admin';
+import AdminChallenge from '@/components/AdminChallenge';
+import ChallengeForm from '@/components/ChallengeForm';
 
 /*
  * Notre routeur qui va afficher le bon composant au bon endpoint (utilisé dans App.tsx dans la racine /)
@@ -45,11 +48,20 @@ const AppRouter = [
       },
       {
         path: 'admin',
-        element: <AdminPage />
-      },
-      {
-        path: 'admin/challenges',
-        element: <AdminChallenge />
+        element: <AdminPage />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: 'challenges',
+            element: <AdminChallenge />,
+            children: [
+              {
+                path: 'create',
+                element: <ChallengeForm />
+              }
+            ]
+          }
+        ]
       }
     ]
   }

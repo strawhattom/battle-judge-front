@@ -2,12 +2,11 @@ import React, { useEffect } from 'react';
 import ImageLogin from '@/assets/images/ImageLoginLeft.jpg';
 import Logo from '@/assets/images/sopra_steria.png';
 import './login.css';
-import { loginHandler, getMe } from '@/utils/services/auth.service';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/utils/hooks/useAuth';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Login: React.FC = () => {
-  const { login } = useAuth();
+  const { loading, login } = useAuth();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false); //
@@ -17,9 +16,8 @@ const Login: React.FC = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await loginHandler(username, password);
-      const user = await getMe();
-      login(user);
+      const self = await login(username, password);
+      console.log(self);
     } catch (error) {
       if (error instanceof Error) setMessage(error.message);
     }
