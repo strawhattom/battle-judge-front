@@ -1,16 +1,14 @@
 import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
-import AppRouter from './routes/router';
+import { router } from '@/routes/routes';
+import { LinearProgress } from '@mui/material';
 
 const App: React.FC = () => {
-  const router = createBrowserRouter(AppRouter);
   return (
-    <React.StrictMode>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
-    </React.StrictMode>
+    <AuthProvider>
+      <RouterProvider router={router} fallbackElement={<LinearProgress />} />
+    </AuthProvider>
   );
 };
 

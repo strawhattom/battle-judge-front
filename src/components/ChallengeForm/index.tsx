@@ -1,29 +1,51 @@
-import React, { useState } from 'react';
-import { Navigate, useLocation, Link } from 'react-router-dom';
+import React, { useState, useReducer } from 'react';
 import type { FormChallengeProps } from '@/types/ChallengesProps';
 import { createOne } from '@/utils/services/challenge.service';
+import Input from '@/components/Input';
+import './component.css';
+
+interface ChallengeState {
+  title: string;
+  category: string;
+  points: number;
+  description: string;
+  flag: string;
+}
+
+const initialState: ChallengeState = {
+  title: '',
+  category: '',
+  points: 300,
+  description: '',
+  flag: ''
+};
+
+const reducer = (
+  state: ChallengeState,
+  action: { type: string; payload: string }
+) => {
+  return { ...state, [action.type]: action.payload };
+};
 
 const ChallengeForm: React.FC = () => {
-  const location = useLocation();
-  const [title, setTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [points, setPoints] = useState(300);
-  const [description, setDescription] = useState('');
-  const [flag, setFlag] = useState('');
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const token = localStorage.getItem('jwt');
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const action = {
+      type: e.currentTarget.name,
+      payload: e.currentTarget.value
+    };
+    dispatch(action);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const challenge: FormChallengeProps = {
-      title,
-      category,
-      points,
-      description,
-      flag
+      ...state
     };
     try {
-      if (!token) return;
       const data = await createOne(challenge);
       console.log(data);
     } catch (err) {
@@ -31,46 +53,45 @@ const ChallengeForm: React.FC = () => {
     }
   };
 
-  return !token ? (
-    <Navigate to="/" />
-  ) : (
+  return (
     <>
       <h1>Challenge Form</h1>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title</label>
-        <input
+      <form className="form admin-form" onSubmit={handleSubmit}>
+        <Input
           type="text"
           name="title"
-          id="title"
-          onChange={(e) => setTitle(e.currentTarget.value)}
+          label="Titre"
+          onChange={onChange}
+          placeholder="Titre de l'exercice"
         />
-        <label htmlFor="category">Category</label>
-        <input
+        <Input
           type="text"
           name="category"
-          id="category"
-          onChange={(e) => setCategory(e.currentTarget.value)}
+          label="Categorie"
+          onChange={onChange}
+          placeholder="Catégorie de l'exercice"
         />
-        <label htmlFor="points">Points</label>
-        <input
+        <Input
           type="number"
           name="points"
-          id="points"
-          defaultValue={300}
-          onChange={(e) => setPoints(Number(e.currentTarget.value))}
+          label="Points"
+          onChange={onChange}
+          placeholder="Nombre de points"
+          value={300}
         />
-        <label htmlFor="description">Description</label>
-        <textarea
+        <Input
+          type="text"
           name="description"
-          id="description"
-          onChange={(e) => setDescription(e.currentTarget.value)}
+          label="Description"
+          onChange={onChange}
+          placeholder="Description de l'exercice"
         />
-        <label htmlFor="flag">Flag</label>
-        <input
+        <Input
           type="text"
           name="flag"
-          id="flag"
-          onChange={(e) => setFlag(e.currentTarget.value)}
+          label="Flag"
+          onChange={onChange}
+          placeholder="Flag de l'exercice"
         />
         <button type="submit" className="submit">
           {'Créer'}

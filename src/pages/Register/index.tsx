@@ -1,15 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import Register from '@/components/Login';
 
-const Register: React.FC = () => {
-  useEffect(() => {
-    document.title = 'Inscription - Battle Judge';
-  }, []);
-
-  return (
-    <>
-      <h1>Inscription</h1>
-    </>
-  );
+const RegisterPage: React.FC = () => {
+  return <Register />;
 };
 
-export default Register;
+export default RegisterPage;

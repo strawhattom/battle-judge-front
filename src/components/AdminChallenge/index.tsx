@@ -4,6 +4,7 @@ import type { ChallengesStateObject } from '@/types/ChallengesProps';
 import InlineChallengeLayout from '@/components/InlineChallengeLayout';
 import { loadChallenges } from '@/utils/services/challenge.service';
 import { useAuth } from '@/contexts/AuthContext';
+import Button from '@/components/Button';
 
 const ChallengeState: ChallengesStateObject = {
   active: [],
@@ -34,15 +35,13 @@ const AdminChallengePage: React.FC = () => {
     load();
   }, []);
 
-  return !user?.role || user.role !== 'admin' ? (
-    <Navigate to="/" />
-  ) : (
+  return (
     <>
       {pathname === '/admin/challenges' ? (
         <>
-          <button className="inline-button" onClick={handleCreateButton}>
+          <Button type="button" color="green" onClick={handleCreateButton}>
             {'Créer un nouveau'}
-          </button>
+          </Button>
           <h2>Active challenges</h2>
 
           {challenges.active.map(

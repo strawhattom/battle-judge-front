@@ -23,19 +23,8 @@
   margin-right: 2rem;
 }
 
-.inline-button {
-  background-color: var(--orange);
-  color: var(--white);
-  border-radius: 5px;
-  padding: 0.5rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.inline-button.active {
-  background-color: var(--green);
-}
-
-.inline-button.inactive {
-  background-color: var(--red);
+.inline-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

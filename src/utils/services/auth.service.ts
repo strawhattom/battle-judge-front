@@ -17,7 +17,6 @@ export const getMe = async () => {
     if (!response.ok) throw new Error(response.result);
     return response.result;
   } catch (err) {
-    console.error(err);
     return null;
   }
 };

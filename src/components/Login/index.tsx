@@ -1,62 +1,60 @@
 import React, { useEffect } from 'react';
-import ImageLogin from '@/assets/images/ImageLoginLeft.jpg';
-import Logo from '@/assets/images/sopra_steria.png';
-import './login.css';
+import Input from '@/components/Input';
+import Button from '@/components/Button';
+import HomeForm from '@/components/HomeForm';
+import '@/assets/css/form.css';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 
 const Login: React.FC = () => {
-  const { loading, login } = useAuth();
+  const { login } = useAuth();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false); //
   const [message, setMessage] = React.useState('');
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const self = await login(username, password);
-      console.log(self);
+      login(username, password);
     } catch (error) {
       if (error instanceof Error) setMessage(error.message);
     }
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    document.title = 'Connexion - Battle Judge';
-  }, []);
-
   return (
-    <div className="App">
-      <img className="ImageLogin" src={ImageLogin} />
-      <div className="login-container">
-        <form className="form" onSubmit={onSubmit}>
-          {message && message.length > 0 && <p className="error">{message}</p>}
-          <img className="logo" src={Logo} />
-          <input
-            type="text"
-            placeholder="email"
-            value={username}
-            onChange={(e) => setUsername(e.currentTarget.value)}
-          />
-          <input
-            type="password"
-            placeholder="mot de passe"
-            autoComplete="new-password"
-            value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-          />
-          <button type="submit" className="submit" disabled={isLoading}>
-            {isLoading ? 'Connexion.....' : 'Se connecter'}
-          </button>
-          <p>
-            Pas encore de compte ? Inscrit toi <Link to="/register">ici</Link>
-          </p>
-        </form>
-      </div>
-    </div>
+    <HomeForm>
+      <form className="form">
+        {message && message.length > 0 && <p className="error">{message}</p>}
+        <Input
+          type="text"
+          placeholder=""
+          value={username}
+          name="username"
+          label="Identifiant"
+          onChange={(e) => setUsername(e.currentTarget.value)}
+        />
+        <Input
+          type="password"
+          placeholder=""
+          name="password"
+          label="Mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.currentTarget.value)}
+        />
+        <Button type="submit" color="orange" onClick={onSubmit}>
+          {isLoading ? 'Connexion.....' : 'Se connecter'}
+        </Button>
+        <p>
+          Pas encore de compte ? Inscrit toi{' '}
+          <Link className="link" to="/register">
+            ici
+          </Link>
+        </p>
+      </form>
+    </HomeForm>
   );
 };
 

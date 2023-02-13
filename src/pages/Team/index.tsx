@@ -1,10 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const Team: React.FC = () => {
-  useEffect(() => {
-    document.title = 'Equipes - Battle Judge';
-  }, []);
-
   return (
     <>
       <h1>Equipes</h1>
