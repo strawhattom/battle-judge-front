@@ -1,0 +1,29 @@
+@import '../../assets/css/palette.css';
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 3rem;
+}
+
+.input-container > label {
+  margin: 0 2rem;
+}
+
+.input-label {
+  text-align: left;
+  font-size: 20px;
+  width: 100%;
+}
+
+.input {
+  font-size: 20px;
+  height: 46px;
+  padding-left: 20px;
+  background-color: var(--grey);
+  color: var(--black);
+  border-radius: 5px;
+  border: none;
+}

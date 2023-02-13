@@ -1,0 +1,56 @@
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 3rem;
+}
+
+.button {
+  cursor: pointer;
+  height: 46px;
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--orange);
+  color: var(--white);
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  filter: brightness(120%);
+}
+
+/* 
+
+Orange = 'orange',
+  Blue = 'blue',
+  Green = 'green',
+  Red = 'red'
+*/
+
+.orange {
+  background-color: var(--orange);
+}
+
+.blue {
+  background-color: var(--link);
+}
+
+.green {
+  background-color: var(--green);
+}
+
+.red {
+  background-color: var(--red);
+}
+
+.disabled {
+  background-color: var(--grey) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.disabled:active {
+  transform: none !important;
+}
