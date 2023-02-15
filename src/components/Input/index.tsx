@@ -4,9 +4,10 @@ import './component.css';
 export interface InputProps {
   type: string;
   name: string;
-  placeholder: string;
+  placeholder?: string;
   value?: string | number;
   label: string;
+  multiple?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -16,7 +17,8 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   value,
   onChange,
-  label
+  label,
+  multiple
 }) => {
   return (
     <div className="input-container">
@@ -30,6 +32,7 @@ const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        multiple={multiple}
       />
     </div>
   );

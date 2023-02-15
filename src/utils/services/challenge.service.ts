@@ -1,8 +1,4 @@
-import {
-  ChallengeProps,
-  ChallengesStateObject,
-  FormChallengeProps
-} from '@/types/ChallengesProps';
+import { ChallengeProps, ChallengesStateObject } from '@/types/ChallengesProps';
 import * as api from '@/utils/api';
 
 export const loadChallenges = async () => {
@@ -34,10 +30,9 @@ export const activateOne = async (id: number): Promise<ChallengeProps> => {
   return response.result;
 };
 
-export const createOne = async (
-  challenge: FormChallengeProps
-): Promise<ChallengeProps> => {
-  const response = await api.post('challenges', challenge);
+export const createOne = async (data: FormData): Promise<ChallengeProps> => {
+  console.log(data);
+  const response = await api.post('challenges', data);
   if (!response.ok) throw new Error(response.result);
   return response.result;
 };

@@ -1,8 +1,10 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import type { FormChallengeProps } from '@/types/ChallengesProps';
 import { createOne } from '@/utils/services/challenge.service';
+import ReactMd from 'react-markdown';
 import Input from '@/components/Input';
 import './component.css';
+import Button from '../Button';
 
 interface ChallengeState {
   title: string;
@@ -10,6 +12,11 @@ interface ChallengeState {
   points: number;
   description: string;
   flag: string;
+}
+
+interface FileState {
+  files: FileList | null;
+  isFilePicked: boolean;
 }
 
 const initialState: ChallengeState = {
@@ -20,6 +27,11 @@ const initialState: ChallengeState = {
   flag: ''
 };
 
+const fileInitialState: FileState = {
+  files: null,
+  isFilePicked: false
+};
+
 const reducer = (
   state: ChallengeState,
   action: { type: string; payload: string }
@@ -27,8 +39,41 @@ const reducer = (
   return { ...state, [action.type]: action.payload };
 };
 
+const fileReducer = (
+  state: FileState,
+  action: { type: string; payload: FileList }
+) => {
+  switch (action.type) {
+    case 'upload':
+      return {
+        ...state,
+        files: action.payload,
+        isFilePicked: true
+      };
+    case 'clear':
+      return {
+        ...state,
+        files: null,
+        isFilePicked: false
+      };
+    default:
+      return state;
+  }
+};
+
+const validateForm = (state: ChallengeState) => {
+  return (
+    state.title.length > 0 &&
+    state.category.length > 0 &&
+    state.points > 0 &&
+    state.description.length > 0 &&
+    state.flag.length > 0
+  );
+};
+
 const ChallengeForm: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [fileState, dispatchFile] = useReducer(fileReducer, fileInitialState);
 
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -40,23 +85,59 @@ const ChallengeForm: React.FC = () => {
     dispatch(action);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      dispatchFile({ type: 'upload', payload: files });
+    }
+  };
+
+  const handleFilesClear = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
+    if (fileState.files) {
+      dispatchFile({ type: 'clear', payload: fileState.files });
+    }
+  };
+
+  const handleSubmit = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+
+    if (!validateForm(state)) {
+      return;
+    }
+
     const challenge: FormChallengeProps = {
-      ...state
+      ...state,
+      resources: fileState.files
     };
     try {
-      const data = await createOne(challenge);
+      const formData = new FormData();
+
+      for (const key in challenge) {
+        if (key === 'resources' && challenge[key] !== null) {
+          for (const file of challenge[key]) {
+            formData.append('resources', file);
+          }
+        } else {
+          formData.append(key, challenge[key]);
+        }
+      }
+      console.log(formData);
+      const data = await createOne(formData);
       console.log(data);
     } catch (err) {
-      console.log(err);
+      return;
     }
   };
 
   return (
     <>
       <h1>Challenge Form</h1>
-      <form className="form admin-form" onSubmit={handleSubmit}>
+      <form className="form admin-form">
         <Input
           type="text"
           name="title"
@@ -79,13 +160,26 @@ const ChallengeForm: React.FC = () => {
           placeholder="Nombre de points"
           value={300}
         />
-        <Input
-          type="text"
-          name="description"
-          label="Description"
-          onChange={onChange}
-          placeholder="Description de l'exercice"
-        />
+
+        <div className="form-markdown">
+          <div className="form-markdown-editor">
+            <h3>Markdown</h3>
+            <label htmlFor="description">Description</label>
+            <textarea
+              name="description"
+              id="description"
+              onChange={onChange}
+              placeholder="Description de l'exercice"
+              rows={10}
+              cols={50}
+            />
+          </div>
+          <div className="form-markdown-preview">
+            <h3>Prévisualisation</h3>
+            <ReactMd>{state.description}</ReactMd>
+          </div>
+        </div>
+
         <Input
           type="text"
           name="flag"
@@ -93,9 +187,29 @@ const ChallengeForm: React.FC = () => {
           onChange={onChange}
           placeholder="Flag de l'exercice"
         />
-        <button type="submit" className="submit">
+        <div>
+          <Input
+            type="file"
+            name="files"
+            label="Fichiers"
+            onChange={onChangeFile}
+            multiple={true}
+          />
+          {fileState.files && fileState.files.length > 0 && (
+            <ul>
+              {Array.from(fileState.files).map((file, index) => (
+                <li key={index}>{file.name}</li>
+              ))}
+            </ul>
+          )}
+          <Button color="orange" type="button" onClick={handleFilesClear}>
+            Réinitialiser les fichiers
+          </Button>
+        </div>
+
+        <Button color="green" type="submit" onClick={handleSubmit}>
           {'Créer'}
-        </button>
+        </Button>
       </form>
     </>
   );

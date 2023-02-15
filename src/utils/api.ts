@@ -1,9 +1,14 @@
 const base = `http://localhost:3000`;
 
+const randomHex = (size: number) =>
+  [...Array(size)]
+    .map(() => Math.floor(Math.random() * 16).toString(16))
+    .join('');
+
 interface APIProps {
   method: string;
   path: string;
-  data?: object;
+  data?: FormData | object | undefined;
 }
 
 interface RequestInitHeader extends RequestInit {
@@ -15,9 +20,14 @@ interface RequestInitHeader extends RequestInit {
 
 async function send({ method, path, data }: APIProps) {
   const opts: RequestInitHeader = { method, headers: {} };
-  if (data) {
+
+  if (!(data instanceof FormData)) {
     opts.headers['Content-Type'] = 'application/json';
     opts.body = JSON.stringify(data);
+    console.log(opts.body);
+  } else {
+    opts.body = data;
+    console.log(opts.body);
   }
 
   const token = localStorage.getItem('jwt');

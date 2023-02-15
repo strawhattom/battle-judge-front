@@ -20,7 +20,7 @@ export type FormChallengeProps = {
   flag: string;
   points: number;
   active?: boolean;
-  resources?: Array<Buffer>;
+  resources?: FileList | null;
   hints?: Array<string>;
 };
 
