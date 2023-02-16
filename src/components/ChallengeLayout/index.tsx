@@ -1,6 +1,6 @@
 import React from 'react';
 import Challenge from './Challenge';
-import './challenge.css';
+import './challenge2.css';
 import type { ChallengeProps } from '@/types/ChallengeProps';
 
 const ChallengeLayout: React.FC<ChallengeProps> = (props) => {
@@ -14,6 +14,10 @@ const ChallengeLayout: React.FC<ChallengeProps> = (props) => {
             name={challenge.name}
             points={challenge.points}
             isCompleted={challenge.isCompleted}
+            title={challenge.title}
+            description={challenge.description}
+            category={challenge.category}
+            handleFile={challenge.handleFile}
           />
         ))}
       </div>
