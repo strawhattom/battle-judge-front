@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <PrivateRoutes />,
+    // element: <PrivateRoutes />,
     errorElement: <ErrorPage />,
     children: [
       {
