@@ -3,10 +3,10 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 3rem;
 }
 
 .button {
+  box-sizing: border-box;
   cursor: pointer;
   height: 46px;
   font-size: 16px;
@@ -18,8 +18,9 @@
   transition-duration: 0.4s;
 }
 
-.button:hover {
-  filter: brightness(120%);
+.button:hover,
+.button:focus {
+  transform: translateY(-0.25em);
 }
 
 /* 

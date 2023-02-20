@@ -3,15 +3,18 @@ import type { FormChallengeProps } from '@/types/ChallengesProps';
 import { createOne } from '@/utils/services/challenge.service';
 import ReactMd from 'react-markdown';
 import Input from '@/components/Input';
-import './component.css';
+import InputFile from '../Input/InputFile';
 import Button from '../Button';
+import { CHALLENGE_TEMPLATE } from '@/utils/constants';
 
 interface ChallengeState {
+  id?: number;
   title: string;
   category: string;
   points: number;
   description: string;
   flag: string;
+  error: string;
 }
 
 interface FileState {
@@ -23,8 +26,9 @@ const initialState: ChallengeState = {
   title: '',
   category: '',
   points: 300,
-  description: '',
-  flag: ''
+  description: CHALLENGE_TEMPLATE,
+  flag: '',
+  error: ''
 };
 
 const fileInitialState: FileState = {
@@ -55,6 +59,11 @@ const fileReducer = (
         ...state,
         files: null,
         isFilePicked: false
+      };
+    case 'error':
+      return {
+        ...state,
+        error: action.payload
       };
     default:
       return state;
@@ -107,6 +116,7 @@ const ChallengeForm: React.FC = () => {
     e.preventDefault();
 
     if (!validateForm(state)) {
+      dispatch({ type: 'error', payload: 'Veuillez remplir tous les champs' });
       return;
     }
 
@@ -137,6 +147,7 @@ const ChallengeForm: React.FC = () => {
   return (
     <>
       <h1>Challenge Form</h1>
+      {state.error.length > 0 && <p className="error">{state.error}</p>}
       <form className="form admin-form">
         <Input
           type="text"
@@ -170,6 +181,7 @@ const ChallengeForm: React.FC = () => {
               id="description"
               onChange={onChange}
               placeholder="Description de l'exercice"
+              value={state.description}
               rows={10}
               cols={50}
             />
@@ -188,12 +200,11 @@ const ChallengeForm: React.FC = () => {
           placeholder="Flag de l'exercice"
         />
         <div>
-          <Input
+          <InputFile
             type="file"
             name="files"
             label="Fichiers"
             onChange={onChangeFile}
-            multiple={true}
           />
           {fileState.files && fileState.files.length > 0 && (
             <ul>
@@ -208,7 +219,7 @@ const ChallengeForm: React.FC = () => {
         </div>
 
         <Button color="green" type="submit" onClick={handleSubmit}>
-          {'Créer'}
+          Créer
         </Button>
       </form>
     </>

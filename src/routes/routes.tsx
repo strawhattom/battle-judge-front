@@ -17,7 +17,10 @@ import Profile from '@/pages/Profile';
 import AdminPage from '@/pages/Admin';
 import AdminChallengePage from '@/components/AdminChallenge';
 import ErrorPage from '@/routes/error-page';
-import ChallengeForm from '@/components/ChallengeForm';
+import ChallengeForm from '@/components/ChallengeCreateForm';
+import ChallengeEditForm from '@/components/ChallengeEditForm';
+
+import * as challengeAPI from '@/utils/services/challenge.service';
 
 export const router = createBrowserRouter([
   {
@@ -80,7 +83,10 @@ export const router = createBrowserRouter([
           },
           {
             path: 'edit/:id',
-            element: <AdminChallengePage />
+            element: <ChallengeEditForm />,
+            loader: async ({ params }) => {
+              return await challengeAPI.getOne(Number(params.id));
+            }
           },
           {
             path: 'delete/:id',

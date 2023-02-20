@@ -50,12 +50,18 @@ export const AuthProvider: React.FC<IAuthContextProvider> = ({ children }) => {
   }, []);
 
   const login = async (username: string, password: string) => {
-    const response = await loginHandler(username, password);
-    if (!response) throw new Error('Login failed');
-    const self = await getMe();
-    setUser(self);
-    setIsAuth(true);
-    return self;
+    try {
+      const [error, response] = await loginHandler(username, password);
+      if (error) throw new Error(response);
+      localStorage.setItem('jwt', response.token);
+      const self = await getMe();
+      setUser(self);
+      setIsAuth(true);
+      return self;
+    } catch (err) {
+      logout();
+      if (err instanceof Error) return err.message;
+    }
   };
 
   const logout = () => {

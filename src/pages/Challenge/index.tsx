@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { redirect } from 'react-router-dom';
 import ChallengeLayout from '@/components/ChallengeLayout';
 import type { ChallengeProps } from '@/types/ChallengeProps';
-import { loadChallenges } from './challenge';
 
 const tempChallenges: ChallengeProps[] = [
   {
@@ -40,7 +39,7 @@ const Challenge: React.FC = () => {
 
   return (
     <div className="exercice-page">
-      <h1>yo le gang</h1>
+      <h1>Battle</h1>
       {challenges.map((challenge, index) => (
         <ChallengeLayout
           key={index}

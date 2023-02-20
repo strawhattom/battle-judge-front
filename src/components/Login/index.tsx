@@ -6,6 +6,10 @@ import '@/assets/css/form.css';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 
+const validateState = (username: string, password: string) => {
+  return username.length > 0 && password.length > 0;
+};
+
 const Login: React.FC = () => {
   const { login } = useAuth();
   const [username, setUsername] = React.useState('');
@@ -44,7 +48,12 @@ const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.currentTarget.value)}
         />
-        <Button type="submit" color="orange" onClick={onSubmit}>
+        <Button
+          type="submit"
+          color="orange"
+          onClick={onSubmit}
+          disabled={!validateState(username, password)}
+        >
           {isLoading ? 'Connexion.....' : 'Se connecter'}
         </Button>
         <p>

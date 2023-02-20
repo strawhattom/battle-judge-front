@@ -3,7 +3,7 @@
 .inline-challenge {
   background-color: var(--grey);
   border-radius: 5px;
-  padding: 1rem;
+  padding: 0 1rem;
   width: 80%;
   margin: 2rem;
   display: flex;

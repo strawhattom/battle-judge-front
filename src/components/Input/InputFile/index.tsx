@@ -1,6 +1,8 @@
 import React from 'react';
 import './component.css';
 
+const ALLOWED_TYPES = '.txt';
+
 export interface InputProps {
   type: 'file';
   name: string;
@@ -27,6 +29,8 @@ const InputFile: React.FC<InputProps> = ({
         name={name}
         value={value}
         onChange={onChange}
+        multiple
+        accept={ALLOWED_TYPES}
       />
     </div>
   );

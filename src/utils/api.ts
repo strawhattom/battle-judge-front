@@ -1,10 +1,5 @@
 const base = `http://localhost:3000`;
 
-const randomHex = (size: number) =>
-  [...Array(size)]
-    .map(() => Math.floor(Math.random() * 16).toString(16))
-    .join('');
-
 interface APIProps {
   method: string;
   path: string;
@@ -18,16 +13,18 @@ interface RequestInitHeader extends RequestInit {
   };
 }
 
-async function send({ method, path, data }: APIProps) {
+// http request returns error: true or false, response: string or object
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Response = [boolean, any];
+
+async function send({ method, path, data }: APIProps): Promise<Response> {
   const opts: RequestInitHeader = { method, headers: {} };
 
   if (!(data instanceof FormData)) {
     opts.headers['Content-Type'] = 'application/json';
     opts.body = JSON.stringify(data);
-    console.log(opts.body);
   } else {
     opts.body = data;
-    console.log(opts.body);
   }
 
   const token = localStorage.getItem('jwt');
@@ -36,17 +33,17 @@ async function send({ method, path, data }: APIProps) {
     opts.headers['Authorization'] = `Bearer ${token}`;
   }
   try {
+    console.log(`${method} ${base}/${path}`, opts);
     const res = await fetch(`${base}/${path}`, opts);
     if (res.status === 200 || res.status === 201) {
       const result = await res.text();
-      return result
-        ? { ok: true, result: JSON.parse(result) }
-        : { ok: true, result: {} };
+
+      return [false, result ? JSON.parse(result) : {}];
     }
     const result = await res.text();
-    return { ok: false, result };
+    return [true, result];
   } catch (err) {
-    return { ok: false, result: 'Server error' };
+    return [true, 'Server error'];
   }
 }
 

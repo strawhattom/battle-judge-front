@@ -9,6 +9,7 @@ export enum ButtonColor {
 }
 
 export interface IButtonProps {
+  id?: string;
   type: 'button' | 'submit' | 'reset';
   color: 'orange' | 'blue' | 'green' | 'red';
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -17,6 +18,7 @@ export interface IButtonProps {
 }
 
 const Button: React.FC<IButtonProps> = ({
+  id,
   type,
   color,
   onClick,
@@ -43,6 +45,7 @@ const Button: React.FC<IButtonProps> = ({
   return (
     <div className="button-container">
       <button
+        id={id}
         type={type}
         className={`button ${btnColor} ${disabled ? 'disabled' : ''}`}
         onClick={onClick}
