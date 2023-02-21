@@ -3,7 +3,7 @@ const base = `http://localhost:3000`;
 interface APIProps {
   method: string;
   path: string;
-  data?: object;
+  data?: FormData | object | undefined;
 }
 
 interface RequestInitHeader extends RequestInit {
@@ -13,11 +13,18 @@ interface RequestInitHeader extends RequestInit {
   };
 }
 
-async function send({ method, path, data }: APIProps) {
+// http request returns error: true or false, response: string or object
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Response = [boolean, any];
+
+async function send({ method, path, data }: APIProps): Promise<Response> {
   const opts: RequestInitHeader = { method, headers: {} };
-  if (data) {
+
+  if (!(data instanceof FormData)) {
     opts.headers['Content-Type'] = 'application/json';
     opts.body = JSON.stringify(data);
+  } else {
+    opts.body = data;
   }
 
   const token = localStorage.getItem('jwt');
@@ -26,17 +33,17 @@ async function send({ method, path, data }: APIProps) {
     opts.headers['Authorization'] = `Bearer ${token}`;
   }
   try {
+    console.log(`${method} ${base}/${path}`, opts);
     const res = await fetch(`${base}/${path}`, opts);
     if (res.status === 200 || res.status === 201) {
       const result = await res.text();
-      return result
-        ? { ok: true, result: JSON.parse(result) }
-        : { ok: true, result: {} };
+
+      return [false, result ? JSON.parse(result) : {}];
     }
     const result = await res.text();
-    return { ok: false, result };
+    return [true, result];
   } catch (err) {
-    return { ok: false, result: 'Server error' };
+    return [true, 'Server error'];
   }
 }
 
