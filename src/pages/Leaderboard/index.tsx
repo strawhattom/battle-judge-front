@@ -9,7 +9,7 @@ import {
   Legend,
   TimeScale
 } from 'chart.js';
-import ScoreGraph from '@/components/ScoreGraph/scoregraph';
+import ScoreGraph from '@/components/ScoreGraph/ScoreGraph';
 
 Chart.register(LinearScale, PointElement, Tooltip, Legend, TimeScale);
 
@@ -23,45 +23,6 @@ const Leaderboard = () => {
     { rank: 6, name: 'Team F', points: 5 },
     { rank: 7, name: 'Team G', points: 2 }
   ]);
-
-  const chartData = {
-    labels: [
-      'Heure 1',
-      'Heure 2',
-      'Heure 3',
-      'Heure 4',
-      'Heure 5',
-      'Heure 6',
-      'Heure 7'
-    ],
-    datasets: [
-      {
-        label: 'Points',
-        data: [20, 18, 15, 12, 8, 5, 2],
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }
-    ]
-  };
-
-  const chartOptions: ChartOptions<'line'> = {
-    scales: {
-      x: {
-        type: 'time',
-        title: {
-          display: true,
-          text: 'Date'
-        }
-      },
-      y: {
-        title: {
-          display: true,
-          text: 'Points'
-        }
-      }
-    }
-  };
 
   return (
     <div>

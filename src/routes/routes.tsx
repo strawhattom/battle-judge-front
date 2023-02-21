@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'teams',
-        element: <Team />
+        element: <Team id="battle1" name="Battle n°1" />
       },
       {
         path: 'profile',

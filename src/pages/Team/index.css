@@ -1,0 +1,60 @@
+.team-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.battle-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.team-card {
+  display: flex;
+  align-items: center;
+  border: 2px solid #ccc;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease-out, border-width 0.3s ease-out,
+    background-color 0.3s ease-out;
+  background-image: linear-gradient(to bottom right, #ff9e48, #ff4e6a);
+}
+
+.team-card:hover {
+  transform: scale(1.05);
+  border-width: 4px;
+  background-position: center;
+  background-size: 200%;
+}
+
+.team-card:hover .team-card-body {
+  color: #fff;
+}
+
+.team-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.team-card-description {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.team-card-score {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+  .team-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .team-card-description {
+    margin-top: 1rem;
+    margin-right: 0;
+  }
+}
