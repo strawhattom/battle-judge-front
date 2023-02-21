@@ -54,7 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, isAdmin }) => {
             className={`navbar-item ${
               activeTab === paths.admin ? 'active' : ''
             }`}
-            to={paths.challenges}
+            to={paths.admin}
           >
             Admin
           </Link>
