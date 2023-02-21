@@ -1,10 +1,10 @@
 import React, { useReducer } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import type {
   ChallengeProps,
   FormChallengeProps
 } from '@/types/ChallengesProps';
-import { createOne } from '@/utils/services/challenge.service';
+import { editOne } from '@/utils/services/challenge.service';
 import ReactMd from 'react-markdown';
 import Input from '@/components/Input';
 import InputFile from '../Input/InputFile';
@@ -106,6 +106,7 @@ const sendFile = (
 
 const ChallengeForm: React.FC = () => {
   const data = useLoaderData() as ChallengeProps;
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [fileState, dispatchFile] = useReducer(fileReducer, fileInitialState);
 
@@ -120,7 +121,9 @@ const ChallengeForm: React.FC = () => {
     dispatch({ type: 'description', payload: description });
     dispatch({ type: 'flag', payload: flag });
 
-    if (!data.resources) return;
+    console.log(state);
+
+    if (!data.resources || data.resources.length === 0) return;
     const tempFile = data.resources[0];
     console.log(tempFile);
     sendFile(tempFile.originalname, tempFile.mimetype, tempFile.buffer);
@@ -166,6 +169,9 @@ const ChallengeForm: React.FC = () => {
       ...state,
       resources: fileState.files
     };
+
+    console.log(challenge['resources']);
+
     try {
       const formData = new FormData();
 
@@ -179,9 +185,10 @@ const ChallengeForm: React.FC = () => {
         }
       }
       console.log(formData);
-      const data = await createOne(formData);
+      const data = await editOne(state.id, formData);
       console.log(data);
     } catch (err) {
+      console.error(err);
       return;
     }
   };
@@ -264,7 +271,7 @@ const ChallengeForm: React.FC = () => {
         </div>
 
         <Button color="green" type="submit" onClick={handleSubmit}>
-          Créer
+          Éditer
         </Button>
       </form>
     </>

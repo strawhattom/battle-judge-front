@@ -15,7 +15,10 @@ import Team from '@/pages/Team';
 import Profile from '@/pages/Profile';
 
 import AdminPage from '@/pages/Admin';
-import AdminChallengePage from '@/components/AdminChallenge';
+import AdminChallenge, {
+  loader as adminChallengeLoader
+} from '@/components/AdminChallenge';
+import AdminUser, { loader as adminUserLoader } from '@/components/AdminUser';
 import ErrorPage from '@/routes/error-page';
 import ChallengeForm from '@/components/ChallengeCreateForm';
 import ChallengeEditForm from '@/components/ChallengeEditForm';
@@ -75,7 +78,8 @@ export const router = createBrowserRouter([
       },
       {
         path: 'challenges',
-        element: <AdminChallengePage />,
+        element: <AdminChallenge />,
+        loader: adminChallengeLoader,
         children: [
           {
             path: 'create',
@@ -90,17 +94,22 @@ export const router = createBrowserRouter([
           },
           {
             path: 'delete/:id',
-            element: <AdminChallengePage />
+            element: <AdminChallenge />
           }
         ]
       },
       {
         path: 'teams',
-        element: <AdminChallengePage />
+        element: <AdminChallenge />
       },
       {
         path: 'users',
-        element: <AdminChallengePage />
+        element: <AdminUser />,
+        loader: adminUserLoader
+      },
+      {
+        path: 'leaderboard',
+        element: <AdminChallenge />
       }
     ]
   }
