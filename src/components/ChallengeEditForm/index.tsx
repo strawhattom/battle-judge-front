@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import type {
   ChallengeProps,
   FormChallengeProps
@@ -106,7 +106,6 @@ const sendFile = (
 
 const ChallengeForm: React.FC = () => {
   const data = useLoaderData() as ChallengeProps;
-  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [fileState, dispatchFile] = useReducer(fileReducer, fileInitialState);
 
@@ -124,9 +123,13 @@ const ChallengeForm: React.FC = () => {
     console.log(state);
 
     if (!data.resources || data.resources.length === 0) return;
-    const tempFile = data.resources[0];
-    console.log(tempFile);
-    sendFile(tempFile.originalname, tempFile.mimetype, tempFile.buffer);
+
+    // TO-DO : À fixer, le fichier n'est pas set dans le `fileState`
+
+    // dispatchFile({ type: 'upload', payload: data.resources });
+    // const tempFile = data.resources[0];
+    // console.log(tempFile);
+    // sendFile(tempFile.originalname, tempFile.mimetype, tempFile.buffer);
   }, []);
 
   const onChange = (

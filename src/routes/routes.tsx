@@ -12,7 +12,7 @@ import Home from '@/pages/Home';
 import Challenge from '@/pages/Challenge';
 import Leaderboard from '@/pages/Leaderboard';
 import Team from '@/pages/Team';
-import Profile from '@/pages/Profile';
+import Profile, { loader as profileLoader } from '@/pages/Profile';
 
 import AdminPage from '@/pages/Admin';
 import AdminChallenge, {
@@ -63,7 +63,8 @@ export const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <Profile />
+        element: <Profile />,
+        loader: profileLoader
       }
     ]
   },

@@ -14,7 +14,7 @@ interface ChallengeState {
   points: number;
   description: string;
   flag: string;
-  error: string;
+  message: string;
 }
 
 interface FileState {
@@ -28,7 +28,7 @@ const initialState: ChallengeState = {
   points: 300,
   description: CHALLENGE_TEMPLATE,
   flag: '',
-  error: ''
+  message: ''
 };
 
 const fileInitialState: FileState = {
@@ -60,10 +60,10 @@ const fileReducer = (
         files: null,
         isFilePicked: false
       };
-    case 'error':
+    case 'message':
       return {
         ...state,
-        error: action.payload
+        message: action.payload
       };
     default:
       return state;
@@ -116,7 +116,10 @@ const ChallengeForm: React.FC = () => {
     e.preventDefault();
 
     if (!validateForm(state)) {
-      dispatch({ type: 'error', payload: 'Veuillez remplir tous les champs' });
+      dispatch({
+        type: 'message',
+        payload: 'Veuillez remplir tous les champs'
+      });
       return;
     }
 
@@ -138,6 +141,7 @@ const ChallengeForm: React.FC = () => {
       }
       console.log(formData);
       const data = await createOne(formData);
+      dispatch({ type: 'message', payload: 'Exercice crée !' });
       console.log(data);
     } catch (err) {
       return;
@@ -147,7 +151,7 @@ const ChallengeForm: React.FC = () => {
   return (
     <>
       <h1>Challenge Form</h1>
-      {state.error.length > 0 && <p className="error">{state.error}</p>}
+      {state.message.length > 0 && <p>{state.message}</p>}
       <form className="form admin-form">
         <Input
           type="text"
