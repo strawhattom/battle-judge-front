@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useLoaderData
+} from 'react-router-dom';
 import type { ChallengesStateObject } from '@/types/ChallengesProps';
 import InlineChallengeLayout from '@/components/InlineChallengeLayout';
 import { loadChallenges } from '@/utils/services/challenge.service';
@@ -11,12 +16,22 @@ const ChallengeState: ChallengesStateObject = {
   inactive: []
 };
 
+export const loader = async () => {
+  try {
+    const data = await loadChallenges();
+    return data;
+  } catch (err) {
+    console.log(err);
+    return ChallengeState;
+  }
+};
+
 const AdminChallengePage: React.FC = () => {
   const navigate = useNavigate();
+  const data = useLoaderData() as ChallengesStateObject;
   const { user } = useAuth();
   const { pathname } = useLocation();
-  const [challenges, setChallenges] =
-    useState<ChallengesStateObject>(ChallengeState);
+  const [challenges, setChallenges] = useState<ChallengesStateObject>(data);
 
   const handleCreateButton = () => {
     navigate('/admin/challenges/create');

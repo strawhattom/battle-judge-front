@@ -27,12 +27,12 @@
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "react-markdown": "^8.0.5",
-    "react-router-dom": "^6.8.1",
-    "react-syntax-highlighter": "^15.5.0",
     "react-icons": "^4.7.1",
+    "react-markdown": "^8.0.5",
     "react-modal": "^3.16.1",
     "react-native-svg": "^13.8.0",
+    "react-router-dom": "^6.8.1",
+    "react-syntax-highlighter": "^15.5.0",
     "react-tabs": "^6.0.0",
     "recharts": "^2.4.3",
     "socket.io": "^4.6.0",
@@ -40,6 +40,7 @@
     "vite-tsconfig-paths": "^4.0.5"
   },
   "devDependencies": {
+    "@esbuild/darwin-arm64": "^0.17.10",
     "@types/react-modal": "^3.13.1",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
     "@typescript-eslint/parser": "^5.50.0",

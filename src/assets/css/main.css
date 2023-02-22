@@ -35,3 +35,15 @@ a {
   font-weight: bold;
   color: var(--black) !important;
 }
+
+.tag {
+  padding: 1rem;
+  width: 100%;
+  border-radius: 10px;
+  background-color: var(--orange);
+  color: var(--white);
+}
+
+.tag.blue {
+  background-color: var(--link);
+}

@@ -40,7 +40,7 @@ export const editOne = async (
   id: number,
   data: FormData
 ): Promise<ChallengeProps> => {
-  const [error, response] = await api.patch(`challenges/${id}`, data);
+  const [error, response] = await api.put(`challenges/${id}`, data);
   if (error) throw new Error(response);
   return response;
 };
