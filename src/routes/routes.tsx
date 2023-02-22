@@ -20,10 +20,15 @@ import AdminChallenge, {
 } from '@/components/AdminChallenge';
 import AdminUser, { loader as adminUserLoader } from '@/components/AdminUser';
 import ErrorPage from '@/routes/error-page';
+
+import ChallengeForm from '@/components/ChallengeForm';
+import TeamMembers from '@/pages/TeamMembers';
+
 import ChallengeForm from '@/components/ChallengeCreateForm';
 import ChallengeEditForm from '@/components/ChallengeEditForm';
 
 import * as challengeAPI from '@/utils/services/challenge.service';
+
 
 export const router = createBrowserRouter([
   {
@@ -42,7 +47,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <PrivateRoutes />,
+    // element: <PrivateRoutes />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -59,12 +64,17 @@ export const router = createBrowserRouter([
       },
       {
         path: 'teams',
-        element: <Team />
+        element: <Team id="battle1" name="Battle n°1" />
+      },
+      {
+        path: 'team/:teamId',
+        element: <TeamMembers />
       },
       {
         path: 'profile',
         element: <Profile />,
         loader: profileLoader
+        element: <Profile />
       }
     ]
   },
