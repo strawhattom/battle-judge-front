@@ -18,6 +18,7 @@ import AdminPage from '@/pages/Admin';
 import AdminChallengePage from '@/components/AdminChallenge';
 import ErrorPage from '@/routes/error-page';
 import ChallengeForm from '@/components/ChallengeForm';
+import TeamMembers from '@/pages/TeamMembers';
 
 export const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
       {
         path: 'profile',
         element: <Profile />
+      },
+      {
+        path: 'teammates/:teamId',
+        element: <TeamMembers />
       }
     ]
   },

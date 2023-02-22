@@ -58,3 +58,30 @@
     margin-right: 0;
   }
 }
+
+.team-members-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+  padding-top: 2rem;
+}
+
+.team-card-players {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  max-height: 0;
+  opacity: 0;
+}
+
+.team-card:hover .team-card-players {
+  max-height: 200px;
+  opacity: 1;
+}

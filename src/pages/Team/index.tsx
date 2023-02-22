@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import './index.css'; // importer votre fichier CSS ici
+import { Link } from 'react-router-dom';
+import './index.css';
 
 type Team = {
   id: string;
@@ -45,16 +46,6 @@ const Team = (props: TeamProps) => {
 
   useEffect(() => {
     setTeams(responseMeanwhile.teams);
-    //   const fetchTeams = async () => {
-    //     try {
-    //       const response = await fetch(`https://localhost:8884/${props.match.params.id}/teams`);
-    //       const data = await response.json();
-    //       setTeams(data.teams);
-    //     } catch (error) {
-    //       console.error(`Une erreur est survenue: ${error}`);
-    //     }
-    //   };
-    //   fetchTeams();
   }, [props.id]);
 
   return (
@@ -62,11 +53,13 @@ const Team = (props: TeamProps) => {
       <h1 className="battle-title">{props.name}</h1>
       {teams.map((team) => (
         <div key={team.id} className="team-card">
-          <div className="team-card-body">
-            <h2 className="team-card-title">{team.name}</h2>
-            <p className="team-card-description">{team.description}</p>
-            <p className="team-card-score">Score: {team.score}</p>
-          </div>
+          <Link to={`/teammates/${team.name}`}>
+            <div className="team-card-body">
+              <h2 className="team-card-title">{team.name}</h2>
+              <p className="team-card-description">{team.description}</p>
+              <p className="team-card-score">Score: {team.score}</p>
+            </div>
+          </Link>
         </div>
       ))}
     </div>
@@ -74,3 +67,14 @@ const Team = (props: TeamProps) => {
 };
 
 export default Team;
+
+//   const fetchTeams = async () => {
+//     try {
+//       const response = await fetch(`https://localhost:8884/${props.match.params.id}/teams`);
+//       const data = await response.json();
+//       setTeams(data.teams);
+//     } catch (error) {
+//       console.error(`Une erreur est survenue: ${error}`);
+//     }
+//   };
+//   fetchTeams();
