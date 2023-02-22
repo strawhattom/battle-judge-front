@@ -5,6 +5,7 @@ import HomeForm from '@/components/HomeForm';
 import '@/assets/css/form.css';
 import { Link } from 'react-router-dom';
 import { EMAIL_REGEX } from '@/utils/constants';
+import { registerHandler } from '@/utils/services/auth.service';
 
 interface RegisterState {
   username: string;
@@ -26,7 +27,9 @@ const initialState: RegisterState = {
 
 const validateState = (state: RegisterState) => {
   return (
-    state.password === state.passwordRepeat && state.email.match(EMAIL_REGEX)
+    state.password.length >= 3 &&
+    state.password === state.passwordRepeat &&
+    state.email.match(EMAIL_REGEX)
   );
 };
 
@@ -50,19 +53,20 @@ const Register: React.FC = () => {
 
   const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    try {
-      //
-    } catch (error) {
-      //
-    }
+    dispatch({ type: 'loading', payload: 'true' });
+    const { username, email, password } = state;
+    const [error, response] = await registerHandler(username, password, email);
+    dispatch({
+      type: 'message',
+      payload: error ? 'Utilisateur crée !' : response
+    });
+    dispatch({ type: 'loading', payload: 'false' });
   };
 
   return (
     <HomeForm>
       <form className="form">
-        {state.message && state.message.length > 0 && (
-          <p className="error">{state.message}</p>
-        )}
+        {state.message && state.message.length > 0 && <p>{state.message}</p>}
 
         <Input
           type="text"
@@ -71,11 +75,27 @@ const Register: React.FC = () => {
           label="Nom de compte"
           onChange={onChange}
         />
+
+        <Input
+          type="email"
+          placeholder=""
+          name="email"
+          label="Adresse email"
+          onChange={onChange}
+        />
         <Input
           type="password"
           placeholder=""
           name="password"
           label="Mot de passe"
+          onChange={onChange}
+        />
+
+        <Input
+          type="password"
+          placeholder=""
+          name="passwordRepeat"
+          label="Confirmer le mot de passe"
           onChange={onChange}
         />
         <Button
@@ -87,7 +107,7 @@ const Register: React.FC = () => {
           {state.loading ? 'Inscription.....' : "S'inscrire"}
         </Button>
         <p>
-          Déjà un compte ?
+          Déjà un compte ?{' '}
           <Link className="link" to="/login">
             Connecte toi !
           </Link>

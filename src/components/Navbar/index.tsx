@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '@/assets/images/sopra_steria.png';
 import '@/assets/css/palette.css';
-import './navbar.css';
 
 interface NavbarProps {
   activeTab: string;
   isAdmin: boolean;
 }
+
+const paths = {
+  challenges: '/challenges',
+  leaderboard: '/leaderboard',
+  teams: '/teams',
+  admin: '/admin',
+  profile: '/profile'
+};
 
 const Navbar: React.FC<NavbarProps> = ({ activeTab, isAdmin }) => {
   return (
@@ -20,39 +27,43 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab, isAdmin }) => {
       <div className="navbar-pages">
         <Link
           className={`navbar-item ${
-            activeTab === '/challenges' ? 'active' : ''
+            activeTab === paths.challenges ? 'active' : ''
           }`}
-          to="/challenges"
+          to={paths.challenges}
         >
           Exercices
         </Link>
         <Link
           className={`navbar-item ${
-            activeTab === '/leaderboard' ? 'active' : ''
+            activeTab === paths.leaderboard ? 'active' : ''
           }`}
-          to="/leaderboard"
+          to={paths.leaderboard}
         >
           Classement
         </Link>
         <Link
-          className={`navbar-item ${activeTab === '/teams' ? 'active' : ''}`}
-          to="/teams"
+          className={`navbar-item ${activeTab === paths.teams ? 'active' : ''}`}
+          to={paths.teams}
         >
           Equipes
         </Link>
+      </div>
+      <div className="navbar-right">
         {isAdmin && (
           <Link
-            className={`navbar-item ${activeTab === '/admin' ? 'active' : ''}`}
-            to="/admin"
+            className={`navbar-item ${
+              activeTab === paths.admin ? 'active' : ''
+            }`}
+            to={paths.admin}
           >
-            Dashboard
+            Admin
           </Link>
         )}
-      </div>
-      <div className="navbar-right navbar-item ">
         <Link
-          className={activeTab === '/profile' ? 'active' : ''}
-          to="/profile"
+          className={`navbar-item ${
+            activeTab === paths.profile ? 'active' : ''
+          }`}
+          to={paths.profile}
         >
           Profil
         </Link>

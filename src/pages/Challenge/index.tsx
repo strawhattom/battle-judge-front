@@ -110,6 +110,7 @@ const Challenge: React.FC = () => {
 
   return (
     <div className="exercice-page">
+      <h1>Battle</h1>
       {challenges.map((challenge, index) => (
         <ChallengeLayout
           key={index}

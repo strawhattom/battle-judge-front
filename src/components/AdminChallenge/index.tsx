@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import type { ChallengesStateObject } from '@/types/ChallengesProps';
 import InlineChallengeLayout from '@/components/InlineChallengeLayout';
 import { loadChallenges } from '@/utils/services/challenge.service';

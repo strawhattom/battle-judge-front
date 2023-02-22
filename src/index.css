@@ -1,4 +1,8 @@
 @import './assets/css/palette.css';
+@import './assets/css/form.css';
+@import './assets/css/header.css';
+@import './assets/css/palette.css';
+@import './assets/css/main.css';
 
 #root {
   width: 100vw;
@@ -29,4 +33,8 @@ a {
   text-decoration: none;
   margin: 0;
   color: var(--link);
+}
+
+.error {
+  color: var(--red);
 }

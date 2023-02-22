@@ -9,7 +9,6 @@ export type ChallengeProps = {
   flag: string;
   active: boolean;
   resources?: Array<Buffer>;
-  hints?: Array<string>;
   __v?: number;
 };
 
@@ -20,8 +19,7 @@ export type FormChallengeProps = {
   flag: string;
   points: number;
   active?: boolean;
-  resources?: Array<Buffer>;
-  hints?: Array<string>;
+  resources?: FileList | null;
 };
 
 export type ChallengesProps = Array<ChallengeProps> | [];
