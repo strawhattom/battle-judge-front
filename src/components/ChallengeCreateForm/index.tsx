@@ -152,7 +152,7 @@ const ChallengeForm: React.FC = () => {
     <>
       <h1>Challenge Form</h1>
       {state.message.length > 0 && <p>{state.message}</p>}
-      <form className="form admin-form">
+      <form className="form form-container">
         <Input
           type="text"
           name="title"

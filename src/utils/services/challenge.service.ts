@@ -11,16 +11,16 @@ export const loadChallenges = async () => {
   };
 
   response.forEach((challenge: ChallengeProps) => {
-    if (challenge.active) challenges.active.push(challenge as never);
+    if (challenge?.active) challenges.active.push(challenge as never);
     else challenges.inactive.push(challenge as never);
   });
 
   return challenges;
 };
 
-export const getOne = async (id: number): Promise<ChallengeProps> => {
+export const getOne = async (id: number): Promise<ChallengeProps | null> => {
   const [error, response] = await api.get(`challenges/${id}`);
-  if (error) throw new Error(response);
+  if (error) return null;
   return response;
 };
 

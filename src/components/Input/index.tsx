@@ -8,6 +8,7 @@ export interface InputProps {
   value?: string | number;
   label: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -16,7 +17,8 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   value,
   onChange,
-  label
+  label,
+  disabled
 }) => {
   return (
     <div className="input-container">
@@ -30,6 +32,7 @@ const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        disabled={disabled}
       />
     </div>
   );

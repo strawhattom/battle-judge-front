@@ -12,6 +12,8 @@ const validateState = (username: string, password: string) => {
 
 const Login: React.FC = () => {
   const { login } = useAuth();
+
+  // À transformer en reducer
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false); //

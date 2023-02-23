@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import type {
   ChallengeProps,
   FormChallengeProps
@@ -7,8 +7,9 @@ import type {
 import { editOne } from '@/utils/services/challenge.service';
 import ReactMd from 'react-markdown';
 import Input from '@/components/Input';
-import InputFile from '../Input/InputFile';
-import Button from '../Button';
+import InputFile from '@/components/Input/InputFile';
+import Button from '@/components/Button';
+import FileLink from '@/components/FileLink';
 
 interface ChallengeState {
   id: number;
@@ -21,7 +22,7 @@ interface ChallengeState {
 }
 
 interface FileState {
-  files: FileList | null;
+  files: FileList | File[] | null;
   isFilePicked: boolean;
 }
 
@@ -49,7 +50,7 @@ const reducer = (
 
 const fileReducer = (
   state: FileState,
-  action: { type: string; payload: FileList }
+  action: { type: string; payload: FileList | File[] | null }
 ) => {
   switch (action.type) {
     case 'upload':
@@ -84,34 +85,15 @@ const validateForm = (state: ChallengeState) => {
   );
 };
 
-const sendFile = (
-  name: string,
-  type: string,
-  buffer: { type: string; data: [] }
-) => {
-  if (!buffer.data || !buffer.type || buffer.type !== 'Buffer')
-    throw new Error('buffer is not an array');
-
-  console.log(`Downloading ${name}, type of ${type}`);
-
-  const arrayBuffer = new Uint8Array(buffer.data);
-  const file = new File([arrayBuffer], name, { type });
-
-  // Trigger download event
-  const link = document.createElement('a');
-  link.href = window.URL.createObjectURL(file);
-  link.download = name;
-  link.click();
-};
-
 const ChallengeForm: React.FC = () => {
   const data = useLoaderData() as ChallengeProps;
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
   const [fileState, dispatchFile] = useReducer(fileReducer, fileInitialState);
 
   React.useEffect(() => {
-    console.log(data);
-    if (!data) return;
+    // Si on a pas de données, on redirige vers la page des challenges
+    if (!data) return navigate('/admin/challenges');
     const { id, title, category, points, description, flag } = data;
     dispatch({ type: 'id', payload: id.toString() });
     dispatch({ type: 'title', payload: title });
@@ -120,16 +102,17 @@ const ChallengeForm: React.FC = () => {
     dispatch({ type: 'description', payload: description });
     dispatch({ type: 'flag', payload: flag });
 
-    console.log(state);
-
     if (!data.resources || data.resources.length === 0) return;
 
-    // TO-DO : À fixer, le fichier n'est pas set dans le `fileState`
-
-    // dispatchFile({ type: 'upload', payload: data.resources });
-    // const tempFile = data.resources[0];
-    // console.log(tempFile);
-    // sendFile(tempFile.originalname, tempFile.mimetype, tempFile.buffer);
+    // Transforme les ressources en File pour pouvoir les afficher dans l'interface
+    const files: File[] = [];
+    for (const resource of data.resources) {
+      const { buffer, originalname, mimetype } = resource;
+      const arrayBuffer = new Uint8Array(buffer.data);
+      const file = new File([arrayBuffer], originalname, { type: mimetype });
+      files.push(file);
+    }
+    dispatchFile({ type: 'upload', payload: files });
   }, []);
 
   const onChange = (
@@ -200,7 +183,7 @@ const ChallengeForm: React.FC = () => {
     <>
       <h1>Challenge Form</h1>
       {state.error.length > 0 && <p className="error">{state.error}</p>}
-      <form className="form admin-form">
+      <form className="form form-container">
         <Input
           type="text"
           name="title"
@@ -261,13 +244,11 @@ const ChallengeForm: React.FC = () => {
             label="Fichiers"
             onChange={onChangeFile}
           />
-          {fileState.files && fileState.files.length > 0 && (
-            <ul>
-              {Array.from(fileState.files).map((file, index) => (
-                <li key={index}>{file.name}</li>
-              ))}
-            </ul>
-          )}
+          {fileState.files &&
+            fileState.files.length > 0 &&
+            Array.from(fileState.files).map((file, index) => (
+              <FileLink key={index} file={file} />
+            ))}
           <Button color="orange" type="button" onClick={handleFilesClear}>
             Réinitialiser les fichiers
           </Button>

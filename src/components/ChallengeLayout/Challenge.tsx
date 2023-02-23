@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import type { ChallengeLayoutProps } from '@/types/ChallengeLayoutProps';
-// @ts-ignore
 import Modal from 'react-modal';
 import TabComponent from '@/components/TabComponent/Tabs';
 
@@ -42,6 +41,7 @@ const Challenge: React.FC<ChallengeLayoutProps> = (props) => {
         // @ts-ignore
         style={customStyles}
         closeTimeoutMS={500}
+        ariaHideApp={false}
       >
         <TabComponent
           name={props.name}

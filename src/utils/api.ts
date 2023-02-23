@@ -15,7 +15,7 @@ interface RequestInitHeader extends RequestInit {
 
 // http request returns error: true or false, response: string or object
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Response = [boolean, any];
+export type Response = [boolean, any];
 
 async function send({ method, path, data }: APIProps): Promise<Response> {
   const opts: RequestInitHeader = { method, headers: {} };

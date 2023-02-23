@@ -1,9 +1,10 @@
 import React, { useReducer, useEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import Button from '@/components/Button';
 import { UserInfoProps, UserTeamProps } from '@/types/UserProps';
 import { getMe } from '@/utils/services/auth.service';
+import { updateSelf } from '@/utils/services/user.service';
+import Button from '@/components/Button';
 import Input from '@/components/Input';
 import Tag from '@/components/Tag';
 
@@ -13,8 +14,10 @@ export const loader = async () => {
 
 interface ProfileState {
   mail: string;
+  mailChange: boolean;
   team: string | null;
   role: string;
+  passwordChange: boolean;
   password: string;
   passwordRepeat: string;
   loading: boolean;
@@ -23,8 +26,10 @@ interface ProfileState {
 
 const initialState: ProfileState = {
   mail: '',
+  mailChange: false,
   team: null,
   role: 'participant',
+  passwordChange: false,
   password: '',
   passwordRepeat: '',
   loading: false,
@@ -35,24 +40,51 @@ const reducer = (
   state: ProfileState,
   action: { type: string; payload: string | UserTeamProps }
 ) => {
+  if (action.type === 'mail') {
+    const payload = action.payload as string;
+    return {
+      ...state,
+      mail: payload,
+      mailChange: payload.length > 0 ? true : false
+    };
+  }
+  if (action.type === 'password') {
+    const payload = action.payload as string;
+    return {
+      ...state,
+      password: payload,
+      passwordChange: payload.length > 0 ? true : false
+    };
+  }
   return { ...state, [action.type]: action.payload };
 };
 
-const Profile: React.FC = () => {
-  const { user, logout } = useAuth();
+const validateForm = (state: ProfileState): boolean => {
+  if (state.mailChange && !state.mail) return false;
+  if (state.passwordChange && !state.password) return false;
+  if (state.passwordChange && !state.passwordRepeat) return false;
+  if (state.passwordChange && state.password !== state.passwordRepeat)
+    return false;
+  return true;
+};
 
+const Profile: React.FC = () => {
+  const { logout } = useAuth();
   const navigate = useNavigate();
+  const data = useLoaderData() as UserInfoProps;
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     console.log('update');
+    if (!validateForm(state)) return;
+    const update = await updateSelf(state.mail, state.password);
+    console.log(update);
   };
-
-  const data = useLoaderData() as UserInfoProps;
-  const [state, dispatch] = useReducer(reducer, initialState);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const action = {
@@ -72,22 +104,39 @@ const Profile: React.FC = () => {
   return (
     <>
       <h1>Profile</h1>
-      <p>{data.username}</p>
-      <Input
-        type="text"
-        value={data.mail}
-        name={'mail'}
-        label="E-mail"
-        onChange={onChange}
-      />
-      <Tag text={data.role} type="role" />
-      {data.team && <Tag text={data.team.name} type="team" />}
-      <Button type="button" color="orange" onClick={handleUpdate}>
-        Update
-      </Button>
-      <Button type="button" color="red" onClick={handleLogout}>
-        Deconnexion
-      </Button>
+      <form className="form form-container">
+        <p>{data.username}</p>
+
+        <Tag text={state.role} type="role" />
+        {state.team && <Tag text={state.team} type="team" />}
+
+        <Input
+          type="text"
+          value={state.mail}
+          name={'mail'}
+          label="E-mail"
+          onChange={onChange}
+        />
+        <Input
+          type="password"
+          name={'password'}
+          label="Mot de passe"
+          onChange={onChange}
+        />
+        <Input
+          type="password"
+          name={'passwordRepeat'}
+          label="Vérification du mot de passe"
+          disabled={!state.passwordChange}
+          onChange={onChange}
+        />
+        <Button type="button" color="orange" onClick={handleUpdate}>
+          Modifier
+        </Button>
+        <Button type="button" color="red" onClick={handleLogout}>
+          Deconnexion
+        </Button>
+      </form>
     </>
   );
 };
