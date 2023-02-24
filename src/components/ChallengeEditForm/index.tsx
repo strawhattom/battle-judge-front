@@ -171,10 +171,12 @@ const ChallengeForm: React.FC = () => {
 
       for (const key in challenge) {
         if (key === 'resources' && challenge[key] !== null) {
+          // @ts-ignore
           for (const file of challenge[key]) {
             formData.append('resources', file);
           }
         } else {
+          // @ts-ignore
           formData.append(key, challenge[key]);
         }
       }

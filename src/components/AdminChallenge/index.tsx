@@ -4,7 +4,7 @@ import type { ChallengesStateObject } from '@/types/ChallengesProps';
 import InlineChallengeLayout from '@/components/InlineChallengeLayout';
 import { loadChallenges } from '@/utils/services/challenge.service';
 import { useAuth } from '@/contexts/AuthContext';
-import Button from '@/components/Button';
+import { PlusIcon } from '@heroicons/react/24/outline';
 
 const ChallengeState: ChallengesStateObject = {
   active: [],
@@ -39,37 +39,47 @@ const AdminChallengePage: React.FC = () => {
     <>
       {pathname === '/admin/challenges' ? (
         <>
-          <Button type="button" color="green" onClick={handleCreateButton}>
-            {'Créer un nouveau'}
-          </Button>
-          <h2>Active challenges</h2>
+          <div className="flex justify-end mx-10 mt-2">
+            <button
+              type="button"
+              onClick={handleCreateButton}
+              className="bg-zinc-200 hover:bg-zinc-300 text-black  py-2 px-4 mt-8 rounded"
+            >
+              <PlusIcon className="w-5 h-5 mr-1 inline-block" />
+              {'Créer un challenge'}
+            </button>
+          </div>
 
-          {challenges.active.map(
-            ({ id, title, category, points, active }, index) => (
-              <InlineChallengeLayout
-                id={id}
-                key={index}
-                title={title}
-                category={category}
-                points={points}
-                active={active}
-              />
-            )
-          )}
+          <div className="mx-10">
+            <h2 className="text-xl font-bold">Active challenges</h2>
 
-          <h2>Inactive challenges</h2>
-          {challenges.inactive.map(
-            ({ id, title, category, points, active }, index) => (
-              <InlineChallengeLayout
-                id={id}
-                key={index}
-                title={title}
-                category={category}
-                points={points}
-                active={active}
-              />
-            )
-          )}
+            {challenges.active.map(
+              ({ id, title, category, points, active }, index) => (
+                <InlineChallengeLayout
+                  id={id}
+                  key={index}
+                  title={title}
+                  category={category}
+                  points={points}
+                  active={active}
+                />
+              )
+            )}
+
+            <h2 className="text-xl font-bold">Inactive challenges</h2>
+            {challenges.inactive.map(
+              ({ id, title, category, points, active }, index) => (
+                <InlineChallengeLayout
+                  id={id}
+                  key={index}
+                  title={title}
+                  category={category}
+                  points={points}
+                  active={active}
+                />
+              )
+            )}
+          </div>
         </>
       ) : (
         <>

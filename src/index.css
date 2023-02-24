@@ -3,6 +3,9 @@
 @import './assets/css/header.css';
 @import './assets/css/palette.css';
 @import './assets/css/main.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 #root {
   width: 100vw;

@@ -1,5 +1,4 @@
 import React from 'react';
-import './component.css';
 
 export interface InputProps {
   type: string;
@@ -19,12 +18,12 @@ const Input: React.FC<InputProps> = ({
   label
 }) => {
   return (
-    <div className="input-container">
-      <label className="input-label" htmlFor={name}>
+    <div className="flex justify-between items-center flex-row ">
+      <label className="text-left text-xl w-full" htmlFor={name}>
         {label}
       </label>
       <input
-        className="input"
+        className="text-l h-12 pl-5 bg-zinc-100 text-black rounded m-2"
         type={type}
         name={name}
         placeholder={placeholder}
