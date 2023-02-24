@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import { ChartOptions } from 'chart.js';
+import React, { useState } from 'react';
+// import { Line } from 'react-chartjs-2';
+// import { ChartOptions } from 'chart.js';
 import {
   Chart,
   LinearScale,

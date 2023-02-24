@@ -7,30 +7,38 @@ import { getMe } from '@/utils/services/auth.service';
 import { updateSelf } from '@/utils/services/user.service';
 import Input from '@/components/Input';
 import Tag from '@/components/Tag';
-import type { UserProps } from '@/types/UserProps';
 import './profile.css';
 
 const tempUsers: UserProps[] = [
   {
     username: 'Sabine SUN',
-    email: 'email',
-    team: 'S0pr4 573R14',
+    mail: 'email',
+    team: {
+      id: 1,
+      name: 'S0pr4 573R14'
+    },
     role: 'role',
     token: 'token',
     team_size: 5
   },
   {
     username: 'Tom XIE',
-    email: 'email',
-    team: 'Sopra Junior',
+    mail: 'email',
+    team: {
+      id: 2,
+      name: 'Sopra Junior'
+    },
     role: 'role',
     token: 'token',
     team_size: 3
   },
   {
     username: 'Mattéo DUPRIEZ',
-    email: 'email',
-    team: 'ESILV',
+    mail: 'email',
+    team: {
+      id: 3,
+      name: 'ESILV'
+    },
     role: 'role',
     token: 'token',
     team_size: 4
@@ -146,22 +154,23 @@ const Profile: React.FC = () => {
             <th>Créateur de l'équipe</th>
             <th></th>
           </tr>
-          {tempUsers.map((tempUser) => (
-            <tr className="h-12 border-b border-black">
-              <td className="text-left">{tempUser.team}</td>
-              <td>{tempUser.team_size}</td>
-              <td className="text-left">{tempUser.username}</td>
-              <td className="">
-                <button
-                  type="button"
-                  onClick={handleUpdate}
-                  className="bg-orange-400 hover:bg-orange-500 text-black  py-1 px-4  rounded"
-                >
-                  {'Rejoindre'}
-                </button>
-              </td>
-            </tr>
-          ))}
+          {tempUsers !== null &&
+            tempUsers.map((tempUser) => (
+              <tr className="h-12 border-b border-black">
+                <td className="text-left">{tempUser.team.name}</td>
+                <td>{tempUser.team_size}</td>
+                <td className="text-left">{tempUser.username}</td>
+                <td className="">
+                  <button
+                    type="button"
+                    onClick={handleUpdate}
+                    className="bg-orange-400 hover:bg-orange-500 text-black  py-1 px-4  rounded"
+                  >
+                    {'Rejoindre'}
+                  </button>
+                </td>
+              </tr>
+            ))}
         </table>
       </div>
 
