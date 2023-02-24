@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Input from '@/components/Input';
-import Button from '@/components/Button';
 import HomeForm from '@/components/HomeForm';
-import '@/assets/css/form.css';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -32,7 +30,7 @@ const Login: React.FC = () => {
 
   return (
     <HomeForm>
-      <form className="form">
+      <form>
         {message && message.length > 0 && <p className="error">{message}</p>}
         <Input
           type="text"
@@ -50,15 +48,17 @@ const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.currentTarget.value)}
         />
-        <Button
+
+        <button
           type="submit"
-          color="orange"
           onClick={onSubmit}
           disabled={!validateState(username, password)}
+          className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 mt-8 rounded"
         >
           {isLoading ? 'Connexion.....' : 'Se connecter'}
-        </Button>
-        <p>
+        </button>
+
+        <p className="mt-3">
           Pas encore de compte ? Inscrit toi{' '}
           <Link className="link" to="/register">
             ici

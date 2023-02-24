@@ -23,14 +23,6 @@
   transform: translateY(-0.25em);
 }
 
-/* 
-
-Orange = 'orange',
-  Blue = 'blue',
-  Green = 'green',
-  Red = 'red'
-*/
-
 .orange {
   background-color: var(--orange);
 }

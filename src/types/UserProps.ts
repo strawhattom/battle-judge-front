@@ -9,6 +9,7 @@ export type UserProps = {
   team: UserTeamProps;
   role: string;
   token: string | null;
+  team_size: number;
 } | null;
 
 export type UserInfoProps = {

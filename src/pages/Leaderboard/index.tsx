@@ -26,7 +26,7 @@ const Leaderboard = () => {
 
   return (
     <div>
-      <h1>Classement</h1>
+      <h1 className="text-4xl text-center mt-8 mb-8 font-bold">Classement</h1>
       <ScoreGraph />
       <table>
         <thead>
