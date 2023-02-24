@@ -12,15 +12,23 @@ import Home from '@/pages/Home';
 import Challenge from '@/pages/Challenge';
 import Leaderboard from '@/pages/Leaderboard';
 import Team from '@/pages/Team';
-import Profile from '@/pages/Profile';
+import Profile, { loader as profileLoader } from '@/pages/Profile';
 
 import AdminPage from '@/pages/Admin';
-import AdminChallengePage from '@/components/AdminChallenge';
+import AdminChallenge, {
+  loader as adminChallengeLoader
+} from '@/components/AdminChallenge';
+import AdminUser, { loader as adminUserLoader } from '@/components/AdminUser';
 import ErrorPage from '@/routes/error-page';
+
+import ChallengeForm from '@/components/ChallengeForm';
+import TeamMembers from '@/pages/TeamMembers';
+
 import ChallengeForm from '@/components/ChallengeCreateForm';
 import ChallengeEditForm from '@/components/ChallengeEditForm';
 
 import * as challengeAPI from '@/utils/services/challenge.service';
+
 
 export const router = createBrowserRouter([
   {
@@ -39,7 +47,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <PrivateRoutes />,
+    // element: <PrivateRoutes />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -56,10 +64,16 @@ export const router = createBrowserRouter([
       },
       {
         path: 'teams',
-        element: <Team />
+        element: <Team id="battle1" name="Battle n°1" />
+      },
+      {
+        path: 'team/:teamId',
+        element: <TeamMembers />
       },
       {
         path: 'profile',
+        element: <Profile />,
+        loader: profileLoader
         element: <Profile />
       }
     ]
@@ -75,7 +89,8 @@ export const router = createBrowserRouter([
       },
       {
         path: 'challenges',
-        element: <AdminChallengePage />,
+        element: <AdminChallenge />,
+        loader: adminChallengeLoader,
         children: [
           {
             path: 'create',
@@ -90,17 +105,22 @@ export const router = createBrowserRouter([
           },
           {
             path: 'delete/:id',
-            element: <AdminChallengePage />
+            element: <AdminChallenge />
           }
         ]
       },
       {
         path: 'teams',
-        element: <AdminChallengePage />
+        element: <AdminChallenge />
       },
       {
         path: 'users',
-        element: <AdminChallengePage />
+        element: <AdminUser />,
+        loader: adminUserLoader
+      },
+      {
+        path: 'leaderboard',
+        element: <AdminChallenge />
       }
     ]
   }
