@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './index.css';
 
@@ -18,7 +18,7 @@ type BattleTeamsResponse = {
   teams: Team[];
 };
 
-let responseMeanwhile: BattleTeamsResponse = {
+const responseMeanwhile: BattleTeamsResponse = {
   teams: [
     {
       id: '1',
@@ -53,7 +53,7 @@ const Team = (props: TeamProps) => {
       <h1 className="text-4xl text-center mt-8 mb-8 font-bold">Equipes</h1>
       {teams.map((team) => (
         <div key={team.id} className="team-card">
-          <Link to={`/teammates/${team.name}`}>
+          <Link to={`/team/${team.name}`}>
             <div className="team-card-body">
               <h2 className="team-card-title">{team.name}</h2>
               <p className="team-card-description">{team.description}</p>

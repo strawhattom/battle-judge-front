@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import Button from '@/components/Button';
 import { UserInfoProps, UserTeamProps, UserProps } from '@/types/UserProps';
 import { getMe } from '@/utils/services/auth.service';
+import { updateSelf } from '@/utils/services/user.service';
 import Input from '@/components/Input';
 import Tag from '@/components/Tag';
 import type { UserProps } from '@/types/UserProps';
@@ -42,8 +43,10 @@ export const loader = async () => {
 
 interface ProfileState {
   mail: string;
+  mailChange: boolean;
   team: string | null;
   role: string;
+  passwordChange: boolean;
   password: string;
   passwordRepeat: string;
   loading: boolean;
@@ -52,8 +55,10 @@ interface ProfileState {
 
 const initialState: ProfileState = {
   mail: '',
+  mailChange: false,
   team: null,
   role: 'participant',
+  passwordChange: false,
   password: '',
   passwordRepeat: '',
   loading: false,
@@ -64,24 +69,51 @@ const reducer = (
   state: ProfileState,
   action: { type: string; payload: string | UserTeamProps }
 ) => {
+  if (action.type === 'mail') {
+    const payload = action.payload as string;
+    return {
+      ...state,
+      mail: payload,
+      mailChange: payload.length > 0 ? true : false
+    };
+  }
+  if (action.type === 'password') {
+    const payload = action.payload as string;
+    return {
+      ...state,
+      password: payload,
+      passwordChange: payload.length > 0 ? true : false
+    };
+  }
   return { ...state, [action.type]: action.payload };
 };
 
-const Profile: React.FC = () => {
-  const { user, logout } = useAuth();
+const validateForm = (state: ProfileState): boolean => {
+  if (state.mailChange && !state.mail) return false;
+  if (state.passwordChange && !state.password) return false;
+  if (state.passwordChange && !state.passwordRepeat) return false;
+  if (state.passwordChange && state.password !== state.passwordRepeat)
+    return false;
+  return true;
+};
 
+const Profile: React.FC = () => {
+  const { logout } = useAuth();
   const navigate = useNavigate();
+  const data = useLoaderData() as UserInfoProps;
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const handleLogout = () => {
     logout();
     navigate('/');
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = async () => {
     console.log('update');
+    if (!validateForm(state)) return;
+    const update = await updateSelf(state.mail, state.password);
+    console.log(update);
   };
-
-  const data = useLoaderData() as UserInfoProps;
-  const [state, dispatch] = useReducer(reducer, initialState);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const action = {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLoaderData } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { loadUsers } from '@/utils/services/admin.service';
 import type { BulkUsers, UserTeamProps } from '@/types/UserProps';
 import Button from '@/components/Button';
@@ -10,6 +10,7 @@ export const loader = async () => {
 
 const AdminUser: React.FC = () => {
   const data = useLoaderData() as BulkUsers;
+  const navigate = useNavigate();
   const [users, setUsers] = useState<BulkUsers>(data);
 
   return (
@@ -50,7 +51,7 @@ const AdminUser: React.FC = () => {
                       color="orange"
                       type="button"
                       onClick={() => {
-                        console.log('Edit user', user.id);
+                        navigate(`/admin/users/edit/${user.id}`);
                       }}
                     >
                       {' '}

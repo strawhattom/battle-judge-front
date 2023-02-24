@@ -43,6 +43,7 @@ const Challenge: React.FC<ChallengeLayoutProps> = (props) => {
         // @ts-ignore
         style={customStyles}
         closeTimeoutMS={500}
+        ariaHideApp={false}
       >
         <TabComponent
           name={props.name}

@@ -21,3 +21,16 @@ export type UserInfoProps = {
 };
 
 export type BulkUsers = UserInfoProps[] | null;
+
+export type UserUpdateFromAdmin = {
+  username?: string;
+  mail?: string;
+  team?: number;
+  role?: string;
+};
+
+export type UserUpdateFromUser = {
+  mail?: string;
+  team?: number;
+  password?: string;
+};

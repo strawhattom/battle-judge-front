@@ -1,0 +1,10 @@
+.file-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.file-container > * {
+  margin: 0 5px;
+}

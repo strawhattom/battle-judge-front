@@ -19,16 +19,17 @@ import AdminChallenge, {
   loader as adminChallengeLoader
 } from '@/components/AdminChallenge';
 import AdminUser, { loader as adminUserLoader } from '@/components/AdminUser';
+import AdminTeam, { loader as adminTeamLoader } from '@/components/AdminTeam';
+import EditUser from '@/components/AdminUser/Edit';
 import ErrorPage from '@/routes/error-page';
 
-import ChallengeForm from '@/components/ChallengeForm';
 import TeamMembers from '@/pages/TeamMembers';
 
-import ChallengeForm from '@/components/ChallengeCreateForm';
+import ChallengeCreateForm from '@/components/ChallengeCreateForm';
 import ChallengeEditForm from '@/components/ChallengeEditForm';
 
 import * as challengeAPI from '@/utils/services/challenge.service';
-
+import * as adminAPI from '@/utils/services/admin.service';
 
 export const router = createBrowserRouter([
   {
@@ -47,7 +48,7 @@ export const router = createBrowserRouter([
   },
   {
     path: '/',
-    // element: <PrivateRoutes />,
+    element: <PrivateRoutes />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -74,7 +75,6 @@ export const router = createBrowserRouter([
         path: 'profile',
         element: <Profile />,
         loader: profileLoader
-        element: <Profile />
       }
     ]
   },
@@ -94,7 +94,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: 'create',
-            element: <ChallengeForm />
+            element: <ChallengeCreateForm />
           },
           {
             path: 'edit/:id',
@@ -111,7 +111,17 @@ export const router = createBrowserRouter([
       },
       {
         path: 'teams',
-        element: <AdminChallenge />
+        element: <AdminTeam />,
+        loader: adminTeamLoader,
+        children: [
+          {
+            path: 'edit/:id',
+            element: <EditUser />,
+            loader: async ({ params }) => {
+              return await adminAPI.getOne(Number(params.id));
+            }
+          }
+        ]
       },
       {
         path: 'users',
