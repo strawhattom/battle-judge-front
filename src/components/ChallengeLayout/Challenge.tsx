@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import type { ChallengeLayoutProps } from '@/types/ChallengeLayoutProps';
-// @ts-ignore
 import Modal from 'react-modal';
 import TabComponent from '@/components/TabComponent/Tabs';
 
 const customStyles = {
   content: {
+    maxWidth: '810px',
     width: '70%',
     height: '80%',
-
     position: 'absolute',
     top: '50%',
     left: ' 50%',
@@ -26,12 +25,14 @@ const Challenge: React.FC<ChallengeLayoutProps> = (props) => {
     <>
       <div className="btn">
         <button
-          className={`exercise ${props.isCompleted ? 'completed' : ''}`}
+          className={`bg-zinc-100 p-2 m-2 w-64 h-28 rounded ${
+            props.isCompleted ? 'bg-orange-400' : ''
+          }`}
           onClick={toggleModal}
         >
           <div>
-            <h6>{props.name}</h6>
-            <p>{props.points}</p>
+            <h6 className="text-center text-base">{props.name}</h6>
+            <p className="text-center text-sm">{props.points}</p>
           </div>
         </button>
       </div>

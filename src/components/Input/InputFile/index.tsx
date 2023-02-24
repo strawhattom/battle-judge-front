@@ -1,5 +1,5 @@
 import React from 'react';
-import './component.css';
+//import './component.css';
 
 const ALLOWED_TYPES = '.txt';
 
@@ -19,12 +19,12 @@ const InputFile: React.FC<InputProps> = ({
   label
 }) => {
   return (
-    <div className="input-container">
-      <label className="input-label" htmlFor={name}>
+    <div className="flex justify-between items-center flex-row ">
+      <label className="text-left text-xl" htmlFor={name}>
         {label}
       </label>
       <input
-        className="input"
+        className="flex ml-24 mt-3"
         type={type}
         name={name}
         value={value}

@@ -50,7 +50,7 @@ const Team = (props: TeamProps) => {
 
   return (
     <div className="team-container">
-      <h1 className="battle-title">{props.name}</h1>
+      <h1 className="text-4xl text-center mt-8 mb-8 font-bold">Equipes</h1>
       {teams.map((team) => (
         <div key={team.id} className="team-card">
           <Link to={`/teammates/${team.name}`}>
