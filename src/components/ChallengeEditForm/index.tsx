@@ -3,13 +3,11 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import type {
   ChallengeProps,
   FormChallengeProps
-} from '@/types/ChallengesProps';
+} from '@/types/ChallengeProps';
 import { editOne } from '@/utils/services/challenge.service';
 import ReactMd from 'react-markdown';
-import Input from '@/components/Input';
-import InputFile from '@/components/Input/InputFile';
-import Button from '@/components/Button';
-import FileLink from '@/components/FileLink';
+import { Input, InputFile, Button, FileLink } from '@/components';
+import { ArrowPathIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
 
 interface ChallengeState {
   id: number;
@@ -108,7 +106,9 @@ const ChallengeForm: React.FC = () => {
     const files: File[] = [];
     for (const resource of data.resources) {
       const { buffer, originalname, mimetype } = resource;
-      const arrayBuffer = new Uint8Array(buffer.data);
+      const arrayBuffer = new Uint8Array(
+        (buffer as unknown as { data: Array<number> }).data
+      );
       const file = new File([arrayBuffer], originalname, { type: mimetype });
       files.push(file);
     }
@@ -163,12 +163,10 @@ const ChallengeForm: React.FC = () => {
 
       for (const key in challenge) {
         if (key === 'resources' && challenge[key] !== null) {
-          // @ts-ignore
           for (const file of challenge[key]) {
             formData.append('resources', file);
           }
         } else {
-          // @ts-ignore
           formData.append(key, challenge[key]);
         }
       }
@@ -183,9 +181,11 @@ const ChallengeForm: React.FC = () => {
 
   return (
     <>
-      <h1>Challenge Form</h1>
-      {state.error.length > 0 && <p className="error">{state.error}</p>}
-      <form className="form form-container">
+      <h1 className="text-4xl font-bold flex justify-center mt-3">
+        Edit challenge
+      </h1>
+      {state.error.length > 0 && <p className="text-base">{state.error}</p>}
+      <form className="flex flex-col justify-center items-center mt-4">
         <Input
           type="text"
           name="title"
@@ -211,11 +211,11 @@ const ChallengeForm: React.FC = () => {
           placeholder="Nombre de points"
         />
 
-        <div className="form-markdown">
-          <div className="form-markdown-editor">
-            <h3>Markdown</h3>
-            <label htmlFor="description">Description</label>
+        <div className="flex w-full justify-center text-center mt-3">
+          <div className="m-2">
+            <h3 className="text-xl">Description en Markdown</h3>
             <textarea
+              className="border-2 border-gray-500 rounded	focus:outline-none"
               name="description"
               id="description"
               value={state.description}
@@ -225,40 +225,48 @@ const ChallengeForm: React.FC = () => {
               cols={50}
             />
           </div>
-          <div className="form-markdown-preview">
-            <h3>Prévisualisation</h3>
-            <ReactMd>{state.description}</ReactMd>
+          <div className="w-96">
+            <h3 className="text-xl">Prévisualisation</h3>
+            <ReactMd className="text-left w-96 overflow-scroll max-h-60">
+              {state.description}
+            </ReactMd>
           </div>
         </div>
 
-        <Input
-          type="text"
-          name="flag"
-          label="Flag"
-          onChange={onChange}
-          value={state.flag}
-          placeholder="Flag de l'exercice"
-        />
-        <div>
-          <InputFile
-            type="file"
-            name="files"
-            label="Fichiers"
-            onChange={onChangeFile}
+        <div className="w-96">
+          <Input
+            type="text"
+            name="flag"
+            label="Flag"
+            onChange={onChange}
+            value={state.flag}
+            placeholder="Flag de l'exercice"
           />
+        </div>
+
+        <div className="w-96">
+          <InputFile name="files" label="Fichiers" onChange={onChangeFile} />
           {fileState.files &&
             fileState.files.length > 0 &&
             Array.from(fileState.files).map((file, index) => (
               <FileLink key={index} file={file} />
             ))}
-          <Button color="orange" type="button" onClick={handleFilesClear}>
-            Réinitialiser les fichiers
+        </div>
+        <div className="w-96 flex justify-between items-center">
+          <Button onClick={handleFilesClear} color="orange" className="my-4">
+            <ArrowPathIcon className="w-5 h-5 mr-1 inline-block" />
+            {'Réinitialiser les fichiers'}
+          </Button>
+          <Button
+            color="green"
+            type="submit"
+            onClick={handleSubmit}
+            className="my-4"
+          >
+            <PencilSquareIcon className="w-5 h-5 mr-1 inline-block" />
+            {'Éditer'}
           </Button>
         </div>
-
-        <Button color="green" type="submit" onClick={handleSubmit}>
-          Éditer
-        </Button>
       </form>
     </>
   );

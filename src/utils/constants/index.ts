@@ -12,3 +12,4 @@ export const CHALLENGE_TEMPLATE = `## Description
 
 ## Contraintes
 `;
+export const ROLES = ['admin', 'judge', 'participant'];

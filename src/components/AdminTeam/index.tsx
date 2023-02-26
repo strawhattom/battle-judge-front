@@ -3,6 +3,7 @@ import { loadTeams } from '@/utils/services/admin.service';
 import { useLoaderData } from 'react-router-dom';
 import type { BulkTeams } from '@/types/TeamProps';
 import Button from '@/components/Button';
+import Container from '@/components/Container';
 
 export const loader = async () => {
   const teams = await loadTeams();
@@ -14,8 +15,8 @@ const AdminTeam: React.FC = () => {
   const [teams, setTeams] = useState<BulkTeams>(data);
 
   return (
-    <>
-      <h1>Teams</h1>
+    <Container cols={1}>
+      <p className="text-xl mt-8">Teams</p>
       {!teams ? (
         <p> {"Pas d'équipe"} </p>
       ) : (
@@ -67,7 +68,7 @@ const AdminTeam: React.FC = () => {
           </tbody>
         </table>
       )}
-    </>
+    </Container>
   );
 };
 

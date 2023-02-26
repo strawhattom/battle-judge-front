@@ -1,35 +1,32 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import AdminRoutes from '@/routes/AdminRoutes';
-import GuestRoutes from '@/routes/GuestRoutes';
-import PrivateRoutes from '@/routes/PrivateRoutes';
+import { AdminRoutes, GuestRoutes, PrivateRoutes, ErrorPage } from '@/routes';
+import {
+  LoginPage,
+  RegisterPage,
+  TeamMembers,
+  AdminPage,
+  TeamPage,
+  HomePage,
+  ChallengePage,
+  LeaderboardPage,
+  ProfilePage
+} from '@/pages';
 
-import LoginPage from '@/pages/Login';
-import RegisterPage from '@/pages/Register';
+import { loader as profileLoader } from '@/pages/Profile';
 
-import Home from '@/pages/Home';
-import Challenge from '@/pages/Challenge';
-import Leaderboard from '@/pages/Leaderboard';
-import Team from '@/pages/Team';
-import Profile, { loader as profileLoader } from '@/pages/Profile';
-
-import AdminPage from '@/pages/Admin';
 import AdminChallenge, {
   loader as adminChallengeLoader
 } from '@/components/AdminChallenge';
 import AdminUser, { loader as adminUserLoader } from '@/components/AdminUser';
 import AdminTeam, { loader as adminTeamLoader } from '@/components/AdminTeam';
-import EditUser from '@/components/AdminUser/Edit';
-import ErrorPage from '@/routes/error-page';
 
-import TeamMembers from '@/pages/TeamMembers';
-
-import ChallengeCreateForm from '@/components/ChallengeCreateForm';
-import ChallengeEditForm from '@/components/ChallengeEditForm';
+import { EditUser, ChallengeCreateForm, ChallengeEditForm } from '@/components';
 
 import * as challengeAPI from '@/utils/services/challenge.service';
 import * as adminAPI from '@/utils/services/admin.service';
+import * as userAPI from '@/utils/services/user.service';
 
 export const router = createBrowserRouter([
   {
@@ -53,19 +50,24 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Home />
+        element: <HomePage />
       },
       {
         path: 'challenges',
-        element: <Challenge />
+        element: <ChallengePage />,
+        loader: async () => {
+          const [error, response] = await userAPI.getChallenges();
+          if (error) return [];
+          return response;
+        }
       },
       {
         path: 'leaderboard',
-        element: <Leaderboard />
+        element: <LeaderboardPage />
       },
       {
         path: 'teams',
-        element: <Team id="battle1" name="Battle n°1" />
+        element: <TeamPage id="battle1" name="Battle n°1" />
       },
       {
         path: 'team/:teamId',
@@ -73,7 +75,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <Profile />,
+        element: <ProfilePage />,
         loader: profileLoader
       }
     ]
@@ -112,7 +114,12 @@ export const router = createBrowserRouter([
       {
         path: 'teams',
         element: <AdminTeam />,
-        loader: adminTeamLoader,
+        loader: adminTeamLoader
+      },
+      {
+        path: 'users',
+        element: <AdminUser />,
+        loader: adminUserLoader,
         children: [
           {
             path: 'edit/:id',
@@ -122,11 +129,6 @@ export const router = createBrowserRouter([
             }
           }
         ]
-      },
-      {
-        path: 'users',
-        element: <AdminUser />,
-        loader: adminUserLoader
       },
       {
         path: 'leaderboard',

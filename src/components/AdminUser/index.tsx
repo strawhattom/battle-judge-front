@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import {
+  useLoaderData,
+  useNavigate,
+  Outlet,
+  useLocation
+} from 'react-router-dom';
 import { loadUsers } from '@/utils/services/admin.service';
 import type { BulkUsers, UserTeamProps } from '@/types/UserProps';
 import Button from '@/components/Button';
+import Container from '@/components/Container';
 
 export const loader = async () => {
   return await loadUsers();
@@ -11,15 +17,25 @@ export const loader = async () => {
 const AdminUser: React.FC = () => {
   const data = useLoaderData() as BulkUsers;
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [users, setUsers] = useState<BulkUsers>(data);
 
+  if (pathname !== '/admin/users') {
+    return (
+      <Container cols={1}>
+        {' '}
+        <Outlet />{' '}
+      </Container>
+    );
+  }
+
   return (
-    <>
-      <h1>Users</h1>
+    <Container cols={1}>
+      <p className="text-xl mt-8">Users</p>
       {!users ? (
         <p> {"Pas d'utilisateur"} </p>
       ) : (
-        <table>
+        <table className="table-auto">
           <thead>
             <tr>
               {Object.keys(users[0]).map((key) => (
@@ -77,7 +93,7 @@ const AdminUser: React.FC = () => {
           </tbody>
         </table>
       )}
-    </>
+    </Container>
   );
 };
 

@@ -9,7 +9,7 @@ const TabComponent: React.FC<ChallengeLayoutProps> = (props) => {
     fetch('SamplePDF.pdf').then((response) => {
       response.blob().then((blob) => {
         const fileURL = window.URL.createObjectURL(blob);
-        let alink = document.createElement('a');
+        const alink = document.createElement('a');
         alink.href = fileURL;
         alink.download = 'SamplePDF.pdf';
         alink.click();
@@ -19,7 +19,10 @@ const TabComponent: React.FC<ChallengeLayoutProps> = (props) => {
 
   const hiddenFileInput = React.useRef(null);
 
-  const handleChange = (event: { target: { files: any[] } }) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event?.target?.files?.length) {
+      return;
+    }
     const fileUploaded = event.target.files[0];
     props.handleFile(fileUploaded);
   };
@@ -90,7 +93,6 @@ const TabComponent: React.FC<ChallengeLayoutProps> = (props) => {
                       <input
                         type="file"
                         ref={hiddenFileInput}
-                        // @ts-ignore
                         onChange={handleChange}
                       />
                     </label>

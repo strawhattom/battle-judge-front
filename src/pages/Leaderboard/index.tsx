@@ -9,7 +9,7 @@ import {
   Legend,
   TimeScale
 } from 'chart.js';
-import ScoreGraph from '@/components/ScoreGraph/ScoreGraph';
+import ScoreGraph from '@/components/ScoreGraph';
 
 Chart.register(LinearScale, PointElement, Tooltip, Legend, TimeScale);
 

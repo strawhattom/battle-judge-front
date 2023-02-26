@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { ChallengeLayoutProps } from '@/types/ChallengeLayoutProps';
 import Modal from 'react-modal';
-import TabComponent from '@/components/TabComponent/Tabs';
+import TabComponent from '@/components/TabComponent';
 
 const customStyles = {
   content: {

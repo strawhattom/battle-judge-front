@@ -2,46 +2,52 @@ import React, { useReducer, useEffect } from 'react';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import Button from '@/components/Button';
-import { UserInfoProps, UserTeamProps, UserProps } from '@/types/UserProps';
+import {
+  UserInfoProps,
+  UserTeamProps,
+  UserProfileProps
+} from '@/types/UserProps';
 import { getMe } from '@/utils/services/auth.service';
 import { updateSelf } from '@/utils/services/user.service';
 import Input from '@/components/Input';
-import Tag from '@/components/Tag';
-import './profile.css';
+import { BulkTeams } from '@/types/TeamProps';
 
-const tempUsers: UserProps[] = [
+const tempUsers: Array<UserProfileProps> = [
   {
+    id: 2,
     username: 'Sabine SUN',
-    mail: 'email',
+    email: 'email',
     team: {
       id: 1,
       name: 'S0pr4 573R14'
     },
-    role: 'role',
+    role: 'participant',
     token: 'token',
-    team_size: 5
+    teamSize: 5
   },
   {
+    id: 1,
     username: 'Tom XIE',
-    mail: 'email',
+    email: 'email',
     team: {
       id: 2,
       name: 'Sopra Junior'
     },
-    role: 'role',
+    role: 'participant',
     token: 'token',
-    team_size: 3
+    teamSize: 3
   },
   {
+    id: 3,
     username: 'Mattéo DUPRIEZ',
-    mail: 'email',
+    email: 'email',
     team: {
       id: 3,
       name: 'ESILV'
     },
-    role: 'role',
+    role: 'participant',
     token: 'token',
-    team_size: 4
+    teamSize: 4
   }
 ];
 
@@ -50,7 +56,7 @@ export const loader = async () => {
 };
 
 interface ProfileState {
-  mail: string;
+  email: string;
   mailChange: boolean;
   team: string | null;
   role: string;
@@ -62,7 +68,7 @@ interface ProfileState {
 }
 
 const initialState: ProfileState = {
-  mail: '',
+  email: '',
   mailChange: false,
   team: null,
   role: 'participant',
@@ -77,11 +83,11 @@ const reducer = (
   state: ProfileState,
   action: { type: string; payload: string | UserTeamProps }
 ) => {
-  if (action.type === 'mail') {
+  if (action.type === 'email') {
     const payload = action.payload as string;
     return {
       ...state,
-      mail: payload,
+      email: payload,
       mailChange: payload.length > 0 ? true : false
     };
   }
@@ -97,7 +103,7 @@ const reducer = (
 };
 
 const validateForm = (state: ProfileState): boolean => {
-  if (state.mailChange && !state.mail) return false;
+  if (state.mailChange && !state.email) return false;
   if (state.passwordChange && !state.password) return false;
   if (state.passwordChange && !state.passwordRepeat) return false;
   if (state.passwordChange && state.password !== state.passwordRepeat)
@@ -110,6 +116,7 @@ const Profile: React.FC = () => {
   const navigate = useNavigate();
   const data = useLoaderData() as UserInfoProps;
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [availableTeam, setAvailableTeam] = React.useState<BulkTeams>([]);
 
   const handleLogout = () => {
     logout();
@@ -119,7 +126,7 @@ const Profile: React.FC = () => {
   const handleUpdate = async () => {
     console.log('update');
     if (!validateForm(state)) return;
-    const update = await updateSelf(state.mail, state.password);
+    const update = await updateSelf(state.email, state.password);
     console.log(update);
   };
 
@@ -133,44 +140,51 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     if (!data) return;
-    dispatch({ type: 'mail', payload: data.mail });
+    dispatch({ type: 'email', payload: data.email });
     dispatch({ type: 'team', payload: data.team });
     dispatch({ type: 'role', payload: data.role });
+
+    // À faire : récupérer les équipes disponibles
+    // if (!data.team) {
+    //   const availableTeam = tempUsers.filter(
+    //     (tempUser) => tempUser.teamSize < 5
+    //   );
+    //   setAvailableTeam(availableTeam);
+    // }
   }, []);
 
   return (
     <>
       <h1 className="text-4xl text-center mt-8 mb-8 font-bold">
-        Bienvenue xxx veuillez rejoindre ou créer un équipe
+        Bienvenue {data.username} veuillez rejoindre ou créer un équipe
       </h1>
 
       <h2 className="text-xl font-bold text-center">Rejoindre une équipe</h2>
 
       <div className="bg-gray-200 w-9/12 p-8 ml-auto mr-auto mb-16 rounded-xl">
         <table className="ml-auto mr-auto w-4/5 text-center">
-          <tr className="h-12 border-b border-black">
-            <th>Nom d'équipe</th>
-            <th>Nombre de membres</th>
-            <th>Créateur de l'équipe</th>
-            <th></th>
-          </tr>
-          {tempUsers !== null &&
-            tempUsers.map((tempUser) => (
-              <tr className="h-12 border-b border-black">
-                <td className="text-left">{tempUser.team.name}</td>
-                <td>{tempUser.team_size}</td>
+          <thead>
+            <tr className="h-12 border-b border-black">
+              <th>{"Nom d'équipe"}</th>
+              <th>{'Nombre de membres'}</th>
+              <th>{"Créateur de l'équipe"}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {tempUsers.map((tempUser, index) => (
+              <tr key={index} className="h-12 border-b border-black">
+                <td className="text-left">{tempUser.team?.name}</td>
+                <td>{tempUser.teamSize}</td>
                 <td className="text-left">{tempUser.username}</td>
                 <td className="">
-                  <button
-                    type="button"
-                    onClick={handleUpdate}
-                    className="bg-orange-400 hover:bg-orange-500 text-black  py-1 px-4  rounded"
-                  >
+                  <Button onClick={handleUpdate} color="orange">
                     {'Rejoindre'}
-                  </button>
+                  </Button>
                 </td>
               </tr>
             ))}
+          </tbody>
         </table>
       </div>
 
@@ -185,24 +199,16 @@ const Profile: React.FC = () => {
             placeholder="Nom d'équipe"
           />
           <div className="profile-create-btn">
-            <button
-              type="button"
-              onClick={handleUpdate}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded"
-            >
+            <Button onClick={handleUpdate} color="green">
               {'Créer une équipe'}
-            </button>
+            </Button>
           </div>
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={handleLogout}
-        className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded"
-      >
+      <Button onClick={handleLogout} color="red">
         {'Déconnexion'}
-      </button>
+      </Button>
     </>
   );
 };

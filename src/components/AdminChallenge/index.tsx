@@ -5,8 +5,8 @@ import {
   useNavigate,
   useLoaderData
 } from 'react-router-dom';
-import type { ChallengesStateObject } from '@/types/ChallengesProps';
-import InlineChallengeLayout from '@/components/InlineChallengeLayout';
+import type { ChallengesStateObject } from '@/types/ChallengeProps';
+import { Container, InlineChallengeLayout, Button } from '@/components';
 import { loadChallenges } from '@/utils/services/challenge.service';
 import { useAuth } from '@/contexts/AuthContext';
 import { PlusIcon } from '@heroicons/react/24/outline';
@@ -51,22 +51,18 @@ const AdminChallengePage: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <Container cols={1}>
       {pathname === '/admin/challenges' ? (
         <>
           <div className="flex justify-end mx-10 mt-2">
-            <button
-              type="button"
-              onClick={handleCreateButton}
-              className="bg-zinc-200 hover:bg-zinc-300 text-black  py-2 px-4 mt-8 rounded"
-            >
+            <Button onClick={handleCreateButton} color="green" className="mt-8">
               <PlusIcon className="w-5 h-5 mr-1 inline-block" />
               {'Créer un challenge'}
-            </button>
+            </Button>
           </div>
 
-          <div className="mx-10">
-            <h2 className="text-xl font-bold">Active challenges</h2>
+          <div className="w-4/5 mx-10">
+            <h2 className="text-xl font-bold mb-4">Active challenges</h2>
 
             {challenges.active.map(
               ({ id, title, category, points, active }, index) => (
@@ -81,7 +77,7 @@ const AdminChallengePage: React.FC = () => {
               )
             )}
 
-            <h2 className="text-xl font-bold">Inactive challenges</h2>
+            <h2 className="text-xl font-bold mb-4">Inactive challenges</h2>
             {challenges.inactive.map(
               ({ id, title, category, points, active }, index) => (
                 <InlineChallengeLayout
@@ -97,11 +93,9 @@ const AdminChallengePage: React.FC = () => {
           </div>
         </>
       ) : (
-        <>
-          <Outlet />
-        </>
+        <Outlet />
       )}
-    </>
+    </Container>
   );
 };
 

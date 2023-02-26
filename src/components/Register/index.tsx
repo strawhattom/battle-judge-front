@@ -55,10 +55,12 @@ const Register: React.FC = () => {
     e.preventDefault();
     dispatch({ type: 'loading', payload: 'true' });
     const { username, email, password } = state;
-    const [error, response] = await registerHandler(username, password, email);
+    const response = await registerHandler(username, password, email); // null or user object
     dispatch({
       type: 'message',
-      payload: error ? 'Utilisateur crée !' : response
+      payload: response
+        ? 'Utilisateur crée !'
+        : 'Une erreur est survenue, veuillez réessayer'
     });
     dispatch({ type: 'loading', payload: 'false' });
   };
@@ -70,7 +72,7 @@ const Register: React.FC = () => {
 
         <Input
           type="text"
-          placeholder=""
+          placeholder="Identifiant"
           name="username"
           label="Nom de compte"
           onChange={onChange}
@@ -78,14 +80,14 @@ const Register: React.FC = () => {
 
         <Input
           type="email"
-          placeholder=""
+          placeholder="Example@domain.com"
           name="email"
           label="Adresse email"
           onChange={onChange}
         />
         <Input
           type="password"
-          placeholder=""
+          placeholder="Au moins 3 caractères"
           name="password"
           label="Mot de passe"
           onChange={onChange}
@@ -93,14 +95,13 @@ const Register: React.FC = () => {
 
         <Input
           type="password"
-          placeholder=""
+          placeholder="Repetez le mot de passe"
           name="passwordRepeat"
           label="Confirmer le mot de passe"
           onChange={onChange}
         />
         <Button
           type="submit"
-          color="orange"
           onClick={onSubmit}
           disabled={!validateState(state)}
         >
@@ -108,7 +109,7 @@ const Register: React.FC = () => {
         </Button>
         <p>
           Déjà un compte ?{' '}
-          <Link className="link" to="/login">
+          <Link className="text-blue-600" to="/login">
             Connecte toi !
           </Link>
         </p>

@@ -1,19 +1,17 @@
 import React from 'react';
 
-export interface InputProps {
-  type: string;
+export interface SelectProps {
   name: string;
-  placeholder?: string;
+  options: string[];
   value?: string | number;
   label: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   disabled?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({
-  type,
+const Select: React.FC<SelectProps> = ({
   name,
-  placeholder,
+  options,
   value,
   onChange,
   label,
@@ -24,17 +22,21 @@ const Input: React.FC<InputProps> = ({
       <label className="text-left text-xl w-full" htmlFor={name}>
         {label}
       </label>
-      <input
+      <select
         className="text-l h-12 pl-5 bg-zinc-100 text-black rounded m-2 focus:outline-none"
-        type={type}
         name={name}
-        placeholder={placeholder}
         value={value}
         onChange={onChange}
         disabled={disabled}
-      />
+      >
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };
 
-export default Input;
+export default Select;
