@@ -1,5 +1,4 @@
 import React from 'react';
-import './inlineChallenge.css';
 import { useNavigate } from 'react-router-dom';
 import type { InlineChallengeLayoutProps } from '@/types/InlineChallengeLayoutProps';
 import { activateOne, disableOne } from '@/utils/services/challenge.service';
@@ -46,13 +45,13 @@ const InlineChallengeLayout: React.FC<InlineChallengeLayoutProps> = ({
   };
 
   return (
-    <div className="inline-challenge">
-      <div className="inline-description">
+    <div className="flex justify-between items-center bg-slate-100 rounded px-4 py-2 mb-4">
+      <div className="flex space-x-3">
         <p>{title}</p>
         <p>{category}</p>
         <p>{points}</p>
       </div>
-      <div className="inline-buttons">
+      <div className="flex space-x-3">
         <Button
           id={id.toString()}
           type="submit"

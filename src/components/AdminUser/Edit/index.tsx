@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import * as api from '@/utils/api';
-import Input from '@/components/Input';
+import { Input, Button, Select, Container } from '@/components';
+import { ROLES } from '@/utils/constants';
 import type { UserUpdateFromAdmin } from '@/types/UserProps';
 
 const reducer = (
@@ -23,9 +24,21 @@ const Edit: React.FC = () => {
     dispatch(action);
   };
 
+  const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const action = {
+      type: e.currentTarget.name,
+      payload: e.currentTarget.value
+    };
+    dispatch(action);
+  };
+
+  const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    console.log('Update user', user);
+  };
   return (
-    <>
-      <h1>Modifier de {user.username}</h1>
+    <Container cols={1}>
+      <p className="text-xl mt-8">Utilisateur : {user.username}</p>
       <form className="form form-container">
         <Input
           type="text"
@@ -36,20 +49,24 @@ const Edit: React.FC = () => {
         />
         <Input
           type="email"
-          name="mail"
+          name="email"
           label="Adresse email"
           onChange={onChange}
-          value={user.mail}
+          value={user.email}
         />
-        <Input
-          type="text"
+
+        <Select
           name="role"
-          label="Rôle"
-          onChange={onChange}
+          options={ROLES}
           value={user.role}
+          onChange={onSelectChange}
+          label="Rôle"
         />
+        <Button color="orange" onClick={onSubmit}>
+          Modifier
+        </Button>
       </form>
-    </>
+    </Container>
   );
 };
 

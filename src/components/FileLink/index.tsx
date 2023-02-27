@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '@/components/Button';
-import './components.css';
+import { Button } from '@/components';
+import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
 
 export interface FileLinkProps {
   file: File;
@@ -24,13 +24,14 @@ const showFile = (file: File) => {
 
 const FileLink: React.FC<FileLinkProps> = ({ file }) => {
   return (
-    <div className="file-container">
+    <div className="flex justify-center items-center space-x-8">
       <p
       //   onClick={() => showFile(file)}
       >
         {file.name}
       </p>
       <Button color="blue" type="button" onClick={() => sendFile(file)}>
+        <ArrowDownTrayIcon className="w-5 h-5 mr-1 inline-block" />
         Telecharger
       </Button>
     </div>

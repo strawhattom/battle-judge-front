@@ -10,35 +10,37 @@ export enum ButtonColor {
 
 export interface IButtonProps {
   id?: string;
-  type: 'button' | 'submit' | 'reset';
-  color: 'orange' | 'blue' | 'green' | 'red';
+  type?: 'button' | 'submit' | 'reset';
+  color?: 'orange' | 'blue' | 'green' | 'red';
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean | false;
   children: React.ReactNode;
+  className?: string;
 }
 
 const Button: React.FC<IButtonProps> = ({
   id,
-  type,
   color,
   onClick,
   children,
-  disabled
+  disabled,
+  className,
+  type
 }) => {
   let btnColor;
 
   switch (color) {
     case ButtonColor.Blue:
-      btnColor = 'blue';
+      btnColor = 'bg-blue-500 hover:bg-blue-600';
       break;
     case ButtonColor.Green:
-      btnColor = 'green';
+      btnColor = 'bg-green-500 hover:bg-green-600';
       break;
     case ButtonColor.Red:
-      btnColor = 'red';
+      btnColor = 'bg-red-500 hover:bg-red-600';
       break;
     default:
-      btnColor = 'orange';
+      btnColor = 'bg-orange-500 hover:bg-orange-600';
       break;
   }
 
@@ -47,8 +49,13 @@ const Button: React.FC<IButtonProps> = ({
       <button
         id={id}
         type={type}
-        className={`button ${btnColor} ${disabled ? 'disabled' : ''}`}
         onClick={onClick}
+        className={`${
+          disabled
+            ? 'disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500'
+            : `${btnColor} text-white`
+        } focus:outline-none font-bold py-2 px-4 rounded-md transition duration-150 ${className}`}
+        disabled={disabled}
       >
         {children}
       </button>

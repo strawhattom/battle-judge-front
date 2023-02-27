@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import { ChartOptions } from 'chart.js';
+import React, { useState } from 'react';
+// import { Line } from 'react-chartjs-2';
+// import { ChartOptions } from 'chart.js';
 import {
   Chart,
   LinearScale,
@@ -9,7 +9,7 @@ import {
   Legend,
   TimeScale
 } from 'chart.js';
-import ScoreGraph from '@/components/ScoreGraph/ScoreGraph';
+import ScoreGraph from '@/components/ScoreGraph';
 
 Chart.register(LinearScale, PointElement, Tooltip, Legend, TimeScale);
 

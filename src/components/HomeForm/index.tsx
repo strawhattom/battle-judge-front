@@ -8,8 +8,8 @@ export interface LoginProps {
 
 const HomeForm: React.FC<LoginProps> = ({ children }) => {
   return (
-    <div className="text-center flex mt-0">
-      <img className="h-screen object-cover" src={ImageLogin} />
+    <div className="text-center flex mt-0 h-screen">
+      {/* <img className="object-cover" src={ImageLogin} /> */}
       <div className="flex w-full flex-col justify-center items-center">
         <img className="w-72 mx-auto mb-16" src={Logo} />
         {children}

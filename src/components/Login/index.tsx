@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import Input from '@/components/Input';
 import HomeForm from '@/components/HomeForm';
+import Button from '@/components/Button';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -8,59 +9,94 @@ const validateState = (username: string, password: string) => {
   return username.length > 0 && password.length > 0;
 };
 
+type LoginState = {
+  username: string;
+  password: string;
+  loading: boolean;
+  message: string;
+};
+
+const initialState: LoginState = {
+  username: '',
+  password: '',
+  loading: false,
+  message: ''
+};
+
+const reducer = (
+  state: LoginState,
+  action: { type: string; payload: string | boolean }
+) => {
+  return { ...state, [action.type]: action.payload };
+};
+
 const Login: React.FC = () => {
   const { login } = useAuth();
-
-  // À transformer en reducer
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false); //
-  const [message, setMessage] = React.useState('');
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+
+    if (!validateState(state.username, state.password)) return;
+
+    dispatch({ type: 'loading', payload: true });
+
     try {
-      login(username, password);
+      const response = await login(state.username, state.password);
+      if (!response || response.status === 404) {
+        dispatch({
+          type: 'message',
+          payload: 'Identifiant ou mot de passe incorrect'
+        });
+      }
     } catch (error) {
-      if (error instanceof Error) setMessage(error.message);
+      dispatch({ type: 'message', payload: (error as Error).message });
     }
-    setIsLoading(false);
+    dispatch({ type: 'loading', payload: false });
+  };
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const action = {
+      type: e.currentTarget.name,
+      payload: e.currentTarget.value
+    };
+    dispatch(action);
   };
 
   return (
     <HomeForm>
       <form>
-        {message && message.length > 0 && <p className="error">{message}</p>}
+        {state.message.length > 0 && (
+          <p className="text-red-500">{state.message}</p>
+        )}
         <Input
           type="text"
-          placeholder=""
-          value={username}
+          placeholder="Identifiant"
+          value={state.username}
           name="username"
           label="Identifiant"
-          onChange={(e) => setUsername(e.currentTarget.value)}
+          onChange={onChange}
         />
         <Input
           type="password"
-          placeholder=""
+          placeholder="•••••••••"
           name="password"
           label="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.currentTarget.value)}
+          value={state.password}
+          onChange={onChange}
         />
 
-        <button
+        <Button
           type="submit"
           onClick={onSubmit}
-          disabled={!validateState(username, password)}
-          className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 mt-8 rounded"
+          disabled={!validateState(state.username, state.password)}
         >
-          {isLoading ? 'Connexion.....' : 'Se connecter'}
-        </button>
+          {state.loading ? 'Connexion.....' : 'Se connecter'}
+        </Button>
 
         <p className="mt-3">
           Pas encore de compte ? Inscrit toi{' '}
-          <Link className="link" to="/register">
+          <Link className="text-blue-600" to="/register">
             ici
           </Link>
         </p>

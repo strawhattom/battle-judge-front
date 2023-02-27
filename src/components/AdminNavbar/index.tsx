@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '@/assets/images/sopra_steria.png';
+import NavLink from '@/components/NavLink';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
 interface NavbarProps {
@@ -27,43 +28,23 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab }) => {
           </div>
 
           <div className="flex-grow">
-            <div className="flex justify-center mr-20">
-              <Link
-                className={`text-gray-700 mr-10 ${
-                  activeTab === paths.users ? 'font-bold' : ''
-                }`}
-                to={paths.users}
-              >
+            <div className="flex justify-center mx-20">
+              <NavLink activeTab={activeTab} path={paths.users}>
                 Utilisateurs
-              </Link>
-              <Link
-                className={`text-gray-700 mr-10 ${
-                  activeTab === paths.teams ? 'font-bold' : ''
-                }`}
-                to={paths.teams}
-              >
+              </NavLink>
+              <NavLink activeTab={activeTab} path={paths.teams}>
                 Equipes
-              </Link>
-              <Link
-                className={`text-gray-700 mr-10 ${
-                  activeTab === paths.challenges ? 'font-bold' : ''
-                }`}
-                to={paths.challenges}
-              >
+              </NavLink>
+              <NavLink activeTab={activeTab} path={paths.challenges}>
                 Exercices
-              </Link>
+              </NavLink>
             </div>
           </div>
 
           <div>
-            <Link
-              className={`text-gray-700 ${
-                activeTab === paths.profile ? 'font-bold' : ''
-              }`}
-              to={paths.profile}
-            >
+            <NavLink activeTab={activeTab} path={paths.profile}>
               Profile <ChevronDownIcon className="w-5 h-5 inline-block" />
-            </Link>
+            </NavLink>
           </div>
         </div>
       </div>

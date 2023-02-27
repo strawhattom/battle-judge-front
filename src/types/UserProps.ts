@@ -3,34 +3,38 @@ export type UserTeamProps = {
   name: string;
 } | null;
 
-export type UserProps = {
-  username: string;
-  mail: string;
-  team: UserTeamProps;
-  role: string;
-  token: string | null;
-  team_size: number;
-} | null;
-
-export type UserInfoProps = {
+export type UserAPIProps = {
   id: number;
   username: string;
-  mail: string;
-  team: UserTeamProps;
-  role: string;
+  email: string;
+  role: 'admin' | 'participant' | 'judge';
 };
+
+export interface UserRegisterAPIProps extends UserAPIProps {
+  teamId: null | number;
+  password: string;
+}
+
+export interface UserInfoProps extends UserAPIProps {
+  team: UserTeamProps;
+  token: string | null;
+}
+
+export interface UserProfileProps extends UserInfoProps {
+  teamSize: number;
+}
 
 export type BulkUsers = UserInfoProps[] | null;
 
 export type UserUpdateFromAdmin = {
   username?: string;
-  mail?: string;
+  email?: string;
   team?: number;
   role?: string;
 };
 
 export type UserUpdateFromUser = {
-  mail?: string;
+  email?: string;
   team?: number;
   password?: string;
 };

@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
-import { type UserProps } from '@/types/UserProps';
-import { loginHandler, getMe } from '@/utils/services/auth.service';
+import type { UserAPIProps, UserInfoProps } from '@/types/UserProps';
+import {
+  loginHandler,
+  getMe,
+  type LoginResponse
+} from '@/utils/services/auth.service';
 
 interface IAuthContext {
-  user: UserProps;
+  user: UserAPIProps | null;
   isAuth: boolean;
   loading: boolean;
-  login: (username: string, password: string) => void;
+  login: (username: string, password: string) => Promise<LoginResponse>;
   logout: () => void;
 }
 
@@ -18,14 +22,14 @@ const authContextDefault = {
   user: null,
   loading: true,
   isAuth: false,
-  login: () => null,
-  logout: () => null
+  login: async () => ({ status: 404, data: 'Not found' }),
+  logout: () => undefined
 };
 
 const AuthContext = createContext<IAuthContext>(authContextDefault);
 
 export const AuthProvider: React.FC<IAuthContextProvider> = ({ children }) => {
-  const [user, setUser] = useState<UserProps>(null);
+  const [user, setUser] = useState<UserAPIProps | null>(null);
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -34,14 +38,15 @@ export const AuthProvider: React.FC<IAuthContextProvider> = ({ children }) => {
       setLoading(true);
       const userData = await getMe();
       if (!userData) {
+        setLoading(false);
         return logout();
       }
       setIsAuth(true);
+      setLoading(false);
       return setUser(userData);
     } catch (error) {
-      return logout();
-    } finally {
       setLoading(false);
+      logout();
     }
   };
 
@@ -49,26 +54,29 @@ export const AuthProvider: React.FC<IAuthContextProvider> = ({ children }) => {
     loadLocalUser();
   }, []);
 
-  const login = async (username: string, password: string) => {
-    try {
-      const [error, response] = await loginHandler(username, password);
-      if (error) throw new Error(response);
-      localStorage.setItem('jwt', response.token);
-      const self = await getMe();
-      setUser(self);
-      setIsAuth(true);
-      return self;
-    } catch (err) {
+  const login = async (
+    username: string,
+    password: string
+  ): Promise<LoginResponse> => {
+    // deconstruis le résultat `response` en prenant que la valeur de `data` (voir api.ts)
+    const [error, response] = await loginHandler(username, password);
+    // Si il y a une erreur ou si le status est 404 ou si la réponse est un texte (message erreur)
+    if (error || response.status === 404 || typeof response.data === 'string') {
       logout();
-      if (err instanceof Error) return err.message;
+      return response;
     }
+    localStorage.setItem('jwt', response.data.token);
+    // Récupère les infos de l'utilisateur grâce au token dans le localStorage (au dessus)
+    const self = await getMe(); // null or user object
+    setUser(self);
+    setIsAuth(true);
+    return response;
   };
 
-  const logout = () => {
+  const logout = (): void => {
     setUser(null);
     localStorage.removeItem('jwt');
     setIsAuth(false);
-    return true;
   };
 
   return (

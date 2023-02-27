@@ -15,7 +15,13 @@ interface RequestInitHeader extends RequestInit {
 
 // http request returns error: true or false, response: string or object
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Response = [boolean, any];
+export type Response = [
+  boolean,
+  {
+    data: string | object;
+    status: number;
+  }
+];
 
 async function send({ method, path, data }: APIProps): Promise<Response> {
   const opts: RequestInitHeader = { method, headers: {} };
@@ -34,16 +40,42 @@ async function send({ method, path, data }: APIProps): Promise<Response> {
   }
   try {
     console.log(`${method} ${base}/${path}`, opts);
+
+    // TODO: fetch show error if unauthorized
     const res = await fetch(`${base}/${path}`, opts);
-    if (res.status === 200 || res.status === 201) {
+    const { status } = res;
+    if (status === 200 || status === 201) {
       const result = await res.text();
 
-      return [false, result ? JSON.parse(result) : {}];
+      return [
+        false,
+        result
+          ? {
+              data: JSON.parse(result),
+              status
+            }
+          : {
+              data: null,
+              status
+            }
+      ];
     }
     const result = await res.text();
-    return [true, result];
+    return [
+      true,
+      {
+        data: result,
+        status
+      }
+    ];
   } catch (err) {
-    return [true, 'Server error'];
+    return [
+      true,
+      {
+        data: 'Server error',
+        status: 500
+      }
+    ];
   }
 }
 
