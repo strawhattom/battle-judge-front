@@ -6,7 +6,7 @@ import {
   ChallengeLayoutProps,
   ChallengeDocument
 } from '@/types/ChallengeProps';
-import { Input, Button } from '@/components';
+import { Input, Button, InputFile } from '@/components';
 
 // points={props.points}
 //           isCompleted={props.isCompleted}
@@ -40,7 +40,7 @@ const TabComponent: React.FC<TabComponentProps> = (props) => {
     });
   };
 
-  const hiddenFileInput = React.useRef(null);
+  // const hiddenFileInput = React.useRef(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event?.target?.files?.length) {
@@ -58,7 +58,7 @@ const TabComponent: React.FC<TabComponentProps> = (props) => {
     <Tabs>
       <TabList>
         <Tab>Challenge</Tab>
-        <Tab style={{ color: '#F67300' }}>XYZ résolu</Tab>
+        <Tab style={{ color: '#F67300' }}>3 résolues</Tab>
       </TabList>
 
       <div>
@@ -84,38 +84,20 @@ const TabComponent: React.FC<TabComponentProps> = (props) => {
           <div className="fixed bottom-0">
             <div className="pl-6">
               <form>
-                <div className="flex flex-row pb-7 pt-2">
-                  <div>
-                    <label>
-                      <Input
-                        type="text"
-                        name="flag1"
-                        label=""
-                        onChange={onChange}
-                        placeholder="Flag 1"
-                      />
-                    </label>
-                  </div>
-                  <div>
-                    <label>
-                      <Input
-                        type="text"
-                        name="flag2"
-                        label=""
-                        onChange={onChange}
-                        placeholder="Flag 2"
-                      />
-                    </label>
-                  </div>
-                  <div className="mt-4">
-                    <label>
-                      <input
-                        type="file"
-                        ref={hiddenFileInput}
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </div>
+                <div className="flex flex-row items-center pb-7 pt-2">
+                  <Input
+                    type="text"
+                    name="flag"
+                    label=""
+                    onChange={onChange}
+                    placeholder="Flag"
+                  />
+
+                  <InputFile
+                    // ref={hiddenFileInput}
+                    name="file"
+                    onChange={handleChange}
+                  />
                 </div>
               </form>
             </div>

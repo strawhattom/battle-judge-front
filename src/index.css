@@ -34,13 +34,16 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-a {
-  text-decoration: none;
-  margin: 0;
-  color: var(--link);
+/* react modal transition */
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: 200ms ease-in-out;
 }
 
-.error {
-  color: var(--red);
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
 }

@@ -4,13 +4,15 @@ import Modal from 'react-modal';
 import TabComponent from '@/components/TabComponent';
 
 const customStyles = {
+  overlay: {
+    background: 'rgba(0, 0, 0, 0.75)'
+  },
   content: {
     maxWidth: '810px',
     width: '70%',
-    height: '80%',
-    position: 'absolute',
+    // height: '80%',
     top: '50%',
-    left: ' 50%',
+    left: '50%',
     transform: 'translate(-50%, -50%)'
   }
 };
@@ -41,7 +43,7 @@ const Challenge: React.FC<ChallengeLayoutProps> = (props) => {
         onRequestClose={toggleModal}
         contentLabel={props.title}
         style={customStyles}
-        closeTimeoutMS={500}
+        closeTimeoutMS={200}
         ariaHideApp={false}
       >
         <TabComponent

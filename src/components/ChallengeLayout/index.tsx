@@ -1,9 +1,6 @@
 import React from 'react';
 import Challenge from './Challenge';
-import type {
-  BulkChallenges,
-  ChallengeBattleProps
-} from '@/types/ChallengeProps';
+import type { ChallengeBattleProps } from '@/types/ChallengeProps';
 
 type ChallengeLayoutProps = {
   category: string;
