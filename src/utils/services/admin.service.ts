@@ -36,7 +36,7 @@ export const updateOne = async (
   id: number,
   data: UserUpdateFromAdmin
 ): Promise<boolean> => {
-  const [error, response] = await api.post(`users/${id}`, data);
+  const [error, response] = await api.patch(`users/${id}`, data);
   if (error) return false;
   return true;
 };

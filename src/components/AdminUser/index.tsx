@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   useLoaderData,
   useNavigate,
   Outlet,
   useLocation
 } from 'react-router-dom';
-import { loadUsers } from '@/utils/services/admin.service';
+import { loadUsers, deleteOne } from '@/utils/services/admin.service';
 import type { BulkUsers, UserTeamProps } from '@/types/UserProps';
 import Button from '@/components/Button';
 import Container from '@/components/Container';
@@ -19,6 +19,10 @@ const AdminUser: React.FC = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [users, setUsers] = useState<BulkUsers>(data);
+
+  const onDelete = async (id: number) => {
+    // e.preventDefault();
+  };
 
   if (pathname !== '/admin/users') {
     return (

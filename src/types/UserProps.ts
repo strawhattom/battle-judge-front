@@ -27,10 +27,11 @@ export interface UserProfileProps extends UserInfoProps {
 export type BulkUsers = UserInfoProps[] | null;
 
 export type UserUpdateFromAdmin = {
-  username?: string;
-  email?: string;
-  team?: number;
-  role?: string;
+  id: number;
+  username: string;
+  email: string;
+  team: number;
+  role: string;
 };
 
 export type UserUpdateFromUser = {
