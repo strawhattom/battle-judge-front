@@ -1,11 +1,34 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import React from 'react';
+import ReactMd from 'react-markdown';
 import 'react-tabs/style/react-tabs.css';
-import { ChallengeLayoutProps } from '@/types/ChallengeLayoutProps';
-import Input from '@/components/Input';
+import {
+  ChallengeLayoutProps,
+  ChallengeDocument
+} from '@/types/ChallengeProps';
+import { Input, Button } from '@/components';
 
-const TabComponent: React.FC<ChallengeLayoutProps> = (props) => {
-  const DownloadButton = () => {
+// points={props.points}
+//           isCompleted={props.isCompleted}
+//           title={props.title}
+//           category={props.category}
+//           description={props.description}
+
+type TabComponentProps = {
+  points: number;
+  isCompleted: boolean;
+  title: string;
+  category: string;
+  description: string;
+  resources?: ChallengeDocument[];
+};
+
+const TabComponent: React.FC<TabComponentProps> = (props) => {
+  const onSubmit = () => {
+    console.log('submit');
+  };
+
+  const onDownload = () => {
     fetch('SamplePDF.pdf').then((response) => {
       response.blob().then((blob) => {
         const fileURL = window.URL.createObjectURL(blob);
@@ -24,7 +47,7 @@ const TabComponent: React.FC<ChallengeLayoutProps> = (props) => {
       return;
     }
     const fileUploaded = event.target.files[0];
-    props.handleFile(fileUploaded);
+    // props.handleFile(fileUploaded);
   };
 
   const onChange = () => {
@@ -44,22 +67,18 @@ const TabComponent: React.FC<ChallengeLayoutProps> = (props) => {
             <h1 className="text-4xl mt-8 mb-5 font-bold">{props.title}</h1>
             <p className="text-gray-400">{props.category}</p>
             <p>{props.points} points</p>
-            <p className="pt-5 leading-normal overflow-scroll max-h-52">
-              {props.description}
-            </p>
+            <ReactMd className="mt-4">{props.description}</ReactMd>
 
-            <div className="fixed bottom-24">
-              <div>
-                <p>Resources</p>
-                <button
-                  type="button"
-                  onClick={DownloadButton}
-                  className="bg-blue-300 hover:bg-blue-400 text-black  py-2 px-4 mt-2 rounded"
-                >
-                  {'Télécharger'}
-                </button>
+            {props.resources && (
+              <div className="fixed bottom-24">
+                <div>
+                  <p>Resources</p>
+                  <Button onClick={onDownload} color="blue">
+                    {'Télécharger'}
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className="fixed bottom-0">
@@ -104,12 +123,7 @@ const TabComponent: React.FC<ChallengeLayoutProps> = (props) => {
 
           <div className="flex justify-end">
             <div className="fixed bottom-9">
-              <button
-                type="button"
-                className="bg-orange-500 hover:bg-orange-600 text-black  py-3 px-4 rounded"
-              >
-                {'Soumettre'}
-              </button>
+              <Button onClick={onSubmit}>{'Soumettre'}</Button>
             </div>
           </div>
         </TabPanel>

@@ -14,13 +14,13 @@ const sendFile = (file: File) => {
   link.click();
 };
 
-const showFile = (file: File) => {
-  console.log('Showing file', file);
-  if (!file) throw new Error('No file defined');
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  console.log(reader.result);
-};
+// const showFile = (file: File) => {
+//   console.log('Showing file', file);
+//   if (!file) throw new Error('No file defined');
+//   const reader = new FileReader();
+//   reader.readAsDataURL(file);
+//   console.log(reader.result);
+// };
 
 const FileLink: React.FC<FileLinkProps> = ({ file }) => {
   return (

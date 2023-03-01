@@ -43,6 +43,8 @@ const reducer = (
   state: ChallengeState,
   action: { type: string; payload: string }
 ) => {
+  if (action.type === 'points')
+    return { ...state, points: Number(action.payload) };
   return { ...state, [action.type]: action.payload };
 };
 

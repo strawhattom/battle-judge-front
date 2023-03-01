@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { ChallengeLayoutProps } from '@/types/ChallengeLayoutProps';
+import type { ChallengeLayoutProps } from '@/types/ChallengeProps';
 import Modal from 'react-modal';
 import TabComponent from '@/components/TabComponent';
 
@@ -31,7 +31,7 @@ const Challenge: React.FC<ChallengeLayoutProps> = (props) => {
           onClick={toggleModal}
         >
           <div>
-            <h6 className="text-center text-base">{props.name}</h6>
+            <h6 className="text-center text-base">{props.title}</h6>
             <p className="text-center text-sm">{props.points}</p>
           </div>
         </button>
@@ -39,20 +39,19 @@ const Challenge: React.FC<ChallengeLayoutProps> = (props) => {
       <Modal
         isOpen={isOpen}
         onRequestClose={toggleModal}
-        contentLabel="My dialog"
-        // @ts-ignore
+        contentLabel={props.title}
         style={customStyles}
         closeTimeoutMS={500}
         ariaHideApp={false}
       >
         <TabComponent
-          name={props.name}
           points={props.points}
           isCompleted={props.isCompleted}
           title={props.title}
           category={props.category}
           description={props.description}
-          handleFile={props.handleFile}
+          resources={props.resources}
+          // handleFile={props.handleFile}
         />
       </Modal>
     </>
