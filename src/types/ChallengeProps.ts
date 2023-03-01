@@ -31,7 +31,7 @@ export type FormChallengeProps = {
   flag: string;
   points: number;
   active?: boolean;
-  resources?: FileList | null | File[] | Array<ChallengeDocument>;
+  resources: FileList | [] | File[] | Array<ChallengeDocument>;
 };
 
 export type ChallengeLayoutProps = {
