@@ -1,8 +1,15 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { InlineChallengeLayoutProps } from '@/types/InlineChallengeLayoutProps';
 import { activateOne, disableOne } from '@/utils/services/challenge.service';
 import Button from '@/components/Button';
+
+export type InlineChallengeLayoutProps = {
+  id: number;
+  title: string;
+  category: string;
+  points: number;
+  active: true | false;
+};
 
 const InlineChallengeLayout: React.FC<InlineChallengeLayoutProps> = ({
   id,
@@ -24,9 +31,12 @@ const InlineChallengeLayout: React.FC<InlineChallengeLayoutProps> = ({
     e.preventDefault();
     try {
       const challenge = await activateOne(id);
-      console.log(challenge);
-      console.log(`active ${id}`);
-      setIsChallengeActive(true);
+      if (challenge) {
+        console.log(`enable ${id}`);
+        setIsChallengeActive(true);
+      } else {
+        throw new Error('Could not enable challenge');
+      }
     } catch (err) {
       console.log(err);
     }
@@ -36,9 +46,12 @@ const InlineChallengeLayout: React.FC<InlineChallengeLayoutProps> = ({
     e.preventDefault();
     try {
       const challenge = await disableOne(id);
-      console.log(challenge);
-      console.log(`desactive ${id}`);
-      setIsChallengeActive(false);
+      if (challenge) {
+        console.log(`desactive ${id}`);
+        setIsChallengeActive(false);
+      } else {
+        throw new Error('Could not disable challenge');
+      }
     } catch (err) {
       console.log(err);
     }

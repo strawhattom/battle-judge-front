@@ -8,6 +8,7 @@ export type UserAPIProps = {
   username: string;
   email: string;
   role: 'admin' | 'participant' | 'judge';
+  team: UserTeamProps;
 };
 
 export interface UserRegisterAPIProps extends UserAPIProps {
@@ -16,7 +17,6 @@ export interface UserRegisterAPIProps extends UserAPIProps {
 }
 
 export interface UserInfoProps extends UserAPIProps {
-  team: UserTeamProps;
   token: string | null;
 }
 

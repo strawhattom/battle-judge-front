@@ -15,7 +15,7 @@ export const loadUsers = async (): Promise<BulkUsers> => {
 
 export const loadTeams = async (): Promise<BulkTeams> => {
   const [error, response] = await api.get('teams');
-  if (error) return null;
+  if (error) return [];
   const teams: BulkTeams = response.data as BulkTeams;
   return teams;
 };

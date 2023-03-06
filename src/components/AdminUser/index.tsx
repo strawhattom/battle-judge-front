@@ -3,7 +3,8 @@ import {
   useLoaderData,
   useNavigate,
   Outlet,
-  useLocation
+  useLocation,
+  useRevalidator
 } from 'react-router-dom';
 import { loadUsers, deleteOne } from '@/utils/services/admin.service';
 import type { BulkUsers, UserTeamProps } from '@/types/UserProps';
@@ -15,13 +16,16 @@ export const loader = async () => {
 };
 
 const AdminUser: React.FC = () => {
-  const data = useLoaderData() as BulkUsers;
+  const users = useLoaderData() as BulkUsers;
   const navigate = useNavigate();
+  // const revalidator = useRevalidator();
   const { pathname } = useLocation();
-  const [users, setUsers] = useState<BulkUsers>(data);
 
   const onDelete = async (id: number) => {
-    // e.preventDefault();
+    const deleted = await deleteOne(id);
+    if (deleted) {
+      navigate(0);
+    }
   };
 
   if (pathname !== '/admin/users') {
@@ -42,11 +46,13 @@ const AdminUser: React.FC = () => {
         <table className="table-auto">
           <thead>
             <tr>
-              {Object.keys(users[0]).map((key) => (
-                <th key={key}>{key}</th>
-              ))}
-              <th> Modifier </th>
-              <th> Supprimer </th>
+              <th> # </th>
+              <th> Nom </th>
+              <th> Email </th>
+              <th> Role </th>
+              <th> Team </th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -84,7 +90,7 @@ const AdminUser: React.FC = () => {
                       color="red"
                       type="button"
                       onClick={() => {
-                        console.log('Supprimer user', user.id);
+                        onDelete(user.id);
                       }}
                     >
                       {' '}
