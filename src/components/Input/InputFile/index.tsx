@@ -6,7 +6,7 @@ const ALLOWED_TYPES = '.txt';
 export interface InputProps {
   name: string;
   value?: string | number;
-  label: string;
+  label?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -18,7 +18,7 @@ const InputFile: React.FC<InputProps> = ({ name, value, onChange, label }) => {
         htmlFor={name}
       >
         {label}
-        <div className="flex justify-center items-center w-full ml-8 h-12 bg-zinc-100 text-black rounded m-2 cursor-pointer focus:outline-none">
+        <div className="flex justify-center items-center w-full ml-8 h-12 bg-zinc-100 text-black rounded m-2 px-3 cursor-pointer focus:outline-none">
           <ArrowUpOnSquareIcon className="w-5 h-5 mr-1 inline-block" />
           <p className="text-base">Déposez ici</p>
         </div>

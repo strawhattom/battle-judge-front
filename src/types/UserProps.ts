@@ -8,6 +8,7 @@ export type UserAPIProps = {
   username: string;
   email: string;
   role: 'admin' | 'participant' | 'judge';
+  team: UserTeamProps;
 };
 
 export interface UserRegisterAPIProps extends UserAPIProps {
@@ -16,7 +17,6 @@ export interface UserRegisterAPIProps extends UserAPIProps {
 }
 
 export interface UserInfoProps extends UserAPIProps {
-  team: UserTeamProps;
   token: string | null;
 }
 
@@ -27,10 +27,11 @@ export interface UserProfileProps extends UserInfoProps {
 export type BulkUsers = UserInfoProps[] | null;
 
 export type UserUpdateFromAdmin = {
-  username?: string;
-  email?: string;
-  team?: number;
-  role?: string;
+  id: number;
+  username: string;
+  email: string;
+  team: number;
+  role: string;
 };
 
 export type UserUpdateFromUser = {

@@ -57,8 +57,8 @@ export const router = createBrowserRouter([
         element: <ChallengePage />,
         loader: async () => {
           const [error, response] = await userAPI.getChallenges();
-          if (error) return [];
-          return response;
+          if (error) return {};
+          return response.data;
         }
       },
       {

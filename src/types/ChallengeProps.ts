@@ -31,12 +31,41 @@ export type FormChallengeProps = {
   flag: string;
   points: number;
   active?: boolean;
-  resources?: FileList | null | File[] | Array<ChallengeDocument>;
+  resources: FileList | [] | File[] | Array<ChallengeDocument>;
 };
 
-export type ChallengesProps = Array<ChallengeProps> | [];
+export type ChallengeLayoutProps = {
+  author: number;
+  points: number;
+  isCompleted: boolean;
+  title: string;
+  category: string;
+  description: string;
+  id: number;
+  _id: string;
+  resources?: Array<ChallengeDocument>;
+  // handleFile(fileUploaded: any): void;
+};
+
+export type BulkChallenges = Array<ChallengeProps> | [];
 
 export type ChallengesStateObject = {
-  active: ChallengesProps;
-  inactive: ChallengesProps;
+  active: BulkChallenges;
+  inactive: BulkChallenges;
+};
+
+export type ChallengeBattleProps = {
+  id: number;
+  _id: string;
+  author: number;
+  title: string;
+  category: string;
+  description: string;
+  points: number;
+  resources: Array<ChallengeDocument>;
+  isCompleted: boolean;
+};
+
+export type BulkChallengeBattle = {
+  [category: string]: ChallengeBattleProps[];
 };

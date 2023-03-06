@@ -35,6 +35,7 @@ export const AuthProvider: React.FC<IAuthContextProvider> = ({ children }) => {
 
   const loadLocalUser = async () => {
     try {
+      if (!localStorage.getItem('jwt')) return;
       setLoading(true);
       const userData = await getMe();
       if (!userData) {

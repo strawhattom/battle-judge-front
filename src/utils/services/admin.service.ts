@@ -15,7 +15,7 @@ export const loadUsers = async (): Promise<BulkUsers> => {
 
 export const loadTeams = async (): Promise<BulkTeams> => {
   const [error, response] = await api.get('teams');
-  if (error) return null;
+  if (error) return [];
   const teams: BulkTeams = response.data as BulkTeams;
   return teams;
 };
@@ -36,7 +36,7 @@ export const updateOne = async (
   id: number,
   data: UserUpdateFromAdmin
 ): Promise<boolean> => {
-  const [error, response] = await api.post(`users/${id}`, data);
+  const [error, response] = await api.patch(`users/${id}`, data);
   if (error) return false;
   return true;
 };

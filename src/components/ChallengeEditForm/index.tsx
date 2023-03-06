@@ -20,7 +20,7 @@ interface ChallengeState {
 }
 
 interface FileState {
-  files: FileList | File[] | null;
+  files: FileList | File[];
   isFilePicked: boolean;
 }
 
@@ -35,7 +35,7 @@ const initialState: ChallengeState = {
 };
 
 const fileInitialState: FileState = {
-  files: null,
+  files: [],
   isFilePicked: false
 };
 
@@ -43,12 +43,14 @@ const reducer = (
   state: ChallengeState,
   action: { type: string; payload: string }
 ) => {
+  if (action.type === 'points')
+    return { ...state, points: Number(action.payload) };
   return { ...state, [action.type]: action.payload };
 };
 
 const fileReducer = (
   state: FileState,
-  action: { type: string; payload: FileList | File[] | null }
+  action: { type: string; payload: FileList | File[] }
 ) => {
   switch (action.type) {
     case 'upload':
@@ -60,7 +62,7 @@ const fileReducer = (
     case 'clear':
       return {
         ...state,
-        files: null,
+        files: [],
         isFilePicked: false
       };
     case 'error':
@@ -164,10 +166,10 @@ const ChallengeForm: React.FC = () => {
       for (const key in challenge) {
         if (key === 'resources' && challenge[key] !== null) {
           for (const file of challenge[key]) {
-            formData.append('resources', file);
+            formData.append('resources', file as File);
           }
         } else {
-          formData.append(key, challenge[key]);
+          formData.append(key, (challenge as any)[key]);
         }
       }
       console.log(formData);
@@ -182,7 +184,7 @@ const ChallengeForm: React.FC = () => {
   return (
     <>
       <h1 className="text-4xl font-bold flex justify-center mt-3">
-        Edit challenge
+        Édition de l&apos;exercice {state.title}
       </h1>
       {state.error.length > 0 && <p className="text-base">{state.error}</p>}
       <form className="flex flex-col justify-center items-center mt-4">

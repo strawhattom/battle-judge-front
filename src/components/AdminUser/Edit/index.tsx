@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
-import { useLoaderData } from 'react-router-dom';
-import * as api from '@/utils/api';
+import { useLoaderData, useNavigate } from 'react-router-dom';
+import { updateOne } from '@/utils/services/admin.service';
 import { Input, Button, Select, Container } from '@/components';
 import { ROLES } from '@/utils/constants';
 import type { UserUpdateFromAdmin } from '@/types/UserProps';
@@ -14,6 +14,7 @@ const reducer = (
 
 const Edit: React.FC = () => {
   const data = useLoaderData() as UserUpdateFromAdmin;
+  const navigate = useNavigate();
   const [user, dispatch] = useReducer(reducer, data);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +35,10 @@ const Edit: React.FC = () => {
 
   const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log('Update user', user);
+    const updated = await updateOne(user.id, { ...user });
+    if (updated) {
+      navigate('/admin/users');
+    }
   };
   return (
     <Container cols={1}>

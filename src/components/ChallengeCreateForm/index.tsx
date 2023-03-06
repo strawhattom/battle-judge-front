@@ -18,7 +18,7 @@ interface ChallengeState {
 }
 
 interface FileState {
-  files: FileList | null;
+  files: FileList | File[] | [];
   isFilePicked: boolean;
 }
 
@@ -32,7 +32,7 @@ const initialState: ChallengeState = {
 };
 
 const fileInitialState: FileState = {
-  files: null,
+  files: [],
   isFilePicked: false
 };
 
@@ -45,7 +45,7 @@ const reducer = (
 
 const fileReducer = (
   state: FileState,
-  action: { type: string; payload: FileList }
+  action: { type: string; payload: FileList | File[] | [] }
 ) => {
   switch (action.type) {
     case 'upload':
@@ -57,7 +57,7 @@ const fileReducer = (
     case 'clear':
       return {
         ...state,
-        files: null,
+        files: [],
         isFilePicked: false
       };
     case 'message':
@@ -132,20 +132,19 @@ const ChallengeForm: React.FC = () => {
 
       for (const key in challenge) {
         if (key === 'resources' && challenge[key] !== null) {
-          // @ts-ignore
           for (const file of challenge[key]) {
-            formData.append('resources', file);
+            formData.append('resources', file as File);
           }
         } else {
-          // @ts-ignore
-          formData.append(key, challenge[key]);
+          formData.append(key, (challenge as any)[key]);
         }
       }
       console.log(formData);
       const data = await createOne(formData);
-      dispatch({ type: 'message', payload: 'Exercice crée !' });
+      dispatch({ type: 'message', payload: `Exercice "${data.title}" crée !` });
       console.log(data);
     } catch (err) {
+      dispatch({ type: 'message', payload: 'Une erreur est survenue' });
       return;
     }
   };
@@ -153,7 +152,7 @@ const ChallengeForm: React.FC = () => {
   return (
     <>
       <h1 className="text-4xl font-bold flex justify-center mt-3">
-        Create challenge
+        Création d&apos;un exercice
       </h1>
       {state.message.length > 0 && <p className="text-base">{state.message}</p>}
 
@@ -179,7 +178,7 @@ const ChallengeForm: React.FC = () => {
             label="Points"
             onChange={onChange}
             placeholder="Nombre de points"
-            value={300}
+            value={state.points}
           />
         </div>
 

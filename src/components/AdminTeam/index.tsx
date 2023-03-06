@@ -23,11 +23,11 @@ const AdminTeam: React.FC = () => {
         <table>
           <thead>
             <tr>
-              {Object.keys(teams[0]).map((key) => (
-                <th key={key}>{key}</th>
-              ))}
-              <th> Modifier </th>
-              <th> Supprimer </th>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Taille</th>
+              <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

@@ -43,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeTab }) => {
 
           <div>
             <NavLink activeTab={activeTab} path={paths.profile}>
-              Profile <ChevronDownIcon className="w-5 h-5 inline-block" />
+              Profil <ChevronDownIcon className="w-5 h-5 inline-block" />
             </NavLink>
           </div>
         </div>
