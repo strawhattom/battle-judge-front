@@ -9,8 +9,9 @@ const PrivateRoutes: React.FC = () => {
   const { user, isAuth, loading } = useAuth();
   const { pathname } = useLocation();
 
-  if (loading) return <LinearProgress />;
+  console.log(user, isAuth, loading);
   if (!isAuth) return <Navigate to="/login" />;
+  if (loading) return <LinearProgress />;
 
   const isAdmin = user?.role === 'admin';
 
