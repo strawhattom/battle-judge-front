@@ -18,6 +18,7 @@ type BattleTeamsResponse = {
   teams: Team[];
 };
 
+// Définition d'un objet qui simule une réponse d'API pour afficher des équipes en attendant la réponse réelle
 const responseMeanwhile: BattleTeamsResponse = {
   teams: [
     {
@@ -42,15 +43,19 @@ const responseMeanwhile: BattleTeamsResponse = {
 };
 
 const Team = (props: TeamProps) => {
+  // Définition d'un état pour stocker les équipes récupérées depuis l'API
   const [teams, setTeams] = useState<Team[]>([]);
 
+  // Utilisation de useEffect pour effectuer une action à chaque fois que l'id des équipes change
   useEffect(() => {
+    // Simulation d'un appel à une API pour récupérer les équipes
     setTeams(responseMeanwhile.teams);
   }, [props.id]);
 
   return (
     <div className="team-container">
       <h1 className="text-4xl text-center mt-8 mb-8 font-bold">Equipes</h1>
+      {/* Affichage de chaque équipe dans une carte */}
       {teams.map((team) => (
         <div key={team.id} className="team-card">
           <Link to={`/team/${team.name}`}>
