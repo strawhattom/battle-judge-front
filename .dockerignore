@@ -1,0 +1,11 @@
+**/node_modules/
+**/build/
+**/.idea/
+**/.husky/
+**/.vscode/
+**/build/
+
+# Config
+
+.eslint*
+.prettier*

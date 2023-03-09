@@ -20,6 +20,7 @@ import NavLink from '@/components/NavLink';
 import Input from '@/components/Input';
 import Select from '@/components/Input/Select';
 import InputFile from '@/components/Input/InputFile';
+import SelectTeam from '@/components/SelectTeam';
 
 export {
   AdminChallenge,
@@ -43,5 +44,6 @@ export {
   NavLink,
   Input,
   Select,
-  InputFile
+  InputFile,
+  SelectTeam
 };

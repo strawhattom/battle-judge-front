@@ -39,15 +39,14 @@ export const AuthProvider: React.FC<IAuthContextProvider> = ({ children }) => {
       setLoading(true);
       const userData = await getMe();
       if (!userData) {
-        setLoading(false);
-        return logout();
+        throw new Error('No user found');
       }
       setIsAuth(true);
-      setLoading(false);
-      return setUser(userData);
+      setUser(userData);
     } catch (error) {
-      setLoading(false);
       logout();
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,7 +58,6 @@ export const AuthProvider: React.FC<IAuthContextProvider> = ({ children }) => {
     username: string,
     password: string
   ): Promise<LoginResponse> => {
-    // deconstruis le résultat `response` en prenant que la valeur de `data` (voir api.ts)
     const [error, response] = await loginHandler(username, password);
     // Si il y a une erreur ou si le status est 404 ou si la réponse est un texte (message erreur)
     if (error || response.status === 404 || typeof response.data === 'string') {
