@@ -5,7 +5,7 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-COPY package*.json .
+COPY package*.json ./
 
 # RUN apk add --no-cache xdg-utils
 
