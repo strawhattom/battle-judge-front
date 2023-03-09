@@ -1,23 +1,45 @@
+import React, { useEffect, useCallback } from 'react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import React from 'react';
 import { Button, Input } from '@/components';
 import { BulkTeams } from '@/types/TeamProps';
+import { useAuth } from '@/contexts/AuthContext';
+import { getTeams, createTeam, joinTeam } from '@/utils/services/user.service';
+import { UserTeamProps } from '@/types/UserProps';
 
-type SelectTeamProps = {
-  onJoinTeam: (id: number) => void;
-  onCreateTeam: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  setTeam: (team: string) => void;
-  team: string;
-  availableTeam: BulkTeams;
-};
+const SelectTeam: React.FC = () => {
+  const { user } = useAuth();
+  const [currentTeam, setCurrentTeam] = React.useState<UserTeamProps>(null);
+  const [availableTeam, setAvailableTeam] = React.useState<BulkTeams>([]);
+  const [newTeam, setNewTeam] = React.useState<string>('');
 
-const SelectTeam: React.FC<SelectTeamProps> = ({
-  onJoinTeam,
-  onCreateTeam,
-  setTeam,
-  team,
-  availableTeam
-}) => {
+  const onCreateTeam = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    const created = await createTeam(newTeam);
+    if (created) {
+      loadTeams();
+    }
+  };
+
+  const onJoinTeam = async (id: number) => {
+    const [joined, data] = await joinTeam(id);
+    if (joined && data) {
+      setCurrentTeam(data.team);
+    }
+  };
+
+  const loadTeams = useCallback(async () => {
+    const teams = await getTeams();
+    setAvailableTeam(teams);
+  }, []);
+
+  useEffect(() => {
+    if (!user?.team) {
+      loadTeams();
+    }
+  }, []);
+
   return (
     <>
       <h2 className="text-xl font-bold text-center text-red-500">
@@ -55,8 +77,8 @@ const SelectTeam: React.FC<SelectTeamProps> = ({
             type="text"
             name="Nom d'équipe"
             label="Nom d'équipe"
-            onChange={(e) => setTeam(e.currentTarget.value)}
-            value={team}
+            onChange={(e) => setNewTeam(e.currentTarget.value)}
+            value={newTeam}
             placeholder="Nom d'équipe"
           />
           <div className="profile-create-btn">

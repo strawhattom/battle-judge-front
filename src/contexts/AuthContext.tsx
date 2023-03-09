@@ -39,8 +39,7 @@ export const AuthProvider: React.FC<IAuthContextProvider> = ({ children }) => {
       setLoading(true);
       const userData = await getMe();
       if (!userData) {
-        setLoading(false);
-        return logout();
+        throw new Error('No user found');
       }
       setIsAuth(true);
       setUser(userData);

@@ -55,10 +55,10 @@ const Register: React.FC = () => {
     e.preventDefault();
     dispatch({ type: 'loading', payload: 'true' });
     const { username, email, password } = state;
-    const response = await registerHandler(username, password, email); // null or user object
+    const [error, response] = await registerHandler(username, password, email); // null or user object
     dispatch({
       type: 'message',
-      payload: response
+      payload: !error
         ? 'Utilisateur crée !'
         : 'Une erreur est survenue, veuillez réessayer'
     });

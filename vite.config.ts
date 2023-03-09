@@ -7,9 +7,11 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   plugins: [react(), viteTsconfigPaths(), svgrPlugin(), VitePWA()],
   build: {
-    outDir: 'build'
+    outDir: 'dist'
   },
   server: {
-    open: true
+    open: true,
+    port: 5173,
+    strictPort: true
   }
 });

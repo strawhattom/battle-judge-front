@@ -13,7 +13,6 @@ import {
 } from '@/utils/services/user.service';
 import { BulkTeams } from '@/types/TeamProps';
 import { Input, Container, SelectTeam } from '@/components';
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 export const loader = async () => {
   return await getMe();
@@ -149,64 +148,7 @@ const Profile: React.FC = () => {
       <h1 className="text-4xl text-center mt-8 mb-8 font-bold">Profil</h1>
 
       {!state.team ? (
-        // <>
-        //   <h2 className="text-xl font-bold text-center text-red-500">
-        //     <ExclamationTriangleIcon className="w-5 h-5 mr-1 inline-block text-red-500" />
-        //     {"Tu n'as pas d'équipe !"}
-        //   </h2>
-        //   <div className="bg-gray-200 w-9/12 p-8 ml-auto mr-auto mb-16 rounded-xl">
-        //     <table className="ml-auto mr-auto w-4/5 text-center">
-        //       <thead>
-        //         <tr className="h-12 border-b border-black">
-        //           <th>{"Nom de l'équipe"}</th>
-        //           <th>{'Taille'}</th>
-        //           <th></th>
-        //         </tr>
-        //       </thead>
-        //       <tbody>
-        //         {availableTeam.map((team, index) => (
-        //           <tr key={index} className="h-12 border-b border-black">
-        //             <td>{team.name}</td>
-        //             <td>{team.members}</td>
-        //             <td>
-        //               <Button
-        //                 onClick={() => onJoinTeam(team.id)}
-        //                 color="orange"
-        //               >
-        //                 {'Rejoindre'}
-        //               </Button>
-        //             </td>
-        //           </tr>
-        //         ))}
-        //       </tbody>
-        //     </table>
-        //   </div>
-        //   <h2 className="text-xl font-bold text-center">Créer une équipe</h2>
-        //   <div className="flex justify-center">
-        //     <div className="flex flex-col items-center bg-gray-200 mb-8 pt-4 pb-4 rounded-xl px-4">
-        //       <Input
-        //         type="text"
-        //         name="Nom d'équipe"
-        //         label="Nom d'équipe"
-        //         onChange={(e) => setTeam(e.currentTarget.value)}
-        //         value={team}
-        //         placeholder="Nom d'équipe"
-        //       />
-        //       <div className="profile-create-btn">
-        //         <Button onClick={onCreateTeam} color="green">
-        //           {'Créer une équipe'}
-        //         </Button>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </>
-        <SelectTeam
-          availableTeam={availableTeam}
-          onJoinTeam={onJoinTeam}
-          onCreateTeam={onCreateTeam}
-          team={team}
-          setTeam={setTeam}
-        />
+        <SelectTeam />
       ) : (
         <div className="flex justify-center items-center">
           <p className="text-base mx-4">Équipe {state.team.name}</p>
