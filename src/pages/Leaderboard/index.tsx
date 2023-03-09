@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-// import { Line } from 'react-chartjs-2';
-// import { ChartOptions } from 'chart.js';
 import {
   Chart,
   LinearScale,
@@ -11,9 +9,11 @@ import {
 } from 'chart.js';
 import ScoreGraph from '@/components/ScoreGraph';
 
+// On enregistre les composants Chart.js qu'on va utiliser
 Chart.register(LinearScale, PointElement, Tooltip, Legend, TimeScale);
 
 const Leaderboard = () => {
+  // On initialise notre state avec un tableau contenant des objets de données
   const [tableData, setTableData] = useState([
     { rank: 1, name: 'Team A', points: 20 },
     { rank: 2, name: 'Team B', points: 18 },
@@ -27,7 +27,8 @@ const Leaderboard = () => {
   return (
     <div>
       <h1 className="text-4xl text-center mt-8 mb-8 font-bold">Classement</h1>
-      <ScoreGraph />
+      <ScoreGraph />{' '}
+      {/* On appelle un composant ScoreGraph qui n'est pas inclus dans ce code */}
       <table>
         <thead>
           <tr>
@@ -38,6 +39,7 @@ const Leaderboard = () => {
         </thead>
         <tbody>
           {tableData.map((team, index) => (
+            // On boucle sur notre tableau de données et on affiche chaque ligne du tableau avec les données de chaque objet
             <tr key={index}>
               <td>{team.rank}</td>
               <td>{team.name}</td>

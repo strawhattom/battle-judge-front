@@ -9,6 +9,7 @@ import {
   Legend
 } from 'recharts';
 
+// Exemple de données pour les graphiques
 const data = [
   { team: 'Team A', time: '10:00', score: 10 },
   { team: 'Team A', time: '11:00', score: 15 },
@@ -24,8 +25,10 @@ const data = [
   { team: 'Team C', time: '13:00', score: 20 }
 ];
 
-const colors = ['#8884d8', '#82ca9d', '#ffc658']; // Array of colors for each team
+// Couleurs utilisées pour chaque équipe
+const colors = ['#8884d8', '#82ca9d', '#ffc658'];
 
+// Type pour les données de chaque équipe, qui sont stockées dans un objet indexé par équipe
 interface TeamData {
   [team: string]: {
     team: string;
@@ -35,7 +38,7 @@ interface TeamData {
 }
 
 const ScoreGraph = () => {
-  // Group data by team
+  // Regrouper les données par équipe
   const teamData: TeamData = {};
   const times = new Set();
   data.forEach((item) => {
@@ -46,6 +49,7 @@ const ScoreGraph = () => {
     teamData[item.team].push(item);
   });
 
+  // Créer une ligne pour chaque équipe
   const lines = Object.keys(teamData).map((team, index) => {
     return (
       <Line
@@ -60,13 +64,16 @@ const ScoreGraph = () => {
     );
   });
 
+  // Créer une liste ordonnée des horaires dans les données
   const timeList = Array.from(times);
 
   return (
+    // Composant graphique avec les axes, grille, légende, tooltip et les lignes pour chaque équipe
     <LineChart width={600} height={300}>
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis
         dataKey="time"
+        // Filtrer les horaires dupliqués pour les afficher sur l'axe des X
         ticks={
           timeList.filter(
             (value, index, self) => self.indexOf(value) === index
