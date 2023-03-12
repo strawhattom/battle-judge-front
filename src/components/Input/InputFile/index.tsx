@@ -7,7 +7,7 @@ export interface InputProps {
   name: string;
   value?: string | number;
   label?: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void; // la fonction à appeler lorsque l'input change
 }
 
 const InputFile: React.FC<InputProps> = ({ name, value, onChange, label }) => {

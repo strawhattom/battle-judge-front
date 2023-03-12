@@ -1,6 +1,4 @@
-// const defaultUrl = 'http://localhost:3000/api';
-// const base = import.meta.env.PROD ? import.meta.env.VITE_API_URL : defaultUrl;
-const base = 'http://localhost:3000/api';
+const base = `http://localhost:3000`;
 
 interface APIProps {
   method: string;
@@ -11,12 +9,12 @@ interface APIProps {
 interface RequestInitHeader extends RequestInit {
   headers: {
     'Content-Type'?: string;
-    'Access-Control-Allow-Origin'?: string;
     Authorization?: string;
   };
 }
 
 // http request returns error: true or false, response: string or object
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Response = [
   boolean,
   {
@@ -30,7 +28,6 @@ async function send({ method, path, data }: APIProps): Promise<Response> {
 
   if (!(data instanceof FormData)) {
     opts.headers['Content-Type'] = 'application/json';
-    opts.headers['Access-Control-Allow-Origin'] = '*';
     opts.body = JSON.stringify(data);
   } else {
     opts.body = data;

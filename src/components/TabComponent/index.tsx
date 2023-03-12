@@ -8,12 +8,6 @@ import {
 } from '@/types/ChallengeProps';
 import { Input, Button, InputFile } from '@/components';
 
-// points={props.points}
-//           isCompleted={props.isCompleted}
-//           title={props.title}
-//           category={props.category}
-//           description={props.description}
-
 type TabComponentProps = {
   points: number;
   isCompleted: boolean;
@@ -23,11 +17,14 @@ type TabComponentProps = {
   resources?: ChallengeDocument[];
 };
 
+// Composant TabComponent qui reçoit les props et affiche les informations d'un onglet
 const TabComponent: React.FC<TabComponentProps> = (props) => {
+  // Gestionnaire d'événements pour le bouton de soumission
   const onSubmit = () => {
     console.log('submit');
   };
 
+  // Gestionnaire d'événements pour le bouton de téléchargement
   const onDownload = () => {
     fetch('SamplePDF.pdf').then((response) => {
       response.blob().then((blob) => {
@@ -35,21 +32,20 @@ const TabComponent: React.FC<TabComponentProps> = (props) => {
         const alink = document.createElement('a');
         alink.href = fileURL;
         alink.download = 'SamplePDF.pdf';
-        alink.click();
+        alink.click(); // Clique automatiquement sur le lien de téléchargement
       });
     });
   };
 
-  // const hiddenFileInput = React.useRef(null);
-
+  // Gestionnaire d'événements pour l'élément d'entrée de fichier
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event?.target?.files?.length) {
       return;
     }
-    const fileUploaded = event.target.files[0];
-    // props.handleFile(fileUploaded);
+    const fileUploaded = event.target.files[0]; // Stocke le fichier téléchargé dans la variable
   };
 
+  // Gestionnaire d'événements pour le changement
   const onChange = () => {
     console.log('change');
   };
@@ -93,11 +89,7 @@ const TabComponent: React.FC<TabComponentProps> = (props) => {
                     placeholder="Flag"
                   />
 
-                  <InputFile
-                    // ref={hiddenFileInput}
-                    name="file"
-                    onChange={handleChange}
-                  />
+                  <InputFile name="file" onChange={handleChange} />
                 </div>
               </form>
             </div>
