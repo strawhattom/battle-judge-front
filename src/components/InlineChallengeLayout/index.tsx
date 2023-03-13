@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { activateOne, disableOne } from '@/utils/services/challenge.service';
 import Button from '@/components/Button';
 
+// On définit les types des propriétés passées au composant
 export type InlineChallengeLayoutProps = {
   id: number;
   title: string;
@@ -18,18 +19,24 @@ const InlineChallengeLayout: React.FC<InlineChallengeLayoutProps> = ({
   points,
   active
 }) => {
+  // On utilise le hook useState pour gérer l'état d'activation du challenge
   const [isChallengeActive, setIsChallengeActive] = React.useState(active);
+
+  // On utilise le hook useNavigate pour pouvoir rediriger vers une autre page
   const navigate = useNavigate();
 
+  // Gestionnaire d'événement du bouton 'edit'
   const editHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log('edit');
     navigate(`/admin/challenges/edit/${id}`);
   };
 
+  // Gestionnaire d'événement du bouton 'Activer'
   const activeHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
+      // On active le challenge
       const challenge = await activateOne(id);
       if (challenge) {
         console.log(`enable ${id}`);
@@ -42,12 +49,14 @@ const InlineChallengeLayout: React.FC<InlineChallengeLayoutProps> = ({
     }
   };
 
+  // Gestionnaire d'événement du bouton 'Désactiver'
   const disableHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
+      // On désactive le challenge
       const challenge = await disableOne(id);
       if (challenge) {
-        console.log(`desactive ${id}`);
+        console.log(`disable ${id}`);
         setIsChallengeActive(false);
       } else {
         throw new Error('Could not disable challenge');
