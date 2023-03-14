@@ -1,6 +1,8 @@
-// const defaultUrl = 'http://localhost:3000/api';
-// const base = import.meta.env.PROD ? import.meta.env.VITE_API_URL : defaultUrl;
-const base = 'http://localhost:3000/api';
+// const prodUrl = 'https://api.example.com';
+// il faut bien mettre le bon endpoint de l'API dans la conf nginx pour le déploiement en prod
+const base = import.meta.env.PROD
+  ? import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api'
+  : 'http://localhost:3000/api';
 
 interface APIProps {
   method: string;
@@ -16,7 +18,7 @@ interface RequestInitHeader extends RequestInit {
   };
 }
 
-// http request returns error: true or false, response: string or object
+// Les réponses des requêtes retournes la forme suivante : [vrai ou faux, {données, status}]
 export type Response = [
   boolean,
   {
