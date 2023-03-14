@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { EMAIL_REGEX } from '@/utils/constants';
 import { registerHandler } from '@/utils/services/auth.service';
 
+// Définition de l'interface RegisterState
 interface RegisterState {
   username: string;
   email: string;
@@ -16,6 +17,7 @@ interface RegisterState {
   message: string;
 }
 
+// Définition de l'état initial
 const initialState: RegisterState = {
   username: '',
   email: '',
@@ -25,44 +27,49 @@ const initialState: RegisterState = {
   message: ''
 };
 
+// Fonction pour valider l'état de l'inscription
 const validateState = (state: RegisterState) => {
   return (
-    state.password.length >= 3 &&
-    state.password === state.passwordRepeat &&
-    state.email.match(EMAIL_REGEX)
+    state.password.length >= 3 && // Vérification que le mot de passe a au moins 3 caractères
+    state.password === state.passwordRepeat && // Vérification que les deux mots de passe correspondent
+    state.email.match(EMAIL_REGEX) // Vérification que l'email correspond à un format valide (défini ailleurs)
   );
 };
 
+// Fonction réductrice pour gérer les actions
 const reducer = (
-  state: RegisterState,
-  action: { type: string; payload: string }
+  state: RegisterState, // État actuel
+  action: { type: string; payload: string } // Action à effectuer
 ) => {
-  return { ...state, [action.type]: action.payload };
+  return { ...state, [action.type]: action.payload }; // Retourne un nouvel état avec la propriété modifiée par l'action
 };
 
+// Composant Register
 const Register: React.FC = () => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState); // Initialise l'état et la fonction pour effectuer des actions
 
+  // Fonction appelée lorsqu'un champ de saisie est modifié
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const action = {
-      type: e.currentTarget.name,
-      payload: e.currentTarget.value
+      type: e.currentTarget.name, // Le nom de la propriété à modifier correspond au nom de l'élément HTML
+      payload: e.currentTarget.value // La nouvelle valeur est la valeur saisie dans l'élément HTML
     };
-    dispatch(action);
+    dispatch(action); // Effectue l'action
   };
 
+  // Fonction appelée lorsqu'un formulaire est soumis
   const onSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    dispatch({ type: 'loading', payload: 'true' });
-    const { username, email, password } = state;
-    const [error, response] = await registerHandler(username, password, email); // null or user object
+    e.preventDefault(); // Empêche le comportement par défaut du formulaire
+    dispatch({ type: 'loading', payload: 'true' }); // Modifie l'état pour signaler que la requête est en cours
+    const { username, email, password } = state; // Récupère les informations saisies
+    const response = await registerHandler(username, password, email); // Effectue la requête (définie ailleurs)
     dispatch({
       type: 'message',
-      payload: !error
-        ? 'Utilisateur crée !'
+      payload: response // Modifie le message en fonction de la réponse de la requête
+        ? 'Utilisateur créé !'
         : 'Une erreur est survenue, veuillez réessayer'
     });
-    dispatch({ type: 'loading', payload: 'false' });
+    dispatch({ type: 'loading', payload: 'false' }); // Modifie l'état pour signaler que la requête est terminée
   };
 
   return (

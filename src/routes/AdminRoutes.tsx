@@ -8,8 +8,8 @@ const AdminRoutes: React.FC = () => {
   const { isAuth, user, loading } = useAuth();
   const { pathname } = useLocation();
 
-  if (!isAuth) return <Navigate to="/login" />;
   if (loading) return <LinearProgress />;
+  if (!isAuth) return <Navigate to="/login" />;
   if (user?.role !== 'admin') return <Navigate to="/" />;
 
   return (

@@ -36,31 +36,37 @@ const fileInitialState: FileState = {
   isFilePicked: false
 };
 
+// Définition du reducer pour les états de formulaire du challenge
 const reducer = (
   state: ChallengeState,
   action: { type: string; payload: string }
 ) => {
+  // Modifie l'état du champ correspondant à l'action en utilisant le nom de la clé et la valeur de la payload
   return { ...state, [action.type]: action.payload };
 };
 
+// Définition du reducer pour les fichiers uploadés
 const fileReducer = (
   state: FileState,
   action: { type: string; payload: FileList | File[] | [] }
 ) => {
   switch (action.type) {
     case 'upload':
+      // Met à jour les fichiers uploadés et change l'état pour signaler qu'un fichier a été sélectionné
       return {
         ...state,
         files: action.payload,
         isFilePicked: true
       };
     case 'clear':
+      // Supprime tous les fichiers sélectionnés et change l'état pour signaler qu'aucun fichier n'a été sélectionné
       return {
         ...state,
         files: [],
         isFilePicked: false
       };
     case 'message':
+      // Met à jour le message d'état de l'upload
       return {
         ...state,
         message: action.payload
@@ -70,7 +76,9 @@ const fileReducer = (
   }
 };
 
+// Fonction de validation de formulaire
 const validateForm = (state: ChallengeState) => {
+  // Vérifie que tous les champs sont remplis avec des valeurs valides
   return (
     state.title.length > 0 &&
     state.category.length > 0 &&
@@ -80,32 +88,44 @@ const validateForm = (state: ChallengeState) => {
   );
 };
 
+// Définition du composant ChallengeForm
 const ChallengeForm: React.FC = () => {
+  // Initialisation du state du formulaire avec useReducer
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // Initialisation du state des fichiers avec useReducer
   const [fileState, dispatchFile] = useReducer(fileReducer, fileInitialState);
 
+  // Gestion des événements de changement d'input pour le formulaire
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    // Création de l'action à partir des valeurs de l'input
     const action = {
       type: e.currentTarget.name,
       payload: e.currentTarget.value
     };
+    // Dispatch de l'action vers le reducer pour mettre à jour le state du formulaire
     dispatch(action);
   };
 
+  // Gestion des événements de changement de fichier pour le formulaire
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Récupération des fichiers sélectionnés
     const files = e.target.files;
     if (files) {
+      // Dispatch de l'action vers le reducer pour mettre à jour le state des fichiers
       dispatchFile({ type: 'upload', payload: files });
     }
   };
 
+  // Gestion des événements de suppression des fichiers sélectionnés pour le formulaire
   const handleFilesClear = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     if (fileState.files) {
+      // Dispatch de l'action vers le reducer pour supprimer les fichiers sélectionnés du state des fichiers
       dispatchFile({ type: 'clear', payload: fileState.files });
     }
   };
@@ -115,7 +135,9 @@ const ChallengeForm: React.FC = () => {
   ) => {
     e.preventDefault();
 
+    // Vérifier si le formulaire est valide
     if (!validateForm(state)) {
+      // Si non valide, envoyer un message d'erreur
       dispatch({
         type: 'message',
         payload: 'Veuillez remplir tous les champs'
@@ -123,27 +145,36 @@ const ChallengeForm: React.FC = () => {
       return;
     }
 
+    // Créer un objet challenge avec les informations du formulaire et les fichiers sélectionnés
     const challenge: FormChallengeProps = {
       ...state,
       resources: fileState.files
     };
     try {
+      // Créer un objet FormData pour envoyer les données du formulaire
       const formData = new FormData();
 
+      // Parcourir l'objet challenge et ajouter chaque champ au FormData
       for (const key in challenge) {
+        // Si la clé est "resources" et qu'il y a des fichiers sélectionnés, ajouter chaque fichier séparément
         if (key === 'resources' && challenge[key] !== null) {
           for (const file of challenge[key]) {
             formData.append('resources', file as File);
           }
         } else {
+          // Sinon, ajouter le champ avec sa clé et sa valeur correspondante
           formData.append(key, (challenge as any)[key]);
         }
       }
-      console.log(formData);
+
+      // Envoyer les données du formulaire au backend pour créer un nouvel exercice
       const data = await createOne(formData);
-      dispatch({ type: 'message', payload: `Exercice "${data.title}" crée !` });
+
+      // Afficher un message de succès avec le titre de l'exercice créé
+      dispatch({ type: 'message', payload: `Exercice "${data.title}" créé !` });
       console.log(data);
     } catch (err) {
+      // En cas d'erreur, envoyer un message d'erreur
       dispatch({ type: 'message', payload: 'Une erreur est survenue' });
       return;
     }

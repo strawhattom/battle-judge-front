@@ -39,56 +39,70 @@ const fileInitialState: FileState = {
   isFilePicked: false
 };
 
+// La fonction reducer sert à mettre à jour le state du formulaire.
 const reducer = (
-  state: ChallengeState,
-  action: { type: string; payload: string }
+  state: ChallengeState, // L'état actuel du formulaire
+  action: { type: string; payload: string } // La nouvelle action à exécuter
 ) => {
+  // Si l'action est 'points', on met à jour les points du formulaire avec le nouveau payload.
   if (action.type === 'points')
     return { ...state, points: Number(action.payload) };
+  // Sinon, on met à jour le state avec le champ concerné et sa nouvelle valeur.
   return { ...state, [action.type]: action.payload };
 };
 
+// La fonction fileReducer sert à mettre à jour le state des fichiers sélectionnés pour le formulaire.
 const fileReducer = (
-  state: FileState,
-  action: { type: string; payload: FileList | File[] }
+  state: FileState, // L'état actuel des fichiers sélectionnés
+  action: { type: string; payload: FileList | File[] } // La nouvelle action à exécuter
 ) => {
   switch (action.type) {
+    // Si l'action est 'upload', on met à jour les fichiers avec les nouveaux fichiers sélectionnés et on met à jour le booléen isFilePicked à true.
     case 'upload':
       return {
         ...state,
         files: action.payload,
         isFilePicked: true
       };
+    // Si l'action est 'clear', on efface les fichiers sélectionnés et on met à jour le booléen isFilePicked à false.
     case 'clear':
       return {
         ...state,
         files: [],
         isFilePicked: false
       };
+    // Si l'action est 'error', on met à jour l'erreur à afficher pour les fichiers sélectionnés.
     case 'error':
       return {
         ...state,
         error: action.payload
       };
+    // Par défaut, on ne modifie pas le state.
     default:
       return state;
   }
 };
 
+// La fonction validateForm sert à vérifier que tous les champs obligatoires du formulaire sont remplis.
 const validateForm = (state: ChallengeState) => {
   return (
-    state.title.length > 0 &&
-    state.category.length > 0 &&
-    state.points > 0 &&
-    state.description.length > 0 &&
-    state.flag.length > 0
+    state.title.length > 0 && // Titre non vide
+    state.category.length > 0 && // Catégorie non vide
+    state.points > 0 && // Points positifs
+    state.description.length > 0 && // Description non vide
+    state.flag.length > 0 // Flag non vide
   );
 };
 
+// Le composant ChallengeForm est un formulaire permettant d'éditer un challenge.
 const ChallengeForm: React.FC = () => {
+  // On récupère les données du challenge à éditer.
   const data = useLoaderData() as ChallengeProps;
+  // On récupère la fonction navigate pour pouvoir rediriger l'utilisateur si nécessaire.
   const navigate = useNavigate();
+  // On utilise useReducer pour gérer l'état du formulaire.
   const [state, dispatch] = useReducer(reducer, initialState);
+  // On utilise useReducer pour gérer l'état des fichiers sélectionnés.
   const [fileState, dispatchFile] = useReducer(fileReducer, fileInitialState);
 
   React.useEffect(() => {
@@ -148,11 +162,13 @@ const ChallengeForm: React.FC = () => {
   ) => {
     e.preventDefault();
 
+    // Vérifie que le formulaire est valide, sinon affiche une erreur
     if (!validateForm(state)) {
       dispatch({ type: 'error', payload: 'Veuillez remplir tous les champs' });
       return;
     }
 
+    // Crée un objet challenge à partir des états de l'application et des fichiers uploadés
     const challenge: FormChallengeProps = {
       ...state,
       resources: fileState.files
@@ -161,21 +177,28 @@ const ChallengeForm: React.FC = () => {
     console.log(challenge['resources']);
 
     try {
+      // Crée un objet FormData pour envoyer les données à l'API
       const formData = new FormData();
 
+      // Parcourt les propriétés de l'objet challenge
       for (const key in challenge) {
+        // Si la propriété est "resources" et qu'il y a des fichiers uploadés, les ajoute à FormData
         if (key === 'resources' && challenge[key] !== null) {
           for (const file of challenge[key]) {
             formData.append('resources', file as File);
           }
         } else {
+          // Sinon, ajoute la propriété à FormData
           formData.append(key, (challenge as any)[key]);
         }
       }
       console.log(formData);
+
+      // Envoie les données à l'API pour éditer le challenge
       const data = await editOne(state.id, formData);
       console.log(data);
     } catch (err) {
+      // En cas d'erreur, affiche l'erreur dans la console
       console.error(err);
       return;
     }
