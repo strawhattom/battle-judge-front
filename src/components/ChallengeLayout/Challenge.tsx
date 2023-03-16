@@ -1,7 +1,7 @@
-import React, { useState } from 'react'; // Import de React et useState
-import type { ChallengeLayoutProps } from '@/types/ChallengeProps'; // Import du type ChallengeLayoutProps
-import Modal from 'react-modal'; // Import de Modal
-import TabComponent from '@/components/TabComponent'; // Import de TabComponent
+import React, { useState } from 'react';
+import type { ChallengeLayoutProps } from '@/types/ChallengeProps';
+import Modal from 'react-modal';
+import TabComponent from '@/components/TabComponent';
 
 const customStyles = {
   overlay: {

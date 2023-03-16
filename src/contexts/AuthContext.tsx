@@ -35,19 +35,18 @@ export const AuthProvider: React.FC<IAuthContextProvider> = ({ children }) => {
 
   const loadLocalUser = async () => {
     try {
-      if (!localStorage.getItem('jwt')) return;
       setLoading(true);
+      if (!localStorage.getItem('jwt')) throw new Error('No token found');
       const userData = await getMe();
       if (!userData) {
-        setLoading(false);
-        return logout();
+        throw new Error('No user found');
       }
       setIsAuth(true);
-      setLoading(false);
-      return setUser(userData);
+      setUser(userData);
     } catch (error) {
-      setLoading(false);
       logout();
+    } finally {
+      setLoading(false);
     }
   };
 
