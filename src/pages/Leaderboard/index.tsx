@@ -27,27 +27,31 @@ const Leaderboard = () => {
   return (
     <div>
       <h1 className="text-4xl text-center mt-8 mb-8 font-bold">Classement</h1>
-      <ScoreGraph />{' '}
-      {/* On appelle un composant ScoreGraph qui n'est pas inclus dans ce code */}
-      <table>
-        <thead>
-          <tr>
-            <th>Rang</th>
-            <th>Nom</th>
-            <th>Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableData.map((team, index) => (
-            // On boucle sur notre tableau de données et on affiche chaque ligne du tableau avec les données de chaque objet
-            <tr key={index}>
-              <td>{team.rank}</td>
-              <td>{team.name}</td>
-              <td>{team.points}</td>
+      <div className="flex justify-center m-12">
+        <ScoreGraph />{' '}
+        {/* On appelle un composant ScoreGraph qui n'est pas inclus dans ce code */}
+      </div>
+      <div className="flex justify-center ">
+        <table className="  text-center  w-1/2 ">
+          <thead className=" text-gray-900  bg-gray-300 ">
+            <tr>
+              <th className="py-2">Rang</th>
+              <th>Nom</th>
+              <th>Points</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {tableData.map((team, index) => (
+              // On boucle sur notre tableau de données et on affiche chaque ligne du tableau avec les données de chaque objet
+              <tr key={index} className="border-b">
+                <td className="py-2">{team.rank}</td>
+                <td>{team.name}</td>
+                <td>{team.points}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
