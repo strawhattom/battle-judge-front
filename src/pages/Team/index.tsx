@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import './index.css';
 
 type Team = {
   id: string;
   name: string;
   description: string;
   score: number;
+
+  teamMemberName: string[];
+  teamMemberScore: number[];
 };
 
 type TeamProps = {
@@ -25,19 +26,25 @@ const responseMeanwhile: BattleTeamsResponse = {
       id: '1',
       name: 'Équipe Alpha',
       description: 'Une équipe de programmeurs chevronnés',
-      score: 1200
+      score: 1200,
+      teamMemberName: ['John', 'Alice', 'Bob', 'Eve', 'Charlie'],
+      teamMemberScore: [14, 22, 73, 14, 95]
     },
     {
       id: '2',
       name: 'Équipe Beta',
       description: 'Une équipe de débutants motivés',
-      score: 800
+      score: 800,
+      teamMemberName: ['Dorian', 'Paul', 'Catherine', 'Leo', 'Charles'],
+      teamMemberScore: [29, 11, 30, 3, 98]
     },
     {
       id: '3',
       name: 'Équipe Gamma',
       description: 'Une équipe de hackers éthiques',
-      score: 1500
+      score: 1500,
+      teamMemberName: ['Kevin', 'Clara', 'Thomas', 'Eleonore', 'David'],
+      teamMemberScore: [11, 20, 53, 24, 85]
     }
   ]
 };
@@ -46,6 +53,12 @@ const Team = (props: TeamProps) => {
   // Définition d'un état pour stocker les équipes récupérées depuis l'API
   const [teams, setTeams] = useState<Team[]>([]);
 
+  const [selectedTeam, setSelectedTeam] = useState<Team | undefined>(undefined);
+
+  const handleRowClick = (team: Team) => {
+    setSelectedTeam(team);
+  };
+
   // Utilisation de useEffect pour effectuer une action à chaque fois que l'id des équipes change
   useEffect(() => {
     // Simulation d'un appel à une API pour récupérer les équipes
@@ -53,21 +66,59 @@ const Team = (props: TeamProps) => {
   }, [props.id]);
 
   return (
-    <div className="team-container">
-      <h1 className="text-4xl text-center mt-8 mb-8 font-bold">Equipes</h1>
-      {/* Affichage de chaque équipe dans une carte */}
-      {teams.map((team) => (
-        <div key={team.id} className="team-card">
-          <Link to={`/team/${team.name}`}>
-            <div className="team-card-body">
-              <h2 className="team-card-title">{team.name}</h2>
-              <p className="team-card-description">{team.description}</p>
-              <p className="team-card-score">Score: {team.score}</p>
-            </div>
-          </Link>
+    <>
+      <h1 className="mt-8 mb-8 text-center text-4xl font-bold">Equipes</h1>
+      <div className="grid grid-cols-3 ">
+        {/* Affichage de chaque équipe dans une carte */}
+        <div className="col-span-2 ">
+          <div className="flex justify-center ">
+            <table className="  w-9/12  text-center ">
+              <thead className=" border-b text-gray-900 ">
+                <tr>
+                  <th className="w-8/12 py-2 ">Nom</th>
+                  <th>Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {teams.map((team, index) => (
+                  // On boucle sur notre tableau de données et on affiche chaque ligne du tableau avec les données de chaque objet
+                  <tr
+                    key={index}
+                    className="cursor-pointer border-b "
+                    onClick={() => handleRowClick(team)}
+                  >
+                    <td className=" border-r py-2 pl-16 text-left">
+                      {team.name}
+                    </td>
+                    <td className="pr-10 text-right">{team.score}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      ))}
-    </div>
+
+        {selectedTeam && (
+          <div className="mt-4 p-4">
+            <h2 className="text-lg font-bold">{selectedTeam.name}</h2>
+            <div className="mr-28 grid grid-cols-2">
+              <div className="mt-2 flex-col">
+                <p className="border-b pl-10"> Membre</p>
+                {selectedTeam.teamMemberName.map((member: string) => (
+                  <p className="border-r pl-6">{member}</p>
+                ))}
+              </div>
+              <div className="mt-2 flex-col">
+                <p className="border-b pr-10 text-right"> Score</p>
+                {selectedTeam.teamMemberScore.map((score: number) => (
+                  <p className="pr-6 text-right">{score}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
