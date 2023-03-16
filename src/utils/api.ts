@@ -1,7 +1,7 @@
 // const prodUrl = 'https://api.example.com';
 // il faut bien mettre le bon endpoint de l'API dans la conf nginx pour le déploiement en prod
 const base = import.meta.env.PROD
-  ? import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api'
+  ? import.meta.env.VITE_API_URL ?? 'http://localhost/api'
   : 'http://localhost:3000/api';
 
 interface APIProps {
