@@ -1,5 +1,6 @@
 import React from 'react';
 import { isRouteErrorResponse, useRouteError, Link } from 'react-router-dom';
+import { Container } from '@/components';
 
 const ErrorPage: React.FC = () => {
   const error = useRouteError();
@@ -15,32 +16,38 @@ const ErrorPage: React.FC = () => {
     */
 
     return (
-      <div id="error-page">
-        <h1>Oops! {error.status}</h1>
-        <p>{error.statusText}</p>
+      <Container cols={1}>
+        <h1 className="text-2xl">Oops! {error.status}</h1>
+        <p className="text-xl">{error.statusText}</p>
         {/* eslint-disable-next-line @typescript-eslint/strict-boolean-expressions */}
         {error.data?.message && (
           <p>
-            <i>{error.data.message}</i>
+            <i className="text-lg text-red-600">{error.data.message}</i>
           </p>
         )}
-        <p>
-          go <Link to="/">back</Link>
+        <p className="text-lg">
+          go{' '}
+          <Link to="/" className="text-sky-600">
+            back
+          </Link>
         </p>
-      </div>
+      </Container>
     );
   else if (error instanceof Error)
     return (
-      <div id="error-page">
-        <h1>Oops! Unexpected Error</h1>
-        <p>Something went wrong.</p>
+      <Container cols={1}>
+        <h1 className="text-2xl">Oops! Unexpected Error</h1>
+        <p className="text-xl">Something went wrong.</p>
         <p>
-          <i>{error.message}</i>
+          <i className="text-lg text-red-600">{error.message}</i>
         </p>
-        <p>
-          go <Link to="/">back</Link>
+        <p className="text-lg">
+          go{' '}
+          <Link to="/" className="text-sky-600">
+            back
+          </Link>
         </p>
-      </div>
+      </Container>
     );
   else return <></>;
 };
