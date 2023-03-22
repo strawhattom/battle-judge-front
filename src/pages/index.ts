@@ -7,6 +7,8 @@ import TeamPage from '@/pages/Team';
 import TeamMembers from '@/pages/Members';
 import LeaderboardPage from '@/pages/Leaderboard';
 import ProfilePage from '@/pages/Profile';
+import MyTeam from '@/pages/MyTeam';
+import MyAccount from '@/pages/MyAccount';
 
 export {
   AdminPage,
@@ -17,5 +19,7 @@ export {
   TeamPage,
   TeamMembers,
   LeaderboardPage,
-  ProfilePage
+  ProfilePage,
+  MyTeam,
+  MyAccount
 };

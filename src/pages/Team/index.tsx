@@ -68,7 +68,10 @@ const Team = (props: TeamProps) => {
   return (
     <>
       <h1 className="mt-8 mb-8 text-center text-4xl font-bold">Equipes</h1>
-      <div className="grid grid-cols-3 ">
+      <p className="text-center text-orange-400">
+        Cliquez sur une équipe pour avoir plus d'information sur celle-ci.
+      </p>
+      <div className="m-10 grid grid-cols-3 ">
         {/* Affichage de chaque équipe dans une carte */}
         <div className="col-span-2 ">
           <div className="flex justify-center ">

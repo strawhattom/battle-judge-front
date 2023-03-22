@@ -11,7 +11,9 @@ import {
   HomePage,
   ChallengePage,
   LeaderboardPage,
-  ProfilePage
+  ProfilePage,
+  MyTeam,
+  MyAccount
 } from '@/pages';
 
 import { loader as profileLoader } from '@/pages/Profile';
@@ -77,6 +79,14 @@ export const router = createBrowserRouter([
         path: 'profile',
         element: <ProfilePage />,
         loader: profileLoader
+      },
+      {
+        path: 'myTeam',
+        element: <MyTeam />
+      },
+      {
+        path: 'myAccount',
+        element: <MyAccount />
       }
     ]
   },
