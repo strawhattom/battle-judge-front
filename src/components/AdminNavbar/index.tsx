@@ -15,7 +15,7 @@ const paths = {
   challenges: '/admin/challenges',
   leaderboard: '/admin/leaderboard',
   teams: '/admin/teams',
-  myAccount: '/myAccount'
+  myAccount: '/profile'
 };
 
 const Navbar: React.FC<NavbarProps> = ({ activeTab }) => {

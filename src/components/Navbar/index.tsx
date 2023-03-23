@@ -30,7 +30,7 @@ const paths = {
   leaderboard: '/leaderboard',
   teams: '/teams',
   myTeam: '/myTeam',
-  myAccount: '/myAccount'
+  myAccount: '/profile'
 };
 
 // On crée le composant Navbar avec les propriétés passées en paramètre

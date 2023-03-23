@@ -101,7 +101,7 @@ const MyAccount: React.FC = () => {
 
   return (
     <>
-      <h1 className="mt-8 mb-8 text-center text-4xl font-bold">Mon Compte</h1>
+      <h1 className="mt-8 mb-8 text-center text-4xl font-bold">Mon compte</h1>
 
       <p className="mt-10 flex justify-center">Rôle: {state.role}</p>
       <div className=" flex justify-center">
